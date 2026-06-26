@@ -1,16 +1,16 @@
 import axios from 'axios';
 
+const PRODUCTION_API_BASE_URL = 'https://stitchbook-backend.onrender.com/api';
+
 const getDefaultApiBaseUrl = () => {
   if (typeof window === 'undefined') {
-    return 'http://localhost:5002/api';
+    return PRODUCTION_API_BASE_URL;
   }
 
   const { hostname } = window.location;
-  const apiHost = hostname && hostname !== 'localhost' ?
-  hostname :
-  'localhost';
+  const isLocalhost = hostname === 'localhost' || hostname === '127.0.0.1';
 
-  return `http://${apiHost}:5002/api`;
+  return isLocalhost ? 'http://localhost:5002/api' : PRODUCTION_API_BASE_URL;
 };
 
 const apiClient = axios.create({
