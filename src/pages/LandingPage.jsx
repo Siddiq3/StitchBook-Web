@@ -423,28 +423,6 @@ function LandingPage() {
         </motion.div>
       </section>
 
-      <section className="px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
-        <motion.div
-          className="mx-auto max-w-7xl overflow-hidden rounded-lg bg-ink p-8 text-bone shadow-soft md:p-12"
-          initial="hidden"
-          variants={fadeUp}
-          viewport={motionViewport}
-          whileInView="visible"
-        >
-          <div className="grid gap-8 md:grid-cols-[1fr_auto] md:items-center">
-            <div>
-              <p className="text-xs font-extrabold uppercase tracking-[0.2em] text-brass">Download StitchBook</p>
-              <h2 className="text-balance mt-3 font-serif text-4xl font-semibold leading-tight sm:text-5xl">
-                Stop losing order details in notebooks.
-              </h2>
-            </div>
-            <div className="flex flex-col gap-3 sm:flex-row md:flex-col">
-              <StoreBadge type="google" />
-              <StoreBadge type="apple" />
-            </div>
-          </div>
-        </motion.div>
-      </section>
     </PageShell>
   );
 }
