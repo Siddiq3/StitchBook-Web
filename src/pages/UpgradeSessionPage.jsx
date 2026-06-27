@@ -1,6 +1,6 @@
-import { CheckCircle2, Clock3, CreditCard, Loader2, ShieldCheck } from 'lucide-react';
+import { ArrowRight, CheckCircle2, Clock3, CreditCard, Loader2, ShieldCheck, Sparkles } from 'lucide-react';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { createUpgradeCheckout, getUpgradeSession, verifyUpgradeCheckout } from '../api/subscriptionApi.js';
 import Button from '../components/Button.jsx';
 import { LogoMark } from '../components/Logo.jsx';
@@ -44,6 +44,7 @@ function formatDate(value) {
 
 function UpgradeSessionPage() {
   const { sessionId } = useParams();
+  const navigate = useNavigate();
   const [session, setSession] = useState(null);
   const [loading, setLoading] = useState(true);
   const [checkingOut, setCheckingOut] = useState(false);
@@ -80,6 +81,16 @@ function UpgradeSessionPage() {
   useEffect(() => {
     loadSession();
   }, [loadSession]);
+
+  useEffect(() => {
+    if (!paymentSuccess) return undefined;
+
+    const timer = window.setTimeout(() => {
+      navigate('/dashboard', { replace: true });
+    }, 3200);
+
+    return () => window.clearTimeout(timer);
+  }, [navigate, paymentSuccess]);
 
   const planDetails = useMemo(() => PLAN_DETAILS[session?.plan] || PLAN_DETAILS.basic, [session?.plan]);
   const planLabel = planDetails.label;
@@ -239,12 +250,37 @@ function UpgradeSessionPage() {
         null}
 
         {!loading && !error && paymentSuccess ?
-        <section className="rounded-2xl border border-sage/30 bg-sage/10 p-8 text-center shadow-soft">
-            <CheckCircle2 className="mx-auto text-sage" size={36} />
-            <h1 className="mt-4 font-serif text-3xl font-semibold">Payment received</h1>
-            <p className="mx-auto mt-3 max-w-2xl text-sm leading-6 text-ink/70">
-              Your payment is being confirmed securely. Please return to the StitchBook app and refresh your subscription status to continue using your upgraded plan.
-            </p>
+        <section className="relative overflow-hidden rounded-2xl border border-sage/30 bg-white p-8 text-center shadow-soft">
+            <div className="pointer-events-none absolute inset-0">
+              {[...Array(18)].map((_, index) => (
+                <span
+                  className="absolute h-2 w-2 animate-[celebrate_1.8s_ease-out_infinite] rounded-full bg-brass/80"
+                  key={index}
+                  style={{
+                    left: `${8 + (index * 5) % 86}%`,
+                    top: `${10 + (index * 11) % 70}%`,
+                    animationDelay: `${index * 0.08}s`,
+                  }}
+                />
+              ))}
+            </div>
+            <div className="relative">
+              <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-sage/12 text-sage shadow-soft">
+                <CheckCircle2 size={44} />
+              </div>
+              <div className="mt-5 flex items-center justify-center gap-2 text-sm font-extrabold uppercase tracking-[0.16em] text-brass">
+                <Sparkles size={17} />
+                Payment successful
+              </div>
+              <h1 className="mt-3 font-serif text-4xl font-semibold">Your StitchBook plan is active</h1>
+              <p className="mx-auto mt-3 max-w-2xl text-sm leading-6 text-ink/70">
+                We have activated your subscription. You will be redirected to your dashboard in a few seconds.
+              </p>
+              <Button className="mt-7" onClick={() => navigate('/dashboard', { replace: true })} variant="brass">
+                Go to dashboard
+                <ArrowRight size={17} />
+              </Button>
+            </div>
           </section> :
         null}
       </div>

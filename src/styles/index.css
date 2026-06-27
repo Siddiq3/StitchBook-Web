@@ -42,3 +42,19 @@ a {
   border: 1px solid rgba(31, 41, 51, 0.08);
   backdrop-filter: blur(12px);
 }
+
+@keyframes celebrate {
+  0% {
+    opacity: 0;
+    transform: translateY(18px) scale(0.4) rotate(0deg);
+  }
+
+  18% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateY(-42px) scale(1.1) rotate(180deg);
+  }
+}
