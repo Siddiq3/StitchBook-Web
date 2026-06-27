@@ -100,7 +100,7 @@ function BillingPage() {
         setError('');
         return;
       }
-      setError(err.response?.data?.message || err.message || 'Unable to load subscription.');
+      setError(err.response?.data?.message || err.message || "We couldn't load your subscription. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -127,7 +127,7 @@ function BillingPage() {
     try {
       const session = await createUpgradeSession(plan);
       if (!session?.upgradeUrl) {
-        throw new Error('Unable to create checkout link.');
+        throw new Error('Unable to prepare checkout.');
       }
       window.location.href = session.upgradeUrl;
     } catch (err) {
@@ -136,7 +136,7 @@ function BillingPage() {
         setNeedsLogin(true);
         return;
       }
-      setError(err.response?.data?.message || err.message || 'Unable to start subscription checkout.');
+      setError(err.response?.data?.message || err.message || 'Unable to start checkout. Please try again.');
     } finally {
       setCheckoutPlan('');
     }
@@ -160,11 +160,11 @@ function BillingPage() {
         </header>
 
         {needsLogin ? (
-          <section className="mt-10 rounded-lg border border-ink/10 bg-white p-6 shadow-soft sm:p-8">
+          <section className="premium-card subtle-lift mt-10 rounded-lg border border-ink/10 bg-white p-6 shadow-soft sm:p-8">
             <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-brass">Billing login required</p>
             <h1 className="mt-3 font-serif text-4xl font-semibold leading-tight">Sign in to continue subscription</h1>
             <p className="mt-4 max-w-2xl text-sm leading-6 text-ink/62">
-              Your billing session expired. Sign in to view status and continue secure Razorpay checkout.
+              Please sign in again to view your plan and continue payment.
             </p>
             <Button className="mt-6" to="/login?redirect=/billing" variant="primary">
               Sign in and continue
@@ -174,7 +174,7 @@ function BillingPage() {
 
         {!needsLogin ? (
         <section className="mt-10 grid gap-6 lg:grid-cols-[1fr_0.85fr]">
-          <div className="rounded-lg border border-ink/10 bg-white p-5 shadow-soft sm:p-7">
+          <div className="premium-card subtle-lift rounded-lg border border-ink/10 bg-white p-5 shadow-soft sm:p-7">
             <div className="flex items-start gap-4">
               <span className="flex h-12 w-12 items-center justify-center rounded-lg bg-ink text-bone">
                 <CreditCard size={22} />
@@ -183,14 +183,14 @@ function BillingPage() {
                 <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-brass">Subscription</p>
                 <h1 className="mt-2 font-serif text-5xl font-semibold leading-none">Choose your StitchBook plan</h1>
                 <p className="mt-4 max-w-2xl text-sm leading-6 text-ink/62">
-                  Every new shop gets a 10-day free trial. Payments are completed on this secure website with Razorpay, while daily shop work stays inside the mobile app.
+                  Choose the plan that matches your shop size. Each plan keeps orders, measurements, staff access, and billing simple for daily work.
                 </p>
               </div>
             </div>
 
             <div className="mt-8 grid gap-4 md:grid-cols-3">
               {Object.entries(plans).map(([key, plan]) => (
-                <div className="rounded-lg border border-ink/10 bg-bone p-5" key={key}>
+                <div className="subtle-lift rounded-lg border border-ink/10 bg-bone p-5" key={key}>
                   <div className="flex items-start justify-between gap-3">
                     <div>
                       <p className="text-lg font-extrabold">{plan.planName}</p>
@@ -216,7 +216,7 @@ function BillingPage() {
           </div>
 
           <aside className="grid gap-5">
-            <div className="rounded-lg border border-ink/10 bg-white p-5 shadow-soft">
+            <div className="premium-card subtle-lift rounded-lg border border-ink/10 bg-white p-5 shadow-soft">
               <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-brass">Current Status</p>
               {loading ? (
                 <div className="mt-5 flex items-center gap-3 text-sm font-semibold text-ink/60">
@@ -253,7 +253,7 @@ function BillingPage() {
               )}
             </div>
 
-            <div className="rounded-lg border border-ink/10 bg-white p-5 shadow-soft">
+            <div className="premium-card subtle-lift rounded-lg border border-ink/10 bg-white p-5 shadow-soft">
               <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-brass">Included</p>
               <div className="mt-5 grid gap-3">
                 {features.map((feature) => (

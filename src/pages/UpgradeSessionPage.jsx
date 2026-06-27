@@ -52,13 +52,6 @@ function UpgradeSessionPage() {
   const [checkoutError, setCheckoutError] = useState('');
   const [paymentSuccess, setPaymentSuccess] = useState(false);
 
-  // Log for debugging
-  useEffect(() => {
-
-
-
-  }, [sessionId]);
-
   const loadSession = useCallback(async () => {
     setLoading(true);
     setError('');
@@ -70,7 +63,7 @@ function UpgradeSessionPage() {
       // Only show error, never redirect to login
       const message = err.response?.data?.message ||
       err.message ||
-      'This upgrade session is no longer valid. Sessions expire after 2 hours.';
+      'This checkout link has expired. Please start again from your account.';
       setError(message);
 
     } finally {
@@ -146,8 +139,8 @@ function UpgradeSessionPage() {
 
       setPaymentSuccess(true);
     } catch (err) {
-      const backendMessage = err?.response?.data?.error || err?.response?.data?.message || err?.message;
-      setCheckoutError(backendMessage || 'Unable to start payment.');
+      const checkoutMessage = err?.response?.data?.error || err?.response?.data?.message || err?.message;
+      setCheckoutError(checkoutMessage || 'Unable to start payment. Please try again.');
     } finally {
       setCheckingOut(false);
     }
@@ -156,45 +149,45 @@ function UpgradeSessionPage() {
   return (
     <main className="min-h-screen bg-bone px-4 py-8 text-ink sm:px-6">
       <div className="mx-auto flex max-w-4xl flex-col gap-6">
-        <header className="flex items-center justify-between gap-4 rounded-2xl border border-ink/10 bg-white p-5 shadow-soft">
+        <header className="premium-card flex items-center justify-between gap-4 rounded-2xl border border-ink/10 bg-white p-5 shadow-soft">
           <div className="flex items-center gap-3">
             <LogoMark />
             <div>
               <p className="font-serif text-2xl font-semibold leading-none">StitchBook</p>
-              <p className="mt-1 text-sm font-bold text-ink/55">Secure upgrade checkout</p>
+              <p className="mt-1 text-sm font-bold text-ink/55">Plan checkout</p>
             </div>
           </div>
           <div className="flex items-center gap-2 rounded-full bg-mist px-3 py-1 text-sm font-semibold text-sage">
             <ShieldCheck size={16} />
-            Razorpay secured
+            Secure payment
           </div>
         </header>
 
         {loading ?
         <section className="rounded-2xl border border-ink/10 bg-white p-8 text-center shadow-soft">
             <Loader2 className="mx-auto animate-spin text-brass" size={28} />
-            <p className="mt-4 text-sm font-semibold text-ink/65">Preparing your secure checkout...</p>
+            <p className="mt-4 text-sm font-semibold text-ink/65">Preparing your plan checkout...</p>
           </section> :
         null}
 
         {!loading && error ?
         <section className="rounded-2xl border border-clay/30 bg-clay/10 p-6 shadow-soft">
-            <p className="text-sm font-bold uppercase tracking-[0.16em] text-clay">Upgrade unavailable</p>
-            <h1 className="mt-3 font-serif text-3xl font-semibold">This upgrade link is no longer valid</h1>
+            <p className="text-sm font-bold uppercase tracking-[0.16em] text-clay">Checkout unavailable</p>
+            <h1 className="mt-3 font-serif text-3xl font-semibold">This checkout link is no longer available</h1>
             <p className="mt-3 text-sm leading-6 text-ink/70">{error}</p>
           </section> :
         null}
 
         {!loading && !error && !paymentSuccess ?
         <section className="grid gap-6 lg:grid-cols-[1fr_0.8fr]">
-            <div className="rounded-2xl border border-ink/10 bg-white p-6 shadow-soft">
+            <div className="premium-card subtle-lift rounded-2xl border border-ink/10 bg-white p-6 shadow-soft">
               <div className="flex items-center gap-3">
                 <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-ink text-bone">
                   <CreditCard size={22} />
                 </div>
                 <div>
-                  <p className="text-xs font-extrabold uppercase tracking-[0.16em] text-brass">Plan upgrade</p>
-                  <h1 className="mt-1 font-serif text-3xl font-semibold">Continue with {planLabel} access</h1>
+                  <p className="text-xs font-extrabold uppercase tracking-[0.16em] text-brass">Subscription plan</p>
+                  <h1 className="mt-1 font-serif text-3xl font-semibold">Activate {planLabel} plan</h1>
                 </div>
               </div>
 
@@ -212,7 +205,7 @@ function UpgradeSessionPage() {
 
               <Button className="mt-6 w-full" onClick={handleCheckout} disabled={checkingOut} variant="primary">
                 {checkingOut ? <Loader2 className="animate-spin" size={17} /> : <ShieldCheck size={17} />}
-                {checkingOut ? 'Please wait...' : 'Pay securely with Razorpay'}
+                {checkingOut ? 'Please wait...' : 'Pay now'}
               </Button>
               {checkoutError ? (
                 <div className="mt-4 rounded-lg border border-clay/25 bg-clay/10 p-4 text-sm font-semibold leading-6 text-ink/75">
@@ -221,8 +214,8 @@ function UpgradeSessionPage() {
               ) : null}
             </div>
 
-            <div className="rounded-2xl border border-ink/10 bg-white p-6 shadow-soft">
-              <p className="text-xs font-extrabold uppercase tracking-[0.16em] text-brass">Session details</p>
+            <div className="premium-card subtle-lift rounded-2xl border border-ink/10 bg-white p-6 shadow-soft">
+              <p className="text-xs font-extrabold uppercase tracking-[0.16em] text-brass">Checkout details</p>
               <div className="mt-5 space-y-4 text-sm">
                 <div className="flex items-start justify-between gap-4 border-b border-ink/10 pb-3">
                   <span className="text-ink/55">User</span>
@@ -237,12 +230,12 @@ function UpgradeSessionPage() {
                   <span className="font-semibold text-right">{session?.user?.phone || '—'}</span>
                 </div>
                 <div className="flex items-start justify-between gap-4 border-b border-ink/10 pb-3">
-                  <span className="text-ink/55">Expires</span>
+                  <span className="text-ink/55">Link valid until</span>
                   <span className="font-semibold text-right">{formatDate(session?.expiresAt)}</span>
                 </div>
                 <div className="flex items-center gap-2 rounded-lg bg-mist/70 px-3 py-2 text-sm font-semibold text-sage">
                   <Clock3 size={15} />
-                  The link is valid for 2 hours.
+                  For your safety, checkout links expire automatically.
                 </div>
               </div>
             </div>

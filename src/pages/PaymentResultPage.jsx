@@ -15,7 +15,7 @@ function PaymentResultPage({ status }) {
     <main className="flex min-h-screen items-center justify-center bg-bone px-4 py-8 text-ink sm:px-6 sm:py-10">
       <motion.section
         animate={{ opacity: 1, y: 0 }}
-        className="w-full max-w-xl rounded-lg border border-ink/10 bg-white p-5 text-center shadow-soft sm:p-8"
+        className="premium-card w-full max-w-xl rounded-lg border border-ink/10 bg-white p-5 text-center shadow-soft sm:p-8"
         initial={{ opacity: 0, y: 18 }}
         transition={{ duration: 0.45, ease: 'easeOut' }}
       >
@@ -28,10 +28,10 @@ function PaymentResultPage({ status }) {
         <p className="mt-4 text-sm leading-6 text-ink/65">
           {isSuccess
             ? 'Your payment was recorded successfully.'
-            : reason || 'The payment was not completed. Please go back to the app and try again.'}
+            : reason || 'The payment was not completed. Please try again from your order.'}
         </p>
 
-        <div className="mt-7 rounded-lg bg-bone p-4 text-left text-sm text-ink">
+        <div className="subtle-lift mt-7 rounded-lg border border-ink/10 bg-bone p-4 text-left text-sm text-ink">
           <div className="flex justify-between gap-4">
             <span className="text-ink/55">Order ID</span>
             <span className="font-semibold">{orderId || 'Not available'}</span>
@@ -44,7 +44,7 @@ function PaymentResultPage({ status }) {
           )}
           {recordedPaymentId && (
             <div className="mt-3 flex justify-between gap-4">
-              <span className="text-ink/55">Backend record</span>
+              <span className="text-ink/55">Receipt record</span>
               <span className="font-semibold">{recordedPaymentId}</span>
             </div>
           )}

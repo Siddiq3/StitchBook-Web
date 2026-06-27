@@ -345,7 +345,7 @@ function LandingPage() {
               description="Check orders, payments, pending dues, and daily work without searching through paper records."
             />
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <Button className="w-full sm:w-auto" href={downloadUrl}>Download the App</Button>
+              <Button className="w-full sm:w-auto" href={downloadUrl}>Get Started</Button>
               <Button className="w-full sm:w-auto" to="/about" variant="secondary">Learn more</Button>
             </div>
           </div>

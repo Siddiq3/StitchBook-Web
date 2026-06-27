@@ -25,12 +25,12 @@ function CheckoutPage() {
     const loadCheckoutSession = async () => {
       if (!requestDetails.checkoutToken) {
         setStatus('error');
-        setMessage('This payment link is not valid. Please open payment again from the StitchBook app.');
+        setMessage('This payment link is no longer available. Please start the payment again.');
         return;
       }
 
       setStatus('loading');
-      setMessage('Loading secure payment details.');
+      setMessage('Preparing your payment.');
 
       try {
         const response = await getRazorpayCheckoutSession(requestDetails.checkoutToken);
@@ -53,7 +53,7 @@ function CheckoutPage() {
         setMessage('');
       } catch (error) {
         setStatus('error');
-        setMessage(error.response?.data?.message || error.message || 'Payment link expired or invalid.');
+        setMessage(error.response?.data?.message || error.message || 'This payment link has expired or is no longer available.');
       }
     };
 
@@ -63,7 +63,7 @@ function CheckoutPage() {
   const handleSuccess = useCallback(
     async (response) => {
       setStatus('confirming');
-      setMessage('Recording your payment with StitchBook.');
+      setMessage('Confirming your payment.');
 
       const razorpayOrderId = response.razorpay_order_id || details.razorpayOrderId || '';
       const razorpayPaymentId = response.razorpay_payment_id || '';
@@ -82,7 +82,7 @@ function CheckoutPage() {
           replace: true,
         });
       } catch (error) {
-        const reason = error.response?.data?.message || error.message || 'Payment captured, but StitchBook could not record it.';
+        const reason = error.response?.data?.message || error.message || 'Payment received, but we could not update the order yet.';
         navigate(`/payment-failure?orderId=${encodeURIComponent(details.orderId)}&reason=${encodeURIComponent(reason)}`, {
           replace: true,
         });
@@ -94,12 +94,12 @@ function CheckoutPage() {
   const startPayment = useCallback(async () => {
     if (!canPay) {
       setStatus('error');
-      setMessage('Payment details are missing. Please open payment again from the StitchBook app.');
+      setMessage('Payment details are incomplete. Please start the payment again.');
       return;
     }
 
     setStatus('loading');
-    setMessage('Opening secure Razorpay checkout.');
+    setMessage('Opening payment window.');
 
     const options = {
       key: razorpayKeyId,
@@ -139,7 +139,7 @@ function CheckoutPage() {
       });
 
       setStatus('opened');
-      setMessage('Complete the payment in the Razorpay popup.');
+      setMessage('Complete the payment in the payment window.');
     } catch (error) {
       setStatus('error');
       setMessage(error.message);
@@ -158,7 +158,7 @@ function CheckoutPage() {
       <div className="mx-auto flex min-h-[calc(100vh-5rem)] max-w-4xl items-center justify-center">
         <motion.section
           animate={{ opacity: 1, y: 0 }}
-          className="w-full rounded-lg border border-ink/10 bg-white p-5 shadow-soft sm:p-6 md:p-8"
+          className="premium-card w-full rounded-lg border border-ink/10 bg-white p-5 shadow-soft sm:p-6 md:p-8"
           initial={{ opacity: 0, y: 18 }}
           transition={{ duration: 0.45, ease: 'easeOut' }}
         >
@@ -168,10 +168,10 @@ function CheckoutPage() {
                 <CreditCard size={22} />
               </div>
               <h1 className="text-balance mt-6 font-serif text-4xl font-semibold leading-[0.95] sm:text-5xl md:text-6xl">
-                Secure StitchBook payment
+                StitchBook payment
               </h1>
               <p className="mt-4 text-sm leading-6 text-ink/65">
-                Pay safely using Razorpay. This page opens from the StitchBook app.
+                Review the order amount and complete your payment safely.
               </p>
 
               <div className="mt-7 flex items-start gap-3 rounded-lg border border-ink/10 bg-bone p-4">
@@ -188,7 +188,7 @@ function CheckoutPage() {
               </div>
             </div>
 
-            <div className="rounded-lg border border-ink/10 bg-bone p-5 text-ink">
+            <div className="subtle-lift rounded-lg border border-ink/10 bg-bone p-5 text-ink">
               <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-brass">Order summary</p>
               <div className="mt-6 grid gap-4 text-sm">
                 <div className="flex items-center justify-between gap-4 border-b border-ink/10 pb-3">
@@ -211,12 +211,12 @@ function CheckoutPage() {
 
               {!razorpayKeyId && (
                 <p className="mt-5 rounded-lg border border-clay/30 bg-clay/15 p-3 text-xs leading-5 text-ink/75">
-                  Payment key is missing. Please open payment again from the StitchBook app.
+                  Payment details are incomplete. Please start again.
                 </p>
               )}
 
               <Button className="mt-7 w-full" disabled={status === 'loading' || status === 'confirming'} onClick={startPayment} variant="brass">
-                {status === 'loading' || status === 'confirming' ? 'Please wait' : 'Pay with Razorpay'}
+                {status === 'loading' || status === 'confirming' ? 'Please wait' : 'Pay now'}
               </Button>
             </div>
           </div>

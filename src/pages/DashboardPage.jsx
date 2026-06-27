@@ -3,13 +3,13 @@ import {
   ArrowRight,
   CalendarClock,
   CheckCircle2,
+  ClipboardList,
   CreditCard,
   Crown,
   Loader2,
   LogOut,
   RefreshCw,
   ShieldCheck,
-  Smartphone,
 } from 'lucide-react';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -94,7 +94,7 @@ function DashboardPage() {
         navigate('/login?redirect=/dashboard', { replace: true });
         return;
       }
-      setError(err.response?.data?.message || err.message || 'Unable to load account details.');
+      setError(err.response?.data?.message || err.message || "We couldn't load your account details. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -128,11 +128,11 @@ function DashboardPage() {
     try {
       const session = await createUpgradeSession(plan);
       if (!session?.upgradeUrl) {
-        throw new Error('Unable to create checkout link.');
+        throw new Error('Unable to prepare checkout.');
       }
       window.location.href = session.upgradeUrl;
     } catch (err) {
-      setError(err.response?.data?.message || err.message || 'Unable to start subscription checkout.');
+      setError(err.response?.data?.message || err.message || 'Unable to start checkout. Please try again.');
     } finally {
       setCheckoutPlan('');
     }
@@ -143,7 +143,7 @@ function DashboardPage() {
       <section className="bg-bone px-4 py-8 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">
           <div className="grid gap-6 lg:grid-cols-[1fr_0.72fr]">
-            <div className="rounded-lg border border-ink/10 bg-white p-5 shadow-soft sm:p-7">
+            <div className="premium-card subtle-lift rounded-lg border border-ink/10 bg-white p-5 shadow-soft sm:p-7">
               <div className="flex flex-col gap-5 sm:flex-row sm:items-start sm:justify-between">
                 <div className="flex items-start gap-4">
                   <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-ink text-xl font-extrabold text-bone shadow-soft">
@@ -204,11 +204,11 @@ function DashboardPage() {
               </div>
             </div>
 
-            <aside className="rounded-lg border border-ink/10 bg-ink p-5 text-bone shadow-soft sm:p-7">
-              <Smartphone className="text-brass" size={26} />
-              <h2 className="mt-5 font-serif text-4xl font-semibold leading-tight">Use the mobile app for daily shop work</h2>
+            <aside className="subtle-lift rounded-lg border border-ink/10 bg-ink p-5 text-bone shadow-soft sm:p-7">
+              <ClipboardList className="text-brass" size={26} />
+              <h2 className="mt-5 font-serif text-4xl font-semibold leading-tight">Your shop workflow, organized</h2>
               <p className="mt-4 text-sm leading-6 text-bone/68">
-                This website is for login, billing, and secure Razorpay checkout. Order creation, measurements, customers, and staff work stay inside the StitchBook app.
+                Keep orders, measurements, staff work, payments, and delivery follow-ups clear from one StitchBook account.
               </p>
               <div className="mt-6 grid gap-3">
                 {appActions.map((action) => (
@@ -221,7 +221,7 @@ function DashboardPage() {
             </aside>
           </div>
 
-          <section className="mt-8 rounded-lg border border-ink/10 bg-white p-5 shadow-soft sm:p-7">
+          <section className="premium-card subtle-lift mt-8 rounded-lg border border-ink/10 bg-white p-5 shadow-soft sm:p-7">
             <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
               <div>
                 <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-brass">Subscription</p>
@@ -236,7 +236,7 @@ function DashboardPage() {
             <div className="mt-7 grid gap-4 lg:grid-cols-3">
               {plans.map((plan) => (
                 <article
-                  className={`rounded-lg border p-5 ${
+                  className={`subtle-lift rounded-lg border p-5 ${
                     plan.highlighted
                       ? 'border-brass/40 bg-linen shadow-glow'
                       : 'border-ink/10 bg-bone'
