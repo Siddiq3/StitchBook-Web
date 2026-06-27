@@ -19,14 +19,22 @@ function loadScript(src) {
   return new Promise((resolve, reject) => {
     const existing = document.querySelector(`script[src="${src}"]`);
     if (existing) {
-      resolve(existing);
+      if (existing.dataset.loaded === 'true') {
+        resolve(existing);
+        return;
+      }
+      existing.addEventListener('load', () => resolve(existing), { once: true });
+      existing.addEventListener('error', () => reject(new Error(`Could not load ${src}`)), { once: true });
       return;
     }
 
     const script = document.createElement('script');
     script.src = src;
     script.async = true;
-    script.onload = () => resolve(script);
+    script.onload = () => {
+      script.dataset.loaded = 'true';
+      resolve(script);
+    };
     script.onerror = () => reject(new Error(`Could not load ${src}`));
     document.head.appendChild(script);
   });
@@ -65,6 +73,10 @@ function LoginPage() {
 
     loadScript('https://accounts.google.com/gsi/client')
       .then(() => {
+        if (!window.google?.accounts?.id) {
+          throw new Error('Google login is unavailable. Please refresh or use mobile login.');
+        }
+
         window.google.accounts.id.initialize({
           client_id: googleClientId,
           callback: async ({ credential }) => {
