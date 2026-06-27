@@ -2,7 +2,7 @@ import { CheckCircle2, CreditCard, Loader2, RefreshCw, ShieldCheck } from 'lucid
 import { useCallback, useEffect, useState } from 'react';
 import Button from '../components/Button.jsx';
 import { LogoMark } from '../components/Logo.jsx';
-import { getSubscriptionStatus } from '../api/subscriptionApi.js';
+import { createUpgradeSession, getSubscriptionStatus } from '../api/subscriptionApi.js';
 
 const plans = {
   basic: {
@@ -79,6 +79,7 @@ function BillingPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [needsLogin, setNeedsLogin] = useState(false);
+  const [checkoutPlan, setCheckoutPlan] = useState('');
 
   useEffect(() => {
     consumeMobileAuthToken();
@@ -118,6 +119,26 @@ function BillingPage() {
     ? 'Trial completed'
     : 'No active plan';
 
+  const startUpgrade = async (plan) => {
+    setCheckoutPlan(plan);
+    setError('');
+    try {
+      const session = await createUpgradeSession(plan);
+      if (!session?.upgradeUrl) {
+        throw new Error('Unable to create checkout link.');
+      }
+      window.location.href = session.upgradeUrl;
+    } catch (err) {
+      if (err.response?.status === 401) {
+        setNeedsLogin(true);
+        return;
+      }
+      setError(err.response?.data?.message || err.message || 'Unable to start subscription checkout.');
+    } finally {
+      setCheckoutPlan('');
+    }
+  };
+
   return (
     <main className="min-h-screen bg-bone px-4 py-8 text-ink sm:px-6">
       <div className="mx-auto max-w-6xl">
@@ -140,7 +161,7 @@ function BillingPage() {
             <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-brass">Billing login required</p>
             <h1 className="mt-3 font-serif text-4xl font-semibold leading-tight">Sign in to continue subscription</h1>
             <p className="mt-4 max-w-2xl text-sm leading-6 text-ink/62">
-              Your billing session expired. Sign in to view status. Subscription payment is handled inside the mobile app.
+              Your billing session expired. Sign in to view status and continue secure Razorpay checkout.
             </p>
             <Button className="mt-6" to="/login?redirect=/billing" variant="primary">
               Sign in and continue
@@ -157,9 +178,9 @@ function BillingPage() {
               </span>
               <div>
                 <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-brass">Subscription</p>
-                <h1 className="mt-2 font-serif text-5xl font-semibold leading-none">Choose your StitchBook plan in app</h1>
+                <h1 className="mt-2 font-serif text-5xl font-semibold leading-none">Choose your StitchBook plan</h1>
                 <p className="mt-4 max-w-2xl text-sm leading-6 text-ink/62">
-                  Every new shop gets a 10-day free trial. After the trial ends, the mobile app opens a secure payment page on the website so payment is handled safely with Razorpay.
+                  Every new shop gets a 10-day free trial. Payments are completed on this secure website with Razorpay, while daily shop work stays inside the mobile app.
                 </p>
               </div>
             </div>
@@ -177,9 +198,14 @@ function BillingPage() {
                     ) : null}
                   </div>
                   <p className="mt-6 font-serif text-4xl font-semibold">{plan.display}</p>
-                  <Button className="mt-6 w-full" disabled variant={key === 'team' ? 'brass' : 'primary'}>
-                    <ShieldCheck size={17} />
-                    Pay in mobile app
+                  <Button
+                    className="mt-6 w-full"
+                    disabled={checkoutPlan === key}
+                    onClick={() => startUpgrade(key)}
+                    variant={key === 'team' ? 'brass' : 'primary'}
+                  >
+                    {checkoutPlan === key ? <Loader2 className="animate-spin" size={17} /> : <ShieldCheck size={17} />}
+                    {checkoutPlan === key ? 'Creating checkout' : 'Buy Now'}
                   </Button>
                 </div>
               ))}

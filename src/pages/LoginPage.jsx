@@ -3,7 +3,7 @@ import { ArrowRight, CheckCircle2, Loader2, ShieldCheck, Smartphone } from 'luci
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import Button from '../components/Button.jsx';
 import { LogoMark } from '../components/Logo.jsx';
-import { loginWithGoogle, loginWithMsg91Widget } from '../api/authApi.js';
+import { getAuthToken, loginWithGoogle, loginWithMsg91Widget } from '../api/authApi.js';
 
 const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
 const msg91WidgetId = import.meta.env.VITE_MSG91_WIDGET_ID;
@@ -43,8 +43,16 @@ function LoginPage() {
 
     if (redirectTo?.startsWith('/') && !isPublicUpgradeFlow) {
       setTimeout(() => navigate(redirectTo, { replace: true }), 400);
+    } else {
+      setTimeout(() => navigate('/dashboard', { replace: true }), 400);
     }
   };
+
+  useEffect(() => {
+    if (getAuthToken()) {
+      navigate('/dashboard', { replace: true });
+    }
+  }, [navigate]);
 
   useEffect(() => {
     if (!googleClientId || !googleButtonRef.current) return;
