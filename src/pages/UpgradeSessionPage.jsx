@@ -48,6 +48,7 @@ function UpgradeSessionPage() {
   const [loading, setLoading] = useState(true);
   const [checkingOut, setCheckingOut] = useState(false);
   const [error, setError] = useState('');
+  const [checkoutError, setCheckoutError] = useState('');
   const [paymentSuccess, setPaymentSuccess] = useState(false);
 
   // Log for debugging
@@ -63,6 +64,7 @@ function UpgradeSessionPage() {
     try {
       const payload = await getUpgradeSession(sessionId);
       setSession(payload);
+      setCheckoutError('');
     } catch (err) {
       // Only show error, never redirect to login
       const message = err.response?.data?.message ||
@@ -87,7 +89,7 @@ function UpgradeSessionPage() {
     if (!sessionId || checkingOut) return;
 
     setCheckingOut(true);
-    setError('');
+    setCheckoutError('');
     try {
       const order = await createUpgradeCheckout(sessionId);
       if (!order?.orderId || !order?.keyId) {
@@ -134,7 +136,7 @@ function UpgradeSessionPage() {
       setPaymentSuccess(true);
     } catch (err) {
       const backendMessage = err?.response?.data?.error || err?.response?.data?.message || err?.message;
-      setError(backendMessage || 'Unable to start payment.');
+      setCheckoutError(backendMessage || 'Unable to start payment.');
     } finally {
       setCheckingOut(false);
     }
@@ -201,6 +203,11 @@ function UpgradeSessionPage() {
                 {checkingOut ? <Loader2 className="animate-spin" size={17} /> : <ShieldCheck size={17} />}
                 {checkingOut ? 'Please wait...' : 'Pay securely with Razorpay'}
               </Button>
+              {checkoutError ? (
+                <div className="mt-4 rounded-lg border border-clay/25 bg-clay/10 p-4 text-sm font-semibold leading-6 text-ink/75">
+                  {checkoutError}
+                </div>
+              ) : null}
             </div>
 
             <div className="rounded-2xl border border-ink/10 bg-white p-6 shadow-soft">
