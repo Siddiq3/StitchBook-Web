@@ -139,7 +139,7 @@ function LandingPage() {
 
   return (
     <PageShell>
-      <section className="tailor-grid relative overflow-hidden bg-bone text-ink">
+      <section className="relative overflow-hidden bg-bone text-ink">
         <div className="absolute inset-x-0 top-0 h-px bg-ink/10" />
         <div className="mx-auto grid max-w-7xl items-center gap-10 px-4 pb-14 pt-12 sm:px-6 md:grid-cols-[0.95fr_1.05fr] md:gap-12 md:pb-20 md:pt-20 lg:px-8">
           <motion.div

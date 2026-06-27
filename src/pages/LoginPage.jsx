@@ -145,7 +145,7 @@ function LoginPage() {
   };
 
   return (
-    <main className="tailor-grid min-h-screen bg-bone text-ink">
+    <main className="min-h-screen bg-bone text-ink">
       <section className="mx-auto grid min-h-screen max-w-7xl items-center gap-8 px-4 py-8 sm:px-6 lg:grid-cols-[1.02fr_0.98fr] lg:px-8">
         <div className="relative overflow-hidden rounded-lg bg-ink p-6 text-bone shadow-soft sm:p-8 lg:min-h-[38rem]">
           <img
