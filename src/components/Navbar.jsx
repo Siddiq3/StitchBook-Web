@@ -1,4 +1,4 @@
-import { ChevronDown, LayoutDashboard, LogOut, Menu, X } from 'lucide-react';
+import { ChevronDown, LayoutDashboard, LogIn, LogOut, Menu, X } from 'lucide-react';
 import { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { getAuthToken, getSavedUser, logout } from '../api/authApi.js';
@@ -69,33 +69,53 @@ function Navbar() {
           </div>
         </div>
 
-        <button
-          aria-label="Toggle navigation"
-          className="rounded-xl border border-ink/10 bg-white/55 p-2 md:hidden"
-          onClick={() => setOpen((value) => !value)}
-          type="button"
-        >
-          {open ? <X size={20} /> : <Menu size={20} />}
-        </button>
+        <div className="flex items-center gap-2 md:hidden">
+          {isLoggedIn ? (
+            <button
+              aria-label="Open account menu"
+              className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-brass text-xs font-extrabold text-white shadow-sm"
+              onClick={() => setOpen((value) => !value)}
+              type="button"
+            >
+              {initials}
+            </button>
+          ) : (
+            <Button className="min-h-10 rounded-full px-4 py-2 text-xs" to="/login" variant="primary">
+              <LogIn size={15} />
+              Login
+            </Button>
+          )}
+          <button
+            aria-label="Toggle navigation"
+            aria-expanded={open}
+            className="rounded-xl border border-ink/10 bg-white/90 p-2 shadow-sm"
+            onClick={() => setOpen((value) => !value)}
+            type="button"
+          >
+            {open ? <X size={20} /> : <Menu size={20} />}
+          </button>
+        </div>
       </nav>
 
       {open && (
         <div className="border-t border-ink/10 bg-bone px-4 py-5 shadow-sm md:hidden">
-          <div className="grid gap-4">
-            <NavLink className={navLinkClass} onClick={() => setOpen(false)} to="/">Home</NavLink>
-            <a className="text-sm font-semibold text-ink/70" href="/#features" onClick={() => setOpen(false)}>Features</a>
-            <a className="text-sm font-semibold text-ink/70" href="/#insights" onClick={() => setOpen(false)}>Insights</a>
-            <NavLink className={navLinkClass} onClick={() => setOpen(false)} to="/about">About</NavLink>
+          <div className="mx-auto grid max-w-7xl gap-5">
+            <div className="grid gap-2">
+              <NavLink className="rounded-xl px-3 py-2 text-base font-bold text-ink transition hover:bg-white" onClick={() => setOpen(false)} to="/">Home</NavLink>
+              <a className="rounded-xl px-3 py-2 text-base font-bold text-ink/72 transition hover:bg-white hover:text-ink" href="/#features" onClick={() => setOpen(false)}>Features</a>
+              <a className="rounded-xl px-3 py-2 text-base font-bold text-ink/72 transition hover:bg-white hover:text-ink" href="/#insights" onClick={() => setOpen(false)}>Insights</a>
+              <NavLink className="rounded-xl px-3 py-2 text-base font-bold text-ink/72 transition hover:bg-white hover:text-ink" onClick={() => setOpen(false)} to="/about">About</NavLink>
+            </div>
             {isLoggedIn ? (
-              <>
-                <div className="inline-flex min-h-11 items-center gap-2 rounded-full border border-ink/10 bg-white/72 px-3 py-1.5 shadow-sm">
+              <div className="rounded-2xl border border-ink/10 bg-white p-3 shadow-sm">
+                <div className="inline-flex min-h-11 w-full items-center gap-2 rounded-full bg-mist px-3 py-1.5">
                   <span className="flex h-7 w-7 items-center justify-center rounded-full bg-ink text-[11px] font-extrabold text-bone">
                     {initials}
                   </span>
                   <span className="truncate text-sm font-bold text-ink/72">{userLabel}</span>
                   <ChevronDown size={15} className="ml-auto text-ink/42" />
                 </div>
-                <Button className="mt-2 w-full" onClick={() => setOpen(false)} to="/dashboard" variant="secondary">
+                <Button className="mt-3 w-full" onClick={() => setOpen(false)} to="/dashboard" variant="primary">
                   <LayoutDashboard size={17} />
                   Dashboard
                 </Button>
@@ -103,9 +123,17 @@ function Navbar() {
                   <LogOut size={17} />
                   Logout
                 </Button>
-              </>
+              </div>
             ) : (
-              <Button className="mt-2 w-full" onClick={() => setOpen(false)} to="/login" variant="secondary">Login</Button>
+              <div className="rounded-2xl border border-ink/10 bg-white p-3 shadow-sm">
+                <p className="px-1 text-sm font-semibold leading-6 text-ink/62">
+                  Sign in to manage subscriptions and account details.
+                </p>
+                <Button className="mt-3 w-full" onClick={() => setOpen(false)} to="/login" variant="primary">
+                  <LogIn size={17} />
+                  Login
+                </Button>
+              </div>
             )}
           </div>
         </div>
