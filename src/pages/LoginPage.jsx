@@ -145,43 +145,43 @@ function LoginPage() {
   };
 
   return (
-    <main className="min-h-screen bg-bone text-ink">
+    <main className="brand-soft-gradient min-h-screen text-ink">
       <section className="mx-auto grid min-h-screen max-w-7xl items-center gap-8 px-4 py-8 sm:px-6 lg:grid-cols-[1.02fr_0.98fr] lg:px-8">
-        <div className="relative overflow-hidden rounded-lg bg-ink p-6 text-bone shadow-soft sm:p-8 lg:min-h-[38rem]">
+        <div className="brand-gradient relative overflow-hidden rounded-lg p-6 text-white shadow-soft sm:p-8 lg:min-h-[38rem]">
           <img
             alt="Tailoring workspace"
             className="absolute inset-0 h-full w-full object-cover opacity-[0.34]"
             src="/images/stitch-hero.png"
           />
-          <div className="absolute inset-0 bg-ink/62" />
+          <div className="absolute inset-0 bg-brass/72" />
 
           <div className="relative flex h-full min-h-[30rem] flex-col justify-between">
             <div className="flex items-center gap-3">
               <LogoMark />
               <div>
-                <p className="font-serif text-3xl font-semibold leading-none">StitchBook</p>
-                <p className="mt-1 text-sm font-semibold text-bone/58">Tailoring shop manager</p>
+                <p className="text-3xl font-extrabold leading-none">StitchBook</p>
+                <p className="mt-1 text-sm font-semibold text-white/72">Tailoring shop manager</p>
               </div>
             </div>
 
             <div className="max-w-xl">
-              <div className="inline-flex items-center gap-2 rounded-full border border-bone/12 bg-bone/10 px-4 py-2 text-sm font-bold text-bone/78 backdrop-blur">
-                <Sparkles size={16} className="text-brass" />
+              <div className="inline-flex items-center gap-2 rounded-full border border-white/18 bg-white/14 px-4 py-2 text-sm font-bold text-white/88 backdrop-blur">
+                <Sparkles size={16} className="text-white" />
                 Built for daily tailoring work
               </div>
-              <h1 className="text-balance mt-6 font-serif text-5xl font-semibold leading-tight sm:text-6xl">
+              <h1 className="text-balance mt-6 text-5xl font-extrabold leading-tight sm:text-6xl">
                 Welcome back to your shop dashboard
               </h1>
-              <p className="mt-5 text-base leading-7 text-bone/70 sm:text-lg">
+              <p className="mt-5 text-base leading-7 text-white/78 sm:text-lg">
                 Sign in to continue managing customers, measurements, orders, payments, and delivery updates from one simple workspace.
               </p>
             </div>
 
             <div className="grid gap-3 sm:grid-cols-3">
               {trustItems.map(({ icon: Icon, label }) => (
-                <div className="rounded-lg border border-bone/10 bg-bone/10 p-4 backdrop-blur" key={label}>
-                  <Icon className="text-brass" size={20} />
-                  <p className="mt-3 text-sm font-extrabold text-bone/86">{label}</p>
+                <div className="rounded-lg border border-white/16 bg-white/14 p-4 backdrop-blur" key={label}>
+                  <Icon className="text-white" size={20} />
+                  <p className="mt-3 text-sm font-extrabold text-white/90">{label}</p>
                 </div>
               ))}
             </div>
@@ -194,7 +194,7 @@ function LoginPage() {
               <ShieldCheck size={14} />
               Secure sign in
             </p>
-            <h2 className="mt-5 font-serif text-4xl font-semibold leading-tight">Continue to StitchBook</h2>
+            <h2 className="mt-5 text-4xl font-extrabold leading-tight">Continue to StitchBook</h2>
             <p className="mt-3 text-sm leading-6 text-ink/58">
               Choose the sign-in method you use for your shop account.
             </p>

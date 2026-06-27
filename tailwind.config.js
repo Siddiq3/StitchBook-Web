@@ -24,7 +24,7 @@ export default {
       },
       boxShadow: {
         soft: '0 12px 34px rgba(15, 23, 42, 0.08)',
-        glow: '0 16px 42px rgba(26, 86, 219, 0.18)',
+        glow: '0 18px 46px rgba(26, 86, 219, 0.22)',
       },
     },
   },

@@ -139,8 +139,8 @@ function LandingPage() {
 
   return (
     <PageShell>
-      <section className="relative overflow-hidden bg-bone text-ink">
-        <div className="absolute inset-x-0 top-0 h-px bg-ink/10" />
+      <section className="brand-soft-gradient relative overflow-hidden text-ink">
+        <div className="absolute inset-x-0 top-0 h-px bg-brass/15" />
         <div className="mx-auto grid max-w-7xl items-center gap-10 px-4 pb-14 pt-12 sm:px-6 md:grid-cols-[0.95fr_1.05fr] md:gap-12 md:pb-20 md:pt-20 lg:px-8">
           <motion.div
             animate="visible"
@@ -148,18 +148,18 @@ function LandingPage() {
             transition={{ duration: 0.55, ease: 'easeOut' }}
             variants={fadeUp}
           >
-            <div className="inline-flex items-center gap-2 rounded-full border border-ink/10 bg-white/88 px-4 py-2 text-sm font-bold text-ink/70 shadow-sm backdrop-blur">
+            <div className="inline-flex items-center gap-2 rounded-full border border-brass/15 bg-white/90 px-4 py-2 text-sm font-bold text-ink/70 shadow-sm backdrop-blur">
               <Sparkles size={16} className="text-brass" />
               Simple app for tailoring shops
             </div>
-            <h1 className="text-balance mt-7 max-w-3xl font-serif text-5xl font-semibold leading-tight text-ink sm:text-6xl md:text-7xl">
+            <h1 className="brand-text-gradient text-balance mt-7 max-w-3xl text-5xl font-extrabold leading-tight sm:text-6xl md:text-7xl">
               Manage your tailoring shop from one app
             </h1>
             <p className="mt-6 max-w-xl text-lg leading-8 text-ink/65 md:text-xl">
               Keep customers, measurements, orders, payments, and delivery updates in one easy place.
             </p>
             <div className="mt-9 flex flex-col items-start gap-3 sm:flex-row sm:items-center">
-              <Button className="w-full px-7 sm:w-auto" href={downloadUrl} variant="brass">
+              <Button className="w-full px-7 sm:w-auto" href={downloadUrl} variant="primary">
                 Get Started <ArrowRight size={17} />
               </Button>
               <Button className="w-full sm:w-auto" to="/about" variant="ghost">About StitchBook</Button>
@@ -191,7 +191,7 @@ function LandingPage() {
                   whileHover={{ y: -3 }}
                 >
                   <p className="text-xs font-bold uppercase text-ink/45">{label}</p>
-                  <p className="mt-4 font-serif text-2xl text-ink sm:text-3xl">{value}</p>
+                  <p className="mt-4 text-2xl font-extrabold text-ink sm:text-3xl">{value}</p>
                 </motion.div>
               ))}
             </div>
@@ -204,7 +204,7 @@ function LandingPage() {
             transition={{ delay: 0.12, duration: 0.55, ease: 'easeOut' }}
             variants={{ visible: { opacity: 1, scale: 1 } }}
           >
-            <div className="overflow-hidden rounded-lg border border-ink/10 bg-white/88 p-3 shadow-soft backdrop-blur">
+            <div className="overflow-hidden rounded-lg border border-brass/15 bg-white/90 p-3 shadow-soft backdrop-blur">
               <div className="relative overflow-hidden rounded-lg">
                 <img
                   alt="Premium tailoring studio with fabrics, garment patterns, and tailoring tools"
@@ -212,11 +212,11 @@ function LandingPage() {
                   src="/images/stitch-hero.png"
                 />
                 <div className="absolute inset-x-4 bottom-4 rounded-lg border border-ink/10 bg-white/92 p-4 text-ink shadow-soft backdrop-blur-md">
-                  <p className="inline-flex rounded-full bg-ink/88 px-3 py-1 text-xs font-extrabold uppercase tracking-[0.18em] text-bone">Daily work</p>
+                  <p className="brand-gradient inline-flex rounded-full px-3 py-1 text-xs font-extrabold uppercase tracking-[0.18em] text-white">Daily work</p>
                   <div className="mt-4 grid gap-3">
                     {dailyWorkItems.map(([item, Icon]) => (
                       <motion.div
-                        className="flex items-center justify-between rounded-lg border border-ink/10 bg-bone px-4 py-3"
+                        className="flex items-center justify-between rounded-lg border border-brass/10 bg-mist px-4 py-3"
                         key={item}
                         transition={{ duration: 0.16 }}
                         whileHover={{ x: 3 }}

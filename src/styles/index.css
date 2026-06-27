@@ -21,7 +21,7 @@ body {
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
-  background: #F5F7FA;
+  background: linear-gradient(180deg, #F5F7FA 0%, #EEF4FF 100%);
 }
 
 button,
@@ -38,9 +38,24 @@ a {
 }
 
 .glass-panel {
-  background: rgba(255, 255, 255, 0.78);
+  background: rgba(255, 255, 255, 0.86);
   border: 1px solid rgba(203, 213, 225, 0.88);
   backdrop-filter: blur(12px);
+}
+
+.brand-gradient {
+  background: linear-gradient(135deg, #1A56DB 0%, #2563EB 48%, #6366F1 100%);
+}
+
+.brand-soft-gradient {
+  background: linear-gradient(135deg, rgba(238, 244, 255, 0.96) 0%, rgba(255, 255, 255, 0.94) 52%, rgba(238, 242, 255, 0.96) 100%);
+}
+
+.brand-text-gradient {
+  background: linear-gradient(135deg, #0F172A 0%, #1A56DB 58%, #6366F1 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
 .section-divider {
@@ -49,7 +64,7 @@ a {
 
 .premium-card {
   border: 1px solid rgba(203, 213, 225, 0.78);
-  background: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.94);
   box-shadow: 0 14px 36px rgba(15, 23, 42, 0.08);
 }
 
