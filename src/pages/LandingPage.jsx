@@ -5,17 +5,16 @@ import {
   CheckCircle2,
   CreditCard,
   Languages,
-  PackageCheck,
+  IndianRupee,
   Ruler,
-  Scissors,
   ShieldCheck,
   Sparkles,
   Star,
+  UserRound,
   Users,
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import Button from '../components/Button.jsx';
-import { LogoMark } from '../components/Logo.jsx';
 import PageShell from '../components/PageShell.jsx';
 import SectionHeading from '../components/SectionHeading.jsx';
 
@@ -95,15 +94,15 @@ function StoreBadge({ type }) {
 
   return (
     <a
-      className="inline-flex min-h-14 w-full items-center gap-3 rounded-lg border border-ink/12 bg-white/85 px-4 py-2 text-left shadow-sm transition hover:-translate-y-0.5 hover:bg-white sm:w-auto"
+      className="inline-flex min-h-11 w-full items-center gap-2 rounded-xl border border-ink/12 bg-white/78 px-3.5 py-2 text-left shadow-sm transition hover:-translate-y-0.5 hover:bg-white sm:w-auto"
       href={downloadUrl}
     >
       <StoreIcon type={type} />
       <span>
-        <span className="block text-[11px] font-semibold uppercase tracking-[0.16em] text-ink/45">
+        <span className="block text-[10px] font-semibold uppercase tracking-[0.14em] text-ink/42">
           {isApple ? 'Download on the' : 'Get it on'}
         </span>
-        <span className="block text-sm font-bold text-ink">{isApple ? 'App Store' : 'Google Play'}</span>
+        <span className="block text-xs font-bold text-ink">{isApple ? 'App Store' : 'Google Play'}</span>
       </span>
     </a>
   );
@@ -129,6 +128,12 @@ function StoreIcon({ type }) {
 }
 
 function LandingPage() {
+  const dailyWorkItems = [
+    ['Customer added', UserRound],
+    ['Measurements saved', Ruler],
+    ['Payment recorded', IndianRupee],
+  ];
+
   return (
     <PageShell>
       <section className="relative overflow-hidden bg-bone text-ink">
@@ -139,14 +144,7 @@ function LandingPage() {
             transition={{ duration: 0.55, ease: 'easeOut' }}
             variants={fadeUp}
           >
-            <div className="mb-6 flex items-center gap-3">
-              <LogoMark />
-              <div>
-                <p className="font-serif text-3xl font-semibold leading-none">StitchBook</p>
-                <p className="mt-1 text-sm font-semibold text-ink/55">Tailoring shop app</p>
-              </div>
-            </div>
-            <div className="inline-flex items-center gap-2 rounded-lg border border-ink/10 bg-white px-4 py-2 text-sm font-bold text-ink/70 shadow-sm">
+            <div className="inline-flex items-center gap-2 rounded-full border border-ink/10 bg-white px-4 py-2 text-sm font-bold text-ink/70 shadow-sm">
               <Sparkles size={16} className="text-brass" />
               Simple app for tailoring shops
             </div>
@@ -156,25 +154,28 @@ function LandingPage() {
             <p className="mt-6 max-w-xl text-lg leading-8 text-ink/65 md:text-xl">
               Keep customers, measurements, orders, payments, and delivery updates in one easy place.
             </p>
-            <div className="mt-9 flex flex-col gap-3 sm:flex-row">
-              <Button className="w-full sm:w-auto" href={downloadUrl} variant="brass">
+            <div className="mt-9 flex flex-col items-start gap-3 sm:flex-row sm:items-center">
+              <Button className="w-full px-7 sm:w-auto" href={downloadUrl} variant="brass">
                 Get Started <ArrowRight size={17} />
               </Button>
-              <Button className="w-full sm:w-auto" to="/about" variant="secondary">About StitchBook</Button>
+              <Button className="w-full sm:w-auto" to="/about" variant="ghost">About StitchBook</Button>
             </div>
-            <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-              <StoreBadge type="google" />
-              <StoreBadge type="apple" />
+            <div className="mt-6">
+              <p className="text-xs font-extrabold uppercase tracking-[0.16em] text-ink/38">Also available on</p>
+              <div className="mt-3 flex flex-col gap-3 sm:flex-row">
+                <StoreBadge type="google" />
+                <StoreBadge type="apple" />
+              </div>
             </div>
-            <div className="mt-10 grid max-w-xl grid-cols-1 gap-3 sm:grid-cols-3">
+            <div className="mt-10 grid max-w-xl grid-cols-1 gap-4 sm:grid-cols-3">
               {[
                 ['Orders', '128'],
                 ['Paid', '₹2.4L'],
                 ['Dues', '₹36K'],
               ].map(([label, value]) => (
-                <div className="rounded-lg border border-ink/10 bg-white p-4 shadow-sm" key={label}>
+                <div className="rounded-lg border border-ink/10 bg-white p-5 shadow-sm" key={label}>
                   <p className="text-xs font-bold uppercase text-ink/45">{label}</p>
-                  <p className="mt-3 font-serif text-2xl text-ink sm:text-3xl">{value}</p>
+                  <p className="mt-4 font-serif text-2xl text-ink sm:text-3xl">{value}</p>
                 </div>
               ))}
             </div>
@@ -195,12 +196,12 @@ function LandingPage() {
                   src="/images/stitch-hero.png"
                 />
                 <div className="absolute inset-x-4 bottom-4 rounded-lg border border-ink/10 bg-white/92 p-4 text-ink shadow-soft backdrop-blur-md">
-                  <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-ink/45">Daily work</p>
+                  <p className="inline-flex rounded-full bg-ink/88 px-3 py-1 text-xs font-extrabold uppercase tracking-[0.18em] text-bone">Daily work</p>
                   <div className="mt-4 grid gap-3">
-                    {['Customer added', 'Measurements saved', 'Payment recorded'].map((item) => (
+                    {dailyWorkItems.map(([item, Icon]) => (
                       <div className="flex items-center justify-between rounded-lg border border-ink/10 bg-bone px-4 py-3" key={item}>
                         <span className="text-sm font-medium text-ink/75">{item}</span>
-                        <PackageCheck size={18} className="text-brass" />
+                        <Icon size={18} className="text-brass" />
                       </div>
                     ))}
                   </div>

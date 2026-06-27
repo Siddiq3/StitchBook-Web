@@ -1,12 +1,13 @@
 import { Link } from 'react-router-dom';
 
 const baseClass =
-  'inline-flex min-h-11 items-center justify-center gap-2 rounded-lg px-5 py-2.5 text-sm font-bold transition duration-200 focus:outline-none focus:ring-2 focus:ring-brass/40 focus:ring-offset-2 focus:ring-offset-bone';
+  'inline-flex min-h-11 items-center justify-center gap-2 rounded-xl px-5 py-2.5 text-sm font-bold transition duration-200 focus:outline-none focus:ring-2 focus:ring-brass/40 focus:ring-offset-2 focus:ring-offset-bone';
 
 const variants = {
   primary: 'bg-ink text-bone shadow-soft hover:bg-midnight',
   secondary: 'border border-ink/15 bg-white/70 text-ink hover:border-ink/30 hover:bg-white',
   brass: 'bg-brass text-white shadow-sm hover:bg-[#a7793f]',
+  ghost: 'text-ink/70 hover:bg-white/65 hover:text-ink',
 };
 
 function Button({ children, className = '', href, to, variant = 'primary', ...props }) {
