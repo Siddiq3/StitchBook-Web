@@ -131,11 +131,11 @@ function AboutPage() {
             </h2>
           </div>
           <div className="grid gap-4 text-bone/75">
-            <a className="flex items-center gap-3 rounded-lg border border-white/10 p-4 hover:bg-white/5" href="mailto:hello@stitchbook.app">
-              <Mail size={18} /> hello@stitchbook.app
+            <a className="flex items-center gap-3 rounded-lg border border-white/10 p-4 hover:bg-white/5" href="mailto:stitchbook3@gmail.com">
+              <Mail size={18} /> stitchbook3@gmail.com
             </a>
-            <a className="flex items-center gap-3 rounded-lg border border-white/10 p-4 hover:bg-white/5" href="tel:+919876543210">
-              <Phone size={18} /> +91 98765 43210
+            <a className="flex items-center gap-3 rounded-lg border border-white/10 p-4 hover:bg-white/5" href="tel:+919705116606">
+              <Phone size={18} /> +91 97051 16606
             </a>
             <span className="flex items-center gap-3 rounded-lg border border-white/10 p-4">
               <MapPin size={18} /> Hyderabad, India

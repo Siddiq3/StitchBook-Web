@@ -40,11 +40,11 @@ function Footer() {
         <div>
           <h3 className="text-sm font-semibold uppercase text-white/62">Contact</h3>
           <div className="mt-4 grid gap-3 text-sm text-white/78">
-            <a className="flex items-center gap-2 hover:text-white" href="mailto:hello@stitchbook.app">
-              <Mail size={16} /> hello@stitchbook.app
+            <a className="flex items-center gap-2 hover:text-white" href="mailto:stitchbook3@gmail.com">
+              <Mail size={16} /> stitchbook3@gmail.com
             </a>
-            <a className="flex items-center gap-2 hover:text-white" href="tel:+919876543210">
-              <Phone size={16} /> +91 98765 43210
+            <a className="flex items-center gap-2 hover:text-white" href="tel:+919705116606">
+              <Phone size={16} /> +91 97051 16606
             </a>
             <span className="flex items-center gap-2">
               <MapPin size={16} /> Hyderabad, India
