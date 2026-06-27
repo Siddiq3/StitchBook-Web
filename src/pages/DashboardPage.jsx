@@ -10,11 +10,10 @@ import {
   RefreshCw,
   ShieldCheck,
   Smartphone,
-  UserRound,
 } from 'lucide-react';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getSavedUser, getProfile, logout } from '../api/authApi.js';
+import { clearAuthSession, getSavedUser, getProfile, logout } from '../api/authApi.js';
 import { createUpgradeSession, getSubscriptionStatus } from '../api/subscriptionApi.js';
 import Button from '../components/Button.jsx';
 import PageShell from '../components/PageShell.jsx';
@@ -91,6 +90,7 @@ function DashboardPage() {
       setSubscription(status);
     } catch (err) {
       if (err.response?.status === 401) {
+        clearAuthSession();
         navigate('/login?redirect=/dashboard', { replace: true });
         return;
       }

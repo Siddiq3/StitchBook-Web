@@ -1,5 +1,6 @@
 import { CheckCircle2, CreditCard, Loader2, RefreshCw, ShieldCheck } from 'lucide-react';
 import { useCallback, useEffect, useState } from 'react';
+import { clearAuthSession } from '../api/authApi.js';
 import Button from '../components/Button.jsx';
 import { LogoMark } from '../components/Logo.jsx';
 import { createUpgradeSession, getSubscriptionStatus } from '../api/subscriptionApi.js';
@@ -94,6 +95,7 @@ function BillingPage() {
       setNeedsLogin(false);
     } catch (err) {
       if (err.response?.status === 401) {
+        clearAuthSession();
         setNeedsLogin(true);
         setError('');
         return;
@@ -130,6 +132,7 @@ function BillingPage() {
       window.location.href = session.upgradeUrl;
     } catch (err) {
       if (err.response?.status === 401) {
+        clearAuthSession();
         setNeedsLogin(true);
         return;
       }
