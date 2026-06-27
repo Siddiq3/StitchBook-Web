@@ -167,13 +167,13 @@ function LoginPage() {
             <div className="max-w-xl">
               <div className="inline-flex items-center gap-2 rounded-full border border-white/18 bg-white/14 px-4 py-2 text-sm font-bold text-white/88 backdrop-blur">
                 <Sparkles size={16} className="text-white" />
-                Built for daily tailoring work
+                Subscription and account access
               </div>
               <h1 className="text-balance mt-6 text-5xl font-extrabold leading-tight sm:text-6xl">
-                Welcome back to your shop dashboard
+                Sign in to manage your StitchBook plan
               </h1>
               <p className="mt-5 text-base leading-7 text-white/78 sm:text-lg">
-                Sign in to continue managing customers, measurements, orders, payments, and delivery updates from one simple workspace.
+                Use the website for subscription, billing, and account access. Open the mobile app for customers, measurements, orders, and payments.
               </p>
             </div>
 

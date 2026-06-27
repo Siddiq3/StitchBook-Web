@@ -38,8 +38,8 @@ function Navbar() {
 
         <div className="hidden items-center gap-8 md:flex">
           <NavLink className={navLinkClass} to="/">Home</NavLink>
-          <a className="text-sm font-semibold text-ink/62 transition hover:text-ink" href="/#features">Features</a>
-          <a className="text-sm font-semibold text-ink/62 transition hover:text-ink" href="/#insights">Insights</a>
+          <a className="text-sm font-semibold text-ink/62 transition hover:text-ink" href="/#features">App Features</a>
+          <NavLink className={navLinkClass} to="/billing">Plans</NavLink>
           <NavLink className={navLinkClass} to="/about">About</NavLink>
         </div>
 
@@ -102,8 +102,8 @@ function Navbar() {
           <div className="mx-auto grid max-w-7xl gap-5">
             <div className="grid gap-2">
               <NavLink className="rounded-xl px-3 py-2 text-base font-bold text-ink transition hover:bg-white" onClick={() => setOpen(false)} to="/">Home</NavLink>
-              <a className="rounded-xl px-3 py-2 text-base font-bold text-ink/72 transition hover:bg-white hover:text-ink" href="/#features" onClick={() => setOpen(false)}>Features</a>
-              <a className="rounded-xl px-3 py-2 text-base font-bold text-ink/72 transition hover:bg-white hover:text-ink" href="/#insights" onClick={() => setOpen(false)}>Insights</a>
+              <a className="rounded-xl px-3 py-2 text-base font-bold text-ink/72 transition hover:bg-white hover:text-ink" href="/#features" onClick={() => setOpen(false)}>App Features</a>
+              <NavLink className="rounded-xl px-3 py-2 text-base font-bold text-ink/72 transition hover:bg-white hover:text-ink" onClick={() => setOpen(false)} to="/billing">Plans</NavLink>
               <NavLink className="rounded-xl px-3 py-2 text-base font-bold text-ink/72 transition hover:bg-white hover:text-ink" onClick={() => setOpen(false)} to="/about">About</NavLink>
             </div>
             {isLoggedIn ? (
@@ -127,7 +127,7 @@ function Navbar() {
             ) : (
               <div className="rounded-2xl border border-ink/10 bg-white p-3 shadow-sm">
                 <p className="px-1 text-sm font-semibold leading-6 text-ink/62">
-                  Sign in to manage subscriptions and account details.
+                  Sign in to manage your subscription and download the mobile app.
                 </p>
                 <Button className="mt-3 w-full" onClick={() => setOpen(false)} to="/login" variant="primary">
                   <LogIn size={17} />

@@ -47,10 +47,10 @@ const plans = [
 ];
 
 const appActions = [
-  'Create orders and record measurements',
-  'Assign cutter and stitcher work',
-  'Track delivery due and pending balance',
-  'Share bills and payment links',
+  'Install the mobile app for daily shop work',
+  'Use this website to buy or renew plans',
+  'Open the app for orders, measurements, and staff work',
+  'Check account and subscription status here',
 ];
 
 function formatDate(value) {
@@ -206,9 +206,9 @@ function DashboardPage() {
 
             <aside className="subtle-lift rounded-lg border border-ink/10 bg-ink p-5 text-bone shadow-soft sm:p-7">
               <ClipboardList className="text-brass" size={26} />
-              <h2 className="mt-5 font-serif text-4xl font-semibold leading-tight">Your shop workflow, organized</h2>
+              <h2 className="mt-5 font-serif text-4xl font-semibold leading-tight">Your subscription hub</h2>
               <p className="mt-4 text-sm leading-6 text-bone/68">
-                Keep orders, measurements, staff work, payments, and delivery follow-ups clear from one StitchBook account.
+                The full tailoring workflow is inside the StitchBook app. Use this website for plan changes, checkout, and account status.
               </p>
               <div className="mt-6 grid gap-3">
                 {appActions.map((action) => (
@@ -225,7 +225,7 @@ function DashboardPage() {
             <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
               <div>
                 <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-brass">Subscription</p>
-                <h2 className="mt-2 font-serif text-4xl font-semibold">Choose the plan for your shop</h2>
+                <h2 className="mt-2 font-serif text-4xl font-semibold">Choose the plan for your app access</h2>
               </div>
               <Button to="/billing" variant="secondary">
                 Billing details

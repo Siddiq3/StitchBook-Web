@@ -9,7 +9,7 @@ function Footer() {
         <div>
           <Logo dark />
           <p className="mt-4 max-w-sm text-sm leading-6 text-white/76">
-            A simple app to manage customers, measurements, orders, and payments.
+            Download the mobile app for daily shop work. Use this website for subscription, billing, and account access.
           </p>
           <div className="mt-6 flex gap-3">
             <a aria-label="Instagram" className="rounded-full border border-white/18 bg-white/10 p-2 text-white/82 transition hover:bg-white/18 hover:text-white" href="https://instagram.com">
@@ -32,8 +32,8 @@ function Footer() {
           <div className="mt-4 grid gap-3 text-sm text-white/78">
             <Link className="hover:text-white" to="/">Home</Link>
             <Link className="hover:text-white" to="/about">About</Link>
-            <a className="hover:text-white" href="/#features">Features</a>
-            <a className="hover:text-white" href="/#insights">Insights</a>
+            <a className="hover:text-white" href="/#features">App Features</a>
+            <Link className="hover:text-white" to="/billing">Plans</Link>
           </div>
         </div>
 

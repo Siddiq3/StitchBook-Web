@@ -183,7 +183,7 @@ function BillingPage() {
                 <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-brass">Subscription</p>
                 <h1 className="mt-2 font-serif text-5xl font-semibold leading-none">Choose your StitchBook plan</h1>
                 <p className="mt-4 max-w-2xl text-sm leading-6 text-ink/62">
-                  Choose the plan that matches your shop size. Each plan keeps orders, measurements, staff access, and billing simple for daily work.
+                  Choose the plan that matches your shop size. After payment, continue daily work in the StitchBook mobile app.
                 </p>
               </div>
             </div>
@@ -254,7 +254,7 @@ function BillingPage() {
             </div>
 
             <div className="premium-card subtle-lift rounded-lg border border-ink/10 bg-white p-5 shadow-soft">
-              <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-brass">Included</p>
+              <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-brass">App access includes</p>
               <div className="mt-5 grid gap-3">
                 {features.map((feature) => (
                   <div className="flex items-center gap-3 text-sm font-semibold text-ink/70" key={feature}>

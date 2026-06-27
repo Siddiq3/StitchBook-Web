@@ -10,7 +10,7 @@ import {
   Ruler,
   Sparkles,
   Star,
-  TrendingUp,
+  Smartphone,
   UserRound,
   Users,
 } from 'lucide-react';
@@ -25,29 +25,29 @@ const features = [
   {
     icon: Users,
     title: 'Customer details',
-    description: 'Save customer names, phone numbers, measurements, and past orders in one place.',
+    description: 'Install the app to save customer names, phone numbers, measurements, and past orders.',
   },
   {
     icon: Ruler,
     title: 'Measurements',
-    description: 'Store measurements once and use them again whenever the customer comes back.',
+    description: 'Record measurements inside the mobile app and reuse them whenever the customer comes back.',
   },
   {
     icon: CreditCard,
     title: 'Payments',
-    description: 'Track advance paid, balance amount, and payment history for every order.',
+    description: 'Use the app for advance paid, balance amount, and payment history for every order.',
   },
   {
     icon: Bell,
     title: 'Order updates',
-    description: 'See which orders are pending, in progress, ready, or delivered.',
+    description: 'Track pending, stitching, ready, and delivered orders from your phone.',
   },
 ];
 
 const steps = [
-  ['Add customer', 'Add the customer details and save their measurements.'],
-  ['Create order', 'Add the clothes, price, delivery date, and notes.'],
-  ['Track delivery', 'Update the order status and record payments until it is delivered.'],
+  ['Install app', 'Download StitchBook on your phone and sign in as the shop owner.'],
+  ['Choose plan', 'Use this website to start or renew your subscription securely.'],
+  ['Run shop in app', 'Manage customers, measurements, orders, staff work, and payments in the app.'],
 ];
 
 const testimonials = [
@@ -153,16 +153,18 @@ function LandingPage() {
               Simple app for tailoring shops
             </div>
             <h1 className="brand-text-gradient text-balance mt-7 max-w-3xl text-5xl font-extrabold leading-tight sm:text-6xl md:text-7xl">
-              Manage your tailoring shop from one app
+              Download the app. Manage subscription here.
             </h1>
             <p className="mt-6 max-w-xl text-lg leading-8 text-ink/65 md:text-xl">
-              Keep customers, measurements, orders, payments, and delivery updates in one easy place.
+              StitchBook’s full shop features are in the mobile app. Use this website to sign in, choose a plan, renew subscription, and download the app.
             </p>
             <div className="mt-9 flex flex-col items-start gap-3 sm:flex-row sm:items-center">
               <Button className="w-full px-7 sm:w-auto" href={downloadUrl} variant="primary">
-                Get Started <ArrowRight size={17} />
+                Download App <Smartphone size={17} />
               </Button>
-              <Button className="w-full sm:w-auto" to="/about" variant="ghost">About StitchBook</Button>
+              <Button className="w-full sm:w-auto" to="/billing" variant="secondary">
+                View Subscription Plans <ArrowRight size={17} />
+              </Button>
             </div>
             <div className="mt-6">
               <p className="text-xs font-extrabold uppercase tracking-[0.16em] text-ink/38">Also available on</p>
@@ -245,9 +247,9 @@ function LandingPage() {
           whileInView="visible"
         >
           <SectionHeading
-            eyebrow="Features"
-            title="Everything your shop needs in one place"
-            description="StitchBook helps you reduce paper work, avoid confusion, and serve customers better."
+            eyebrow="Inside the mobile app"
+            title="Daily shop work happens in the app"
+            description="The website is for account and subscription. Install the StitchBook app to use the full tailoring workflow."
           />
           <motion.div className="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-6" variants={stagger}>
             {features.map((feature) => {
@@ -283,7 +285,7 @@ function LandingPage() {
         >
           <SectionHeading
             eyebrow="How it works"
-            title="How StitchBook helps your shop"
+            title="Website for subscription, app for daily work"
           />
           <motion.div className="relative mt-12 grid gap-5 md:grid-cols-3" variants={stagger}>
             {steps.map(([title, description], index) => (
@@ -315,7 +317,7 @@ function LandingPage() {
               Made for Indian tailoring shops
             </h2>
             <p className="mt-4 text-base leading-7 text-ink/65">
-              Use StitchBook in the way your shop already works. Manage customers, payments, and orders without making the process hard.
+              Install the app and use StitchBook in the way your shop already works. The website stays simple for login, subscription, and account support.
             </p>
           </div>
           <motion.div className="grid gap-4 sm:grid-cols-2" variants={stagger}>
@@ -340,20 +342,20 @@ function LandingPage() {
           <div>
             <SectionHeading
               align="left"
-              eyebrow="Insights"
-              title="See your shop clearly"
-              description="Check orders, payments, pending dues, and daily work without searching through paper records."
+              eyebrow="Subscription website"
+              title="Buy or renew your plan here"
+              description="Use the website for secure checkout, billing status, and plan upgrades. Open the app for customers, measurements, orders, and staff work."
             />
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <Button className="w-full sm:w-auto" href={downloadUrl}>Get Started</Button>
-              <Button className="w-full sm:w-auto" to="/about" variant="secondary">Learn more</Button>
+              <Button className="w-full sm:w-auto" to="/billing">View Plans</Button>
+              <Button className="w-full sm:w-auto" href={downloadUrl} variant="secondary">Download App</Button>
             </div>
           </div>
           <motion.div className="glass-panel rounded-lg p-5 shadow-soft" variants={fadeUp}>
             <div className="flex items-center justify-between border-b border-ink/10 pb-4">
               <div>
-                <p className="text-xs font-bold uppercase tracking-[0.18em] text-brass">Dashboard</p>
-                <h3 className="mt-1 text-lg font-semibold">Today at a glance</h3>
+                <p className="text-xs font-bold uppercase tracking-[0.18em] text-brass">Website account</p>
+                <h3 className="mt-1 text-lg font-semibold">Subscription at a glance</h3>
               </div>
               <BarChart3 className="text-sage" size={28} />
             </div>
@@ -377,9 +379,9 @@ function LandingPage() {
             </div>
             <div className="mt-5 grid gap-3">
               {[
-                ['4 orders are ready for pickup', ClipboardList],
-                ['7 measurements saved this week', Ruler],
-                ['3 payments recorded today', TrendingUp],
+                ['Choose Basic, Team, or Pro plan', ClipboardList],
+                ['Pay securely with Razorpay checkout', CreditCard],
+                ['Continue daily work inside the app', Smartphone],
               ].map(([item, Icon]) => (
                 <div className="flex items-center gap-3 rounded-lg border border-ink/10 px-4 py-3" key={item}>
                   <Icon size={17} className="text-brass" />
@@ -402,7 +404,7 @@ function LandingPage() {
           <SectionHeading
             eyebrow="Testimonials"
             title="Trusted by tailoring shops"
-            description="Simple tools for shops that want less confusion and better customer service."
+            description="Simple mobile tools for shops that want less confusion and better customer service."
           />
           <motion.div className="mt-12 grid gap-5 md:grid-cols-3" variants={stagger}>
             {testimonials.map((testimonial) => (
