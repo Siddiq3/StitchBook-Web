@@ -3,13 +3,14 @@ import {
   BarChart3,
   Bell,
   CheckCircle2,
+  ClipboardList,
   CreditCard,
   Languages,
   IndianRupee,
   Ruler,
-  ShieldCheck,
   Sparkles,
   Star,
+  TrendingUp,
   UserRound,
   Users,
 } from 'lucide-react';
@@ -73,6 +74,8 @@ const insightCards = [
   ['Pending dues', '₹36K', 'clear'],
 ];
 
+const trustSignals = ['10-day trial', 'Made for Indian shops', 'Staff access plans'];
+
 const fadeUp = {
   hidden: { opacity: 0, y: 24 },
   visible: { opacity: 1, y: 0 },
@@ -94,7 +97,7 @@ function StoreBadge({ type }) {
 
   return (
     <a
-      className="inline-flex min-h-11 w-full items-center gap-2 rounded-xl border border-ink/12 bg-white/78 px-3.5 py-2 text-left shadow-sm transition hover:-translate-y-0.5 hover:bg-white sm:w-auto"
+      className="inline-flex min-h-11 w-full items-center gap-2 rounded-xl border border-ink/12 bg-white/78 px-3.5 py-2 text-left shadow-sm transition hover:-translate-y-0.5 hover:border-brass/30 hover:bg-white hover:shadow-glow sm:w-auto"
       href={downloadUrl}
     >
       <StoreIcon type={type} />
@@ -136,7 +139,8 @@ function LandingPage() {
 
   return (
     <PageShell>
-      <section className="relative overflow-hidden bg-bone text-ink">
+      <section className="tailor-grid relative overflow-hidden bg-bone text-ink">
+        <div className="absolute inset-x-0 top-0 h-px bg-ink/10" />
         <div className="mx-auto grid max-w-7xl items-center gap-10 px-4 pb-14 pt-12 sm:px-6 md:grid-cols-[0.95fr_1.05fr] md:gap-12 md:pb-20 md:pt-20 lg:px-8">
           <motion.div
             animate="visible"
@@ -144,7 +148,7 @@ function LandingPage() {
             transition={{ duration: 0.55, ease: 'easeOut' }}
             variants={fadeUp}
           >
-            <div className="inline-flex items-center gap-2 rounded-full border border-ink/10 bg-white px-4 py-2 text-sm font-bold text-ink/70 shadow-sm">
+            <div className="inline-flex items-center gap-2 rounded-full border border-ink/10 bg-white/88 px-4 py-2 text-sm font-bold text-ink/70 shadow-sm backdrop-blur">
               <Sparkles size={16} className="text-brass" />
               Simple app for tailoring shops
             </div>
@@ -167,16 +171,28 @@ function LandingPage() {
                 <StoreBadge type="apple" />
               </div>
             </div>
+            <div className="mt-8 flex flex-wrap gap-2">
+              {trustSignals.map((signal) => (
+                <span className="rounded-full border border-ink/10 bg-white/76 px-3 py-1.5 text-xs font-extrabold text-ink/55 shadow-sm" key={signal}>
+                  {signal}
+                </span>
+              ))}
+            </div>
             <div className="mt-10 grid max-w-xl grid-cols-1 gap-4 sm:grid-cols-3">
               {[
                 ['Orders', '128'],
                 ['Paid', '₹2.4L'],
                 ['Dues', '₹36K'],
               ].map(([label, value]) => (
-                <div className="rounded-lg border border-ink/10 bg-white p-5 shadow-sm" key={label}>
+                <motion.div
+                  className="premium-card subtle-lift rounded-lg p-5"
+                  key={label}
+                  transition={{ duration: 0.18 }}
+                  whileHover={{ y: -3 }}
+                >
                   <p className="text-xs font-bold uppercase text-ink/45">{label}</p>
                   <p className="mt-4 font-serif text-2xl text-ink sm:text-3xl">{value}</p>
-                </div>
+                </motion.div>
               ))}
             </div>
           </motion.div>
@@ -188,7 +204,7 @@ function LandingPage() {
             transition={{ delay: 0.12, duration: 0.55, ease: 'easeOut' }}
             variants={{ visible: { opacity: 1, scale: 1 } }}
           >
-            <div className="overflow-hidden rounded-lg border border-ink/10 bg-white p-3 shadow-soft">
+            <div className="overflow-hidden rounded-lg border border-ink/10 bg-white/88 p-3 shadow-soft backdrop-blur">
               <div className="relative overflow-hidden rounded-lg">
                 <img
                   alt="Premium tailoring studio with fabrics, garment patterns, and tailoring tools"
@@ -199,10 +215,15 @@ function LandingPage() {
                   <p className="inline-flex rounded-full bg-ink/88 px-3 py-1 text-xs font-extrabold uppercase tracking-[0.18em] text-bone">Daily work</p>
                   <div className="mt-4 grid gap-3">
                     {dailyWorkItems.map(([item, Icon]) => (
-                      <div className="flex items-center justify-between rounded-lg border border-ink/10 bg-bone px-4 py-3" key={item}>
+                      <motion.div
+                        className="flex items-center justify-between rounded-lg border border-ink/10 bg-bone px-4 py-3"
+                        key={item}
+                        transition={{ duration: 0.16 }}
+                        whileHover={{ x: 3 }}
+                      >
                         <span className="text-sm font-medium text-ink/75">{item}</span>
                         <Icon size={18} className="text-brass" />
-                      </div>
+                      </motion.div>
                     ))}
                   </div>
                 </div>
@@ -211,6 +232,8 @@ function LandingPage() {
           </motion.div>
         </div>
       </section>
+
+      <div className="section-divider h-px" />
 
       <section className="bg-white px-4 py-16 sm:px-6 sm:py-20 lg:px-8" id="features">
         <motion.div
@@ -232,13 +255,13 @@ function LandingPage() {
 
               return (
                 <motion.article
-                  className="rounded-lg border border-ink/10 bg-bone p-6 shadow-sm lg:col-span-3 xl:col-span-3"
+                  className="premium-card subtle-lift rounded-lg bg-bone p-6 lg:col-span-3 xl:col-span-3"
                   key={feature.title}
                   variants={fadeUp}
                   whileHover={{ y: -4 }}
                   transition={{ duration: 0.2 }}
                 >
-                  <div className="flex h-11 w-11 items-center justify-center rounded-lg bg-mist text-ink">
+                  <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-mist text-ink shadow-sm">
                     <Icon size={20} />
                   </div>
                   <h3 className="mt-6 text-xl font-extrabold">{feature.title}</h3>
@@ -262,10 +285,10 @@ function LandingPage() {
             eyebrow="How it works"
             title="How StitchBook helps your shop"
           />
-          <motion.div className="mt-12 grid gap-5 md:grid-cols-3" variants={stagger}>
+          <motion.div className="relative mt-12 grid gap-5 md:grid-cols-3" variants={stagger}>
             {steps.map(([title, description], index) => (
-              <motion.article className="rounded-lg border border-ink/10 bg-bone/76 p-7 shadow-sm" key={title} variants={fadeUp}>
-                <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-brass text-sm font-extrabold text-white">
+              <motion.article className="premium-card subtle-lift rounded-lg bg-bone/82 p-7" key={title} variants={fadeUp}>
+                <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-brass text-sm font-extrabold text-white shadow-sm">
                   {index + 1}
                 </span>
                 <h3 className="mt-7 font-serif text-3xl font-semibold">{title}</h3>
@@ -297,7 +320,7 @@ function LandingPage() {
           </div>
           <motion.div className="grid gap-4 sm:grid-cols-2" variants={stagger}>
             {['English', 'Hindi', 'Telugu', 'Tamil', 'Kannada', 'Marathi'].map((language) => (
-              <motion.div className="flex items-center justify-between rounded-lg border border-ink/10 bg-white px-5 py-4 shadow-sm" key={language} variants={fadeUp}>
+              <motion.div className="subtle-lift flex items-center justify-between rounded-lg border border-ink/10 bg-white px-5 py-4 shadow-sm" key={language} variants={fadeUp}>
                 <span className="font-semibold">{language}</span>
                 <CheckCircle2 size={18} className="text-brass" />
               </motion.div>
@@ -336,17 +359,30 @@ function LandingPage() {
             </div>
             <div className="mt-5 grid gap-4 sm:grid-cols-3">
               {insightCards.map(([label, value, trend]) => (
-                <div className="rounded-lg bg-linen p-4" key={label}>
+                <div className="rounded-lg bg-linen p-4 shadow-sm" key={label}>
                   <p className="text-xs font-semibold uppercase tracking-[0.14em] text-ink/45">{label}</p>
                   <p className="mt-5 font-serif text-3xl font-semibold">{value}</p>
                   <p className="mt-2 text-sm font-semibold text-sage">{trend}</p>
+                  <div className="mt-4 h-1.5 overflow-hidden rounded-full bg-ink/8">
+                    <motion.div
+                      className="h-full rounded-full bg-brass"
+                      initial={{ width: 0 }}
+                      transition={{ duration: 0.8, ease: 'easeOut' }}
+                      viewport={motionViewport}
+                      whileInView={{ width: label === 'Pending dues' ? '46%' : '72%' }}
+                    />
+                  </div>
                 </div>
               ))}
             </div>
             <div className="mt-5 grid gap-3">
-              {['4 orders are ready for pickup', '7 measurements saved this week', '3 payments recorded today'].map((item) => (
+              {[
+                ['4 orders are ready for pickup', ClipboardList],
+                ['7 measurements saved this week', Ruler],
+                ['3 payments recorded today', TrendingUp],
+              ].map(([item, Icon]) => (
                 <div className="flex items-center gap-3 rounded-lg border border-ink/10 px-4 py-3" key={item}>
-                  <ShieldCheck size={17} className="text-brass" />
+                  <Icon size={17} className="text-brass" />
                   <span className="text-sm font-medium text-ink/65">{item}</span>
                 </div>
               ))}
@@ -370,7 +406,7 @@ function LandingPage() {
           />
           <motion.div className="mt-12 grid gap-5 md:grid-cols-3" variants={stagger}>
             {testimonials.map((testimonial) => (
-              <motion.article className="rounded-lg border border-ink/10 bg-bone p-7 shadow-sm" key={testimonial.name} variants={fadeUp}>
+              <motion.article className="premium-card subtle-lift rounded-lg bg-bone p-7" key={testimonial.name} variants={fadeUp}>
                 <div className="flex gap-1 text-brass">
                   {Array.from({ length: 5 }).map((_, index) => (
                     <Star fill="currentColor" key={index} size={16} />

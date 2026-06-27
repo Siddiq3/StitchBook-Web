@@ -43,6 +43,33 @@ a {
   backdrop-filter: blur(12px);
 }
 
+.tailor-grid {
+  background-image:
+    linear-gradient(rgba(31, 41, 51, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(31, 41, 51, 0.045) 1px, transparent 1px);
+  background-size: 42px 42px;
+}
+
+.section-divider {
+  background-image: linear-gradient(90deg, transparent, rgba(184, 132, 63, 0.35), transparent);
+}
+
+.premium-card {
+  border: 1px solid rgba(31, 41, 51, 0.08);
+  background: rgba(255, 255, 255, 0.82);
+  box-shadow: 0 16px 44px rgba(31, 41, 51, 0.08);
+}
+
+.subtle-lift {
+  transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
+}
+
+.subtle-lift:hover {
+  border-color: rgba(184, 132, 63, 0.28);
+  box-shadow: 0 22px 58px rgba(31, 41, 51, 0.12);
+  transform: translateY(-3px);
+}
+
 @keyframes celebrate {
   0% {
     opacity: 0;
