@@ -117,7 +117,7 @@ function CheckoutPage() {
         stitch_order_id: details.orderId,
       },
       theme: {
-        color: '#11100e',
+        color: '#1A56DB',
       },
       handler: handleSuccess,
       modal: {

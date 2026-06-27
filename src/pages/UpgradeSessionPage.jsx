@@ -117,7 +117,7 @@ function UpgradeSessionPage() {
             stitch_upgrade_session_id: sessionId,
             stitch_plan: session?.plan
           },
-          theme: { color: '#2b2b2b' },
+          theme: { color: '#1A56DB' },
           handler: resolve,
           modal: {
             ondismiss: () => reject(new Error('Payment window was closed before completion.'))

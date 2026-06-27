@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 
 function LogoMark({ className = '' }) {
   return (
-    <span className={`inline-flex h-10 w-10 items-center justify-center rounded-lg bg-ink text-bone ${className}`}>
+    <span className={`inline-flex h-10 w-10 items-center justify-center rounded-lg bg-brass text-white shadow-sm ${className}`}>
       <svg
         aria-hidden="true"
         className="h-7 w-7"
@@ -22,17 +22,17 @@ function LogoMark({ className = '' }) {
         />
         <path
           d="M14 13.5c2.2 1.8 2.2 3.7 0 5.5 2.2 1.8 2.2 3.7 0 5.5"
-          stroke="#b8843f"
+          stroke="#A5B4FC"
           strokeLinecap="round"
           strokeWidth="2.2"
         />
         <path
           d="M26 13.5c-2.2 1.8-2.2 3.7 0 5.5-2.2 1.8-2.2 3.7 0 5.5"
-          stroke="#b8843f"
+          stroke="#A5B4FC"
           strokeLinecap="round"
           strokeWidth="2.2"
         />
-        <path d="M20 9v23" stroke="#fffdf8" strokeLinecap="round" strokeWidth="1.6" />
+        <path d="M20 9v23" stroke="#FFFFFF" strokeLinecap="round" strokeWidth="1.6" />
       </svg>
     </span>
   );
@@ -44,7 +44,7 @@ function Logo({ dark = false }) {
   return (
     <Link className="flex items-center gap-3" to="/">
       <LogoMark className={dark ? 'bg-bone text-ink' : ''} />
-      <span className={`font-serif text-2xl font-semibold ${textColor}`}>StitchBook</span>
+      <span className={`text-2xl font-extrabold ${textColor}`}>StitchBook</span>
     </Link>
   );
 }
