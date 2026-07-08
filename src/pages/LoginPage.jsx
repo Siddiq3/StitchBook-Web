@@ -1,13 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
-import { ArrowRight, CheckCircle2, Clock3, Loader2, Ruler, ShieldCheck, Smartphone, Sparkles, Users } from 'lucide-react';
+import { CheckCircle2, Clock3, Ruler, ShieldCheck, Sparkles, Users } from 'lucide-react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import Button from '../components/Button.jsx';
 import { LogoMark } from '../components/Logo.jsx';
-import { getAuthToken, loginWithGoogle, loginWithMsg91Widget } from '../api/authApi.js';
+import { getAuthToken, loginWithGoogle } from '../api/authApi.js';
 
 const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
-const msg91WidgetId = import.meta.env.VITE_MSG91_WIDGET_ID;
-const msg91TokenAuth = import.meta.env.VITE_MSG91_WIDGET_TOKEN_AUTH;
 
 const trustItems = [
   { icon: Users, label: 'Customers' },
@@ -44,7 +41,6 @@ function LoginPage() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const googleButtonRef = useRef(null);
-  const [phone, setPhone] = useState('');
   const [loading, setLoading] = useState('');
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
@@ -107,53 +103,8 @@ function LoginPage() {
   }, []);
 
   const handleMobileLogin = async () => {
-    const cleanPhone = phone.replace(/[^\d+]/g, '');
-    if (cleanPhone.length < 10) {
-      setError('Enter a valid mobile number.');
-      return;
-    }
-
-    if (!msg91WidgetId || !msg91TokenAuth) {
-      setError('MSG91 widget is not configured. Add VITE_MSG91_WIDGET_ID and VITE_MSG91_WIDGET_TOKEN_AUTH.');
-      return;
-    }
-
-    try {
-      setLoading('mobile');
-      setError('');
-      await loadScript('https://verify.msg91.com/otp-provider.js');
-
-      if (typeof window.initSendOTP !== 'function') {
-        throw new Error('MSG91 OTP widget did not initialize.');
-      }
-
-      window.initSendOTP({
-        widgetId: msg91WidgetId,
-        tokenAuth: msg91TokenAuth,
-        identifier: cleanPhone.startsWith('+') ? cleanPhone : `+91${cleanPhone}`,
-        exposeMethods: true,
-        success: async (data) => {
-          try {
-            const accessToken = data?.message || data?.token || data?.accessToken;
-            const result = await loginWithMsg91Widget(accessToken, {
-              name: navigator.userAgent,
-            });
-            completeLogin(result, 'Mobile login');
-          } catch (err) {
-            setError(err.response?.data?.message || err.message || 'Mobile login failed');
-          } finally {
-            setLoading('');
-          }
-        },
-        failure: (err) => {
-          setError(err?.message || err?.type || 'MSG91 OTP verification failed');
-          setLoading('');
-        },
-      });
-    } catch (err) {
-      setError(err.message || 'Could not open MSG91 OTP widget');
-      setLoading('');
-    }
+    setError('Mobile OTP login is disabled in this build.');
+    setLoading('');
   };
 
   return (
@@ -222,38 +173,6 @@ function LoginPage() {
             )}
           </div>
 
-          <div className="my-7 flex items-center gap-4">
-            <div className="h-px flex-1 bg-ink/10" />
-            <span className="text-xs font-extrabold uppercase tracking-[0.18em] text-ink/35">or</span>
-            <div className="h-px flex-1 bg-ink/10" />
-          </div>
-
-          <div>
-            <label className="text-sm font-bold text-ink/70" htmlFor="mobile">
-              Mobile number
-            </label>
-            <div className="mt-3 flex overflow-hidden rounded-xl border border-ink/12 bg-bone focus-within:ring-2 focus-within:ring-brass/35">
-              <span className="inline-flex items-center border-r border-ink/10 px-4 text-sm font-bold text-ink/55">+91</span>
-              <input
-                autoComplete="off"
-                className="min-h-12 flex-1 bg-transparent px-4 text-base font-semibold outline-none"
-                id="mobile"
-                inputMode="tel"
-                maxLength={10}
-                name="stitchbook_mobile_otp"
-                onChange={(event) => {
-                  setPhone(event.target.value);
-                  setError('');
-                }}
-                placeholder="Enter mobile number"
-                value={phone}
-              />
-            </div>
-            <Button className="mt-4 w-full" disabled={loading === 'mobile'} onClick={handleMobileLogin} variant="brass">
-              {loading === 'mobile' ? <Loader2 className="animate-spin" size={17} /> : <Smartphone size={17} />}
-              Continue with mobile <ArrowRight size={17} />
-            </Button>
-          </div>
 
           {message ? (
             <div className="mt-5 flex items-start gap-3 rounded-xl border border-sage/20 bg-mist p-4 text-sm font-semibold text-ink">
