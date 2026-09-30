@@ -42,30 +42,6 @@ const features = [
   'Multi-language support',
 ];
 
-function consumeMobileAuthToken() {
-  const url = new URL(window.location.href);
-  const hashParams = new URLSearchParams(url.hash.replace(/^#/, ''));
-  const token =
-    url.searchParams.get('token') ||
-    url.searchParams.get('authToken') ||
-    url.searchParams.get('accessToken') ||
-    hashParams.get('token') ||
-    hashParams.get('authToken') ||
-    hashParams.get('accessToken');
-
-  if (!token) return;
-
-  sessionStorage.setItem('stitchbook_auth_token', token);
-  url.searchParams.delete('token');
-  url.searchParams.delete('authToken');
-  url.searchParams.delete('accessToken');
-  hashParams.delete('token');
-  hashParams.delete('authToken');
-  hashParams.delete('accessToken');
-  url.hash = hashParams.toString() ? `#${hashParams.toString()}` : '';
-  window.history.replaceState(null, '', `${url.pathname}${url.search}${url.hash}`);
-}
-
 function formatDate(value) {
   if (!value) return '-';
   return new Date(value).toLocaleDateString('en-IN', {
@@ -81,10 +57,6 @@ function BillingPage() {
   const [error, setError] = useState('');
   const [needsLogin, setNeedsLogin] = useState(false);
   const [checkoutPlan, setCheckoutPlan] = useState('');
-
-  useEffect(() => {
-    consumeMobileAuthToken();
-  }, []);
 
   const loadStatus = useCallback(async () => {
     setLoading(true);

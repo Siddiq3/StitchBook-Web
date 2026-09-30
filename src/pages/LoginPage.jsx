@@ -51,7 +51,10 @@ function LoginPage() {
     const redirectTo = searchParams.get('redirect');
     const isPublicUpgradeFlow = redirectTo?.startsWith('/upgrade/session/');
 
-    if (redirectTo?.startsWith('/') && !isPublicUpgradeFlow) {
+    // Same-origin paths only: "//host" and "/\\host" are treated as external URLs.
+    const isSafeRedirect = redirectTo?.startsWith('/') && !redirectTo.startsWith('//') && !redirectTo.startsWith('/\\');
+
+    if (isSafeRedirect && !isPublicUpgradeFlow) {
       setTimeout(() => navigate(redirectTo, { replace: true }), 400);
     } else {
       setTimeout(() => navigate('/dashboard', { replace: true }), 400);
