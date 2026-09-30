@@ -133,8 +133,7 @@ function UpgradeSessionPage() {
       await verifyUpgradeCheckout(sessionId, {
         razorpay_order_id: paymentResponse.razorpay_order_id || order.orderId,
         razorpay_payment_id: paymentResponse.razorpay_payment_id,
-        razorpay_signature: paymentResponse.razorpay_signature,
-        plan: session?.plan
+        razorpay_signature: paymentResponse.razorpay_signature
       });
 
       setPaymentSuccess(true);
