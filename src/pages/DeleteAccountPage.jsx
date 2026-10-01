@@ -1,3 +1,4 @@
+import DeleteAccountForm from '../components/DeleteAccountForm.jsx';
 import PageShell from '../components/PageShell.jsx';
 
 function DeleteAccountPage() {
@@ -11,6 +12,7 @@ function DeleteAccountPage() {
           <p className="mt-4 leading-7 text-muted">If you sign in by mobile number, include that number so the account can be identified. Do not send passwords, OTPs, or payment credentials.</p>
           <h2 className="mt-8 text-xl font-semibold">What the request covers</h2>
           <p className="mt-3 leading-7 text-muted">The request covers your StitchBook account and associated shop data. Support will confirm any records that cannot be removed immediately because they are needed for security, payment reconciliation, or legal obligations.</p>
+          <DeleteAccountForm />
         </article>
       </main>
     </PageShell>

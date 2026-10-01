@@ -9,6 +9,7 @@ function Footer() {
         <a className="flex min-h-11 items-center hover:text-brass" href="/#features">Product</a>
         <Link className="flex min-h-11 items-center hover:text-brass" to="/billing">Plans</Link>
         <Link className="flex min-h-11 items-center hover:text-brass" to="/about">About</Link>
+        <Link className="flex min-h-11 items-center hover:text-brass" to="/terms">Terms and support</Link>
         <Link className="flex min-h-11 items-center hover:text-brass" to="/privacy">Privacy</Link>
         <Link className="flex min-h-11 items-center hover:text-brass" to="/delete-account">Delete account</Link>
       </div></div>

@@ -1,0 +1,26 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {saveSession,getToken,getUser,clearSession,saveTokens} from '../src/api/authSession.js';
+function storage(){const data=new Map();return {data,setItem:(key,value)=>data.set(key,String(value)),getItem:key=>data.get(key)??null,removeItem:key=>data.delete(key)};}
+test('web saves short-lived access in session storage and removes persistent refresh credentials',()=>{
+  globalThis.localStorage=storage();globalThis.sessionStorage=storage();
+  localStorage.setItem('stitchbook_refresh_token','legacy-secret');
+  localStorage.setItem('stitchbook_auth_token','legacy-access');
+  saveSession({token:'access',refreshToken:'never-store-this',user:{id:7}});
+  assert.equal(getToken(),'access');assert.deepEqual(getUser(),{id:7});
+  assert.equal(localStorage.getItem('stitchbook_refresh_token'),null);
+  assert.equal(localStorage.getItem('stitchbook_auth_token'),null);
+  assert.equal(sessionStorage.getItem('stitchbook_refresh_token'),null);
+  saveTokens({token:'rotated',refreshToken:'still-not-stored'});
+  assert.equal(getToken(),'rotated');clearSession();assert.equal(getToken(),null);assert.equal(getUser(),null);
+});
+test('corrupted saved profile does not crash account restore',()=>{
+  localStorage.setItem('stitchbook_user','broken-json');assert.equal(getUser(),null);
+});
+test('switching accounts cannot resume another account deletion',()=>{
+  sessionStorage.setItem('stitchbook_deletion_token','account-7-capability');
+  sessionStorage.setItem('stitchbook_deletion_user','7');
+  saveSession({token:'new-access',user:{id:8}});
+  assert.equal(sessionStorage.getItem('stitchbook_deletion_token'),null);
+  assert.equal(sessionStorage.getItem('stitchbook_deletion_user'),null);
+});

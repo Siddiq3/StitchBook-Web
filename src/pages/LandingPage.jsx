@@ -4,7 +4,15 @@ import Button from '../components/Button.jsx';
 import PageShell from '../components/PageShell.jsx';
 import SectionHeading from '../components/SectionHeading.jsx';
 
-const downloadUrl = import.meta.env.VITE_APP_DOWNLOAD_URL || '#';
+const configuredDownloadUrl = import.meta.env.VITE_APP_DOWNLOAD_URL;
+const validDownloadUrl = (value) => {
+  try { const url = new URL(value); return url.protocol === 'https:' && url.hostname !== 'example.com' ? url.href : null; } catch { return null; }
+};
+const downloadUrl = validDownloadUrl(configuredDownloadUrl) || 'mailto:stitchbook3@gmail.com?subject=StitchBook%20app%20download';
+const storeUrls = {
+  google: validDownloadUrl(import.meta.env.VITE_GOOGLE_PLAY_URL),
+  apple: validDownloadUrl(import.meta.env.VITE_APP_STORE_URL),
+};
 
 const features = [
   {
@@ -55,11 +63,12 @@ const motionViewport = { once: true, amount: 0.2 };
 
 function StoreBadge({ type }) {
   const isApple = type === 'apple';
+  if (!storeUrls[type]) return null;
 
   return (
     <a
       className="inline-flex min-h-11 w-full items-center gap-2 rounded-xl border border-ink/12 bg-white px-3.5 py-2 text-left transition hover:border-brass/30 hover:bg-white sm:w-auto"
-      href={downloadUrl}
+      href={storeUrls[type]}
     >
       <StoreIcon type={type} />
       <span>
@@ -121,19 +130,19 @@ function LandingPage() {
             </p>
             <div className="mt-9 flex flex-col items-start gap-3 sm:flex-row sm:items-center">
               <Button className="w-full px-7 sm:w-auto" href={downloadUrl} variant="primary">
-                Download App <Smartphone size={17} />
+                {validDownloadUrl(configuredDownloadUrl) ? 'Download App' : 'Get the app'} <Smartphone size={17} />
               </Button>
               <Button className="w-full sm:w-auto" to="/billing" variant="secondary">
                 View Subscription Plans <ArrowRight size={17} />
               </Button>
             </div>
-            <div className="mt-6">
+            {(storeUrls.google || storeUrls.apple) && <div className="mt-6">
               <p className="text-xs font-semibold uppercase tracking-wide text-muted">Also available on</p>
               <div className="mt-3 flex flex-col gap-3 sm:flex-row">
                 <StoreBadge type="google" />
                 <StoreBadge type="apple" />
               </div>
-            </div>
+            </div>}
             <div className="mt-8 flex flex-wrap gap-2">
               {trustSignals.map((signal) => (
                 <span className="rounded-full border border-ink/10 bg-white/76 px-3 py-1.5 text-xs font-semibold text-muted" key={signal}>

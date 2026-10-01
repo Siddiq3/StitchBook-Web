@@ -1,32 +1,8 @@
 import apiClient from './client.js';
 
-const AUTH_TOKEN_KEY = 'stitchbook_auth_token';
-const REFRESH_TOKEN_KEY = 'stitchbook_refresh_token';
-const USER_KEY = 'stitchbook_user';
-
-export function saveAuthSession({ token, refreshToken, user }) {
-  sessionStorage.setItem(AUTH_TOKEN_KEY, token);
-  localStorage.setItem(AUTH_TOKEN_KEY, token);
-  localStorage.setItem(REFRESH_TOKEN_KEY, refreshToken);
-  localStorage.setItem(USER_KEY, JSON.stringify(user));
-}
-
-export function getAuthToken() {
-  return sessionStorage.getItem(AUTH_TOKEN_KEY) || localStorage.getItem(AUTH_TOKEN_KEY);
-}
-
-export function getSavedUser() {
-  const raw = localStorage.getItem(USER_KEY);
-  return raw ? JSON.parse(raw) : null;
-}
-
-export function clearAuthSession() {
-  sessionStorage.removeItem(AUTH_TOKEN_KEY);
-  sessionStorage.removeItem('stitchbook_payment_token');
-  localStorage.removeItem(AUTH_TOKEN_KEY);
-  localStorage.removeItem(REFRESH_TOKEN_KEY);
-  localStorage.removeItem(USER_KEY);
-}
+export {saveSession as saveAuthSession,getToken as getAuthToken,getUser as getSavedUser,clearSession as clearAuthSession} from './authSession.js';
+import {saveSession as saveAuthSession,clearSession as clearAuthSession} from './authSession.js';
+const USER_KEY='stitchbook_user';
 
 export async function getProfile() {
   const res = await apiClient.get('/auth/profile');

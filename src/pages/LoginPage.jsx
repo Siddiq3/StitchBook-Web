@@ -4,7 +4,8 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { LogoMark } from '../components/Logo.jsx';
 import { getAuthToken, loginWithGoogle } from '../api/authApi.js';
 
-const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
+const configuredGoogleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
+const googleClientId = configuredGoogleClientId && !configuredGoogleClientId.startsWith('your-') ? configuredGoogleClientId : '';
 
 const trustItems = [
   { icon: Users, label: 'Customers' },
@@ -68,7 +69,8 @@ function LoginPage() {
   }, [navigate]);
 
   useEffect(() => {
-    if (!googleClientId || !googleButtonRef.current) return;
+    if (!googleClientId) { setError('Google sign-in is not configured. Please contact support.'); return; }
+    if (!googleButtonRef.current) return;
 
     loadScript('https://accounts.google.com/gsi/client')
       .then(() => {

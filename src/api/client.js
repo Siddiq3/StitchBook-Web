@@ -1,9 +1,9 @@
+import {getToken as getStoredToken,saveTokens,clearSession as clearStoredSession} from './authSession.js';
 import axios from 'axios';
 
 const PRODUCTION_API_BASE_URL = 'https://stitchbook-backend.onrender.com/api';
 const AUTH_TOKEN_KEY = 'stitchbook_auth_token';
 const REFRESH_TOKEN_KEY = 'stitchbook_refresh_token';
-const USER_KEY = 'stitchbook_user';
 const PAYMENT_TOKEN_KEY = 'stitchbook_payment_token';
 
 const getDefaultApiBaseUrl = () => {
@@ -19,39 +19,13 @@ const getDefaultApiBaseUrl = () => {
 
 const apiClient = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL || getDefaultApiBaseUrl(),
-  timeout: 60000,
+  timeout: 30000,
+  withCredentials: true,
   headers: {
     'Content-Type': 'application/json',
     'x-client-platform': 'web'
   }
 });
-
-function getStoredToken() {
-  return sessionStorage.getItem(AUTH_TOKEN_KEY) || localStorage.getItem(AUTH_TOKEN_KEY);
-}
-
-function getStoredRefreshToken() {
-  return localStorage.getItem(REFRESH_TOKEN_KEY);
-}
-
-function saveTokens({ token, refreshToken }) {
-  if (token) {
-    sessionStorage.setItem(AUTH_TOKEN_KEY, token);
-    localStorage.setItem(AUTH_TOKEN_KEY, token);
-  }
-
-  if (refreshToken) {
-    localStorage.setItem(REFRESH_TOKEN_KEY, refreshToken);
-  }
-}
-
-function clearStoredSession() {
-  sessionStorage.removeItem(AUTH_TOKEN_KEY);
-  sessionStorage.removeItem(PAYMENT_TOKEN_KEY);
-  localStorage.removeItem(AUTH_TOKEN_KEY);
-  localStorage.removeItem(REFRESH_TOKEN_KEY);
-  localStorage.removeItem(USER_KEY);
-}
 
 apiClient.interceptors.request.use((config) => {
   // Public endpoints that should NOT receive auth tokens
@@ -109,16 +83,12 @@ apiClient.interceptors.response.use(
       return Promise.reject(error);
     }
 
-    const refreshToken = getStoredRefreshToken();
-    if (!refreshToken) {
-      clearStoredSession();
-      return Promise.reject(error);
-    }
 
     if (isRefreshing) {
       return new Promise((resolve, reject) => {
         failedQueue.push({ resolve, reject });
       }).then((token) => {
+        originalRequest._retry = true;
         originalRequest.headers.Authorization = `Bearer ${token}`;
         return apiClient(originalRequest);
       });
@@ -129,8 +99,10 @@ apiClient.interceptors.response.use(
 
     try {
       const response = await axios.post(`${apiClient.defaults.baseURL}/auth/refresh-token`, {
-        refreshToken,
+
       }, {
+        withCredentials: true,
+        timeout: 30000,
         headers: {
           'Content-Type': 'application/json',
           'x-client-platform': 'web',
@@ -140,18 +112,17 @@ apiClient.interceptors.response.use(
       const nextToken = response.data?.data?.token;
       const nextRefreshToken = response.data?.data?.refreshToken;
 
-      if (!nextToken || !nextRefreshToken) {
+      if (!nextToken) {
         throw new Error('Refresh response is missing tokens');
       }
 
       saveTokens({ token: nextToken, refreshToken: nextRefreshToken });
-      apiClient.defaults.headers.common.Authorization = `Bearer ${nextToken}`;
       originalRequest.headers.Authorization = `Bearer ${nextToken}`;
       processQueue(null, nextToken);
       return apiClient(originalRequest);
     } catch (refreshError) {
       processQueue(refreshError, null);
-      clearStoredSession();
+      if ([401, 403].includes(refreshError.response?.status)) clearStoredSession();
       return Promise.reject(refreshError);
     } finally {
       isRefreshing = false;
@@ -160,3 +131,17 @@ apiClient.interceptors.response.use(
 );
 
 export default apiClient;
+
+async function restoreSession() {
+  localStorage.removeItem(AUTH_TOKEN_KEY);
+  localStorage.removeItem(REFRESH_TOKEN_KEY);
+  if (getStoredToken()) return;
+  const response = await apiClient.post('/auth/refresh-token', {});
+  if (response.data?.data?.token) saveTokens(response.data.data);
+}
+
+let restoring;
+export function restoreWebSession() {
+  if (!restoring) restoring = restoreSession().finally(() => { restoring = null; });
+  return restoring;
+}
