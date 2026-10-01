@@ -1,345 +1,69 @@
-import { ArrowRight, BarChart3, Bell, CheckCircle2, ClipboardList, CreditCard, Languages, IndianRupee, Ruler, Sparkles, Smartphone, UserRound, Users } from "lucide-react";
-import { motion } from 'framer-motion';
+import { useState } from 'react';
+import { ArrowDown, ArrowRight, Check, ChevronRight, ClipboardList, IndianRupee, Plus, Ruler, Scissors, ShieldCheck, Smartphone, Users } from 'lucide-react';
 import Button from '../components/Button.jsx';
 import PageShell from '../components/PageShell.jsx';
-import SectionHeading from '../components/SectionHeading.jsx';
+import { plans } from '../data/plans.js';
 
-const configuredDownloadUrl = import.meta.env.VITE_APP_DOWNLOAD_URL;
-const validDownloadUrl = (value) => {
+function validDownloadUrl(value) {
   try { const url = new URL(value); return url.protocol === 'https:' && url.hostname !== 'example.com' ? url.href : null; } catch { return null; }
-};
-const downloadUrl = validDownloadUrl(configuredDownloadUrl) || 'mailto:stitchbook3@gmail.com?subject=StitchBook%20app%20download';
-const storeUrls = {
-  google: validDownloadUrl(import.meta.env.VITE_GOOGLE_PLAY_URL),
-  apple: validDownloadUrl(import.meta.env.VITE_APP_STORE_URL),
-};
+}
+const downloadUrl = validDownloadUrl(import.meta.env.VITE_APP_DOWNLOAD_URL) || 'mailto:stitchbook3@gmail.com?subject=StitchBook%20app%20download';
+const storeLinks = [['Google Play', validDownloadUrl(import.meta.env.VITE_GOOGLE_PLAY_URL)], ['App Store', validDownloadUrl(import.meta.env.VITE_APP_STORE_URL)]].filter(([, url]) => url);
+const previewTabs = [{ name: 'Orders', icon: ClipboardList }, { name: 'Measurements', icon: Ruler }, { name: 'Payments', icon: IndianRupee }];
+const orders = [
+  { initials: 'AK', name: 'Ananya Kumar', outfit: 'Linen kurta · #1042', status: 'Stitching', className: 'stitching', date: '06 Oct' },
+  { initials: 'RS', name: 'Riya Sharma', outfit: 'Silk blouse · #1043', status: 'Ready', className: 'ready', date: '07 Oct' },
+  { initials: 'VP', name: 'Vikram Patel', outfit: 'Cotton shirt · #1044', status: 'Cutting', className: 'cutting', date: '08 Oct' },
+];
+
+function ProductPreview() {
+  const [activeTab, setActiveTab] = useState('Orders');
+  return <div className="product-stage">
+    <div className="stage-note"><span /> LESS PAPERWORK. MORE POSSIBILITY.</div>
+    <div className="product-window">
+      <div className="window-toolbar"><div className="window-dots"><i /><i /><i /></div><span>YOUR SHOP, IN ONE PLACE</span><ShieldCheck size={14} /></div>
+      <div className="preview-content">
+        <div className="preview-shop"><span className="preview-shop-icon"><Scissors size={21} /></span><div><strong>The everyday atelier</strong><span>Shop owner workspace</span></div><span className="preview-avatar">S</span></div>
+        <div className="preview-greeting"><span>A little clarity for your day.</span><h2>Good morning, tailor.</h2></div>
+        <div className="preview-stats"><div><span>Active orders</span><strong>24 <small>in progress</small></strong></div><div><span>Ready to deliver</span><strong>08 <small>all stitched up</small></strong></div></div>
+        <div className="preview-tabs" role="tablist" aria-label="Explore the app preview">{previewTabs.map(({ name, icon: Icon }) => <button type="button" role="tab" aria-selected={activeTab === name} id={`tab-${name}`} aria-controls="preview-panel" key={name} onClick={() => setActiveTab(name)} tabIndex={activeTab === name ? 0 : -1} onKeyDown={event => { if (['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) { event.preventDefault(); const index = previewTabs.findIndex(tab => tab.name === activeTab); const next = event.key === 'Home' ? 0 : event.key === 'End' ? 2 : (index + (event.key === 'ArrowRight' ? 1 : 2)) % 3; setActiveTab(previewTabs[next].name); document.getElementById(`tab-${previewTabs[next].name}`)?.focus(); } }}><Icon size={15} />{name}</button>)}</div>
+        <div className="preview-panel" id="preview-panel" role="tabpanel" aria-labelledby={`tab-${activeTab}`} tabIndex={0}>
+          {activeTab === 'Orders' && <><div className="preview-list-heading"><strong>Upcoming deliveries</strong><span>3 orders</span></div>{orders.map(order => <div className="preview-order" key={order.name}><span className={`customer-initials ${order.className}`}>{order.initials}</span><div><strong>{order.name}</strong><span>{order.outfit}</span></div><div className="order-meta"><span className={`order-status ${order.className}`}>{order.status}</span><span>{order.date}</span></div></div>)}</>}
+          {activeTab === 'Measurements' && <><div className="preview-list-heading"><strong>Ananya’s kurta</strong><span>Saved measurements</span></div><div className="measurement-grid">{[['Chest', '36'], ['Waist', '30'], ['Shoulder', '14'], ['Length', '42']].map(([label, value]) => <div key={label}><span>{label}</span><strong>{value}<small> in</small></strong></div>)}</div><p className="preview-hint"><Check size={14} /> Ready to reuse on the next order.</p></>}
+          {activeTab === 'Payments' && <><div className="preview-list-heading"><strong>Order #1042</strong><span>Ananya Kumar</span></div><div className="payment-preview">{[['Order total', '₹1,800'], ['Advance received', '₹800'], ['Balance remaining', '₹1,000']].map(([label, value]) => <div key={label}><span>{label}</span><strong>{value}</strong></div>)}</div><p className="preview-hint"><Check size={14} /> Every advance and balance, accounted for.</p></>}
+        </div>
+        <div className="preview-bottom"><span><span className="live-dot" /> Everything in its place.</span><span>StitchBook</span></div>
+      </div>
+    </div>
+    <div className="stage-caption"><Smartphone size={15} /><span>Illustrative app preview · sample shop data</span></div>
+    <div className="stitched-orbit" aria-hidden="true" />
+  </div>;
+}
 
 const features = [
-  {
-    icon: Users,
-    title: 'Customer details',
-    description: 'Install the app to save customer names, phone numbers, measurements, and past orders.',
-  },
-  {
-    icon: Ruler,
-    title: 'Measurements',
-    description: 'Record measurements inside the mobile app and reuse them whenever the customer comes back.',
-  },
-  {
-    icon: CreditCard,
-    title: 'Payments',
-    description: 'Use the app for advance paid, balance amount, and payment history for every order.',
-  },
-  {
-    icon: Bell,
-    title: 'Order updates',
-    description: 'Track pending, stitching, ready, and delivered orders from your phone.',
-  },
+  { number: '01', icon: Users, title: 'Remember every customer.', description: 'Names, contact details, past orders. Give every returning customer a familiar welcome.' },
+  { number: '02', icon: Ruler, title: 'A perfect fit, on record.', description: 'Save measurements by outfit and reuse them. The right details, without searching through notebooks.' },
+  { number: '03', icon: ClipboardList, title: 'Follow every stitch.', description: 'From pending to cutting, stitching, ready, and delivered. Keep delivery dates and progress together.' },
+  { number: '04', icon: IndianRupee, title: 'Know what’s paid. And due.', description: 'Record advances, track outstanding balances, and keep payment history alongside each order.' },
+];
+const faqs = [
+  ['What can I do with StitchBook?', 'The mobile app brings together customers, outfit measurements, orders, delivery dates, payments, invoices, and staff assignments. This website is where you sign in and manage your subscription.'],
+  ['How do I get started?', 'Get the StitchBook mobile app and sign in as a shop owner. New accounts receive a trial. When you are ready, sign in here to choose and pay for a plan.'],
+  ['Can my staff use StitchBook?', 'Yes. Team includes access for 2 staff members, and Pro includes 5. Assign cutting and stitching work to your staff. Basic provides owner-only access.'],
+  ['How do payments for my subscription work?', 'Choose a plan on this website and complete the secure Razorpay checkout. Your subscription status is updated after payment verification, so you can continue working in the app.'],
 ];
 
-const steps = [
-  ['Install app', 'Download StitchBook on your phone and sign in as the shop owner.'],
-  ['Choose plan', 'Use this website to start or renew your subscription securely.'],
-  ['Run shop in app', 'Manage customers, measurements, orders, staff work, and payments in the app.'],
-];
-
-const trustSignals = ['10-day trial', 'Made for Indian shops', 'Staff access plans'];
-
-const fadeUp = {
-  hidden: { opacity: 0, y: 24 },
-  visible: { opacity: 1, y: 0 },
-};
-
-const stagger = {
-  hidden: {},
-  visible: {
-    transition: {
-      staggerChildren: 0.08,
-    },
-  },
-};
-
-const motionViewport = { once: true, amount: 0.2 };
-
-function StoreBadge({ type }) {
-  const isApple = type === 'apple';
-  if (!storeUrls[type]) return null;
-
-  return (
-    <a
-      className="inline-flex min-h-11 w-full items-center gap-2 rounded-xl border border-ink/12 bg-white px-3.5 py-2 text-left transition hover:border-brass/30 hover:bg-white sm:w-auto"
-      href={storeUrls[type]}
-    >
-      <StoreIcon type={type} />
-      <span>
-        <span className="block text-[10px] font-semibold uppercase tracking-wide text-muted">
-          {isApple ? 'Download on the' : 'Get it on'}
-        </span>
-        <span className="block text-xs font-semibold text-ink">{isApple ? 'App Store' : 'Google Play'}</span>
-      </span>
-    </a>
-  );
+export default function LandingPage() {
+  return <PageShell><div className="landing">
+    <section className="landing-hero landing-container">
+      <div className="hero-copy"><p className="eyebrow"><span className="live-dot" /> MADE FOR THE WAY YOU TAILOR</p><h1>A little less admin.<br />A lot more <em>craft.</em></h1><p className="hero-description">Your customers, measurements, orders, and payments — beautifully organized in one simple app. Make room for the work you love.</p><div className="hero-actions"><Button className="landing-primary" href={downloadUrl}>Get the StitchBook app <ArrowRight size={18} /></Button><a className="text-link" href="#features">Explore the app <ArrowDown size={16} /></a></div><div className="hero-reassurance"><span><Check size={15} /> Built for tailoring shops</span><span><Check size={15} /> Plans for you & your team</span></div>{storeLinks.length > 0 && <div className="store-links">{storeLinks.map(([name, url]) => <a href={url} key={name}><Smartphone size={15} />{name}<ArrowRight size={14} /></a>)}</div>}</div>
+      <ProductPreview />
+    </section>
+    <div className="audience-strip"><div className="landing-container"><span>ONE APP. MANY WAYS TO CREATE.</span><p>Independent tailors <i /> Boutique owners <i /> Fashion designers <i /> Growing teams</p><Scissors size={24} aria-hidden="true" /></div></div>
+    <section className="landing-container feature-section" id="features"><div className="section-intro"><div><p className="eyebrow">THE DETAILS MAKE THE DIFFERENCE</p><h2>Everything your shop needs.<br /><em>Nothing in your way.</em></h2></div><p>From the first measurement to the final handover, keep the whole story of every order in your pocket.</p></div><div className="feature-editorial">{features.map(({ number, icon: Icon, title, description }) => <article key={number}><div className="feature-top"><Icon size={24} strokeWidth={1.5} /><span>{number}</span></div><h3>{title}</h3><p>{description}</p></article>)}</div></section>
+    <section className="craft-section" id="how-it-works"><div className="craft-photo"><img src="/images/tailoring-craft.webp" alt="Tailor guiding ivory linen through a sewing machine in warm workshop light" loading="lazy" width="1536" height="1024" /><span>FOR THE HANDS THAT MAKE IT HAPPEN.</span></div><div className="craft-copy"><p className="eyebrow">YOUR CRAFT. YOUR BUSINESS.</p><h2>You make the fit.<br />We keep the<br /><em>details together.</em></h2><p>A busy shop has enough moving parts. StitchBook gives your day a little structure, so your attention stays where it belongs.</p><ol className="workflow"><li><span>01</span><div><h3>Make your shop at home.</h3><p>Install the app and sign in as the owner.</p></div></li><li><span>02</span><div><h3>Bring the details together.</h3><p>Add customers, save measurements, and record orders.</p></div></li><li><span>03</span><div><h3>Keep the whole team in step.</h3><p>Choose a plan here. Manage daily work in the app.</p></div></li></ol></div></section>
+    <section className="landing-container pricing-section" id="plans"><div className="section-intro"><div><p className="eyebrow">A PLAN THAT FITS YOUR SHOP</p><h2>Small shop. Big plans.<br /><em>Room for both.</em></h2></div><p>Start with the people you have today.<br />Choose more staff access as your shop grows.</p></div><div className="pricing-columns">{Object.entries(plans).map(([key, plan]) => <article className={`pricing-column ${key === 'team' ? 'featured-plan' : ''}`} key={key}><div className="plan-heading"><h3>{plan.label}</h3>{key === 'team' && <span>FOR SMALL TEAMS</span>}</div><p>{plan.description}</p><div className="plan-price">₹{plan.amount}<span>/ month</span></div><div className="plan-access"><Users size={17} />{plan.access}</div><ul>{['Customers & measurements', 'Orders & delivery tracking', 'Payments & invoices', ...(plan.staffLimit ? ['Cutting & stitching assignments'] : ['Your own shop workspace'])].map(feature => <li key={feature}><Check size={15} />{feature}</li>)}</ul><Button className={key === 'team' ? 'landing-primary' : 'plan-button'} to="/billing" variant={key === 'team' ? 'primary' : 'secondary'}>Choose {plan.label}<ArrowRight size={16} /></Button></article>)}</div><p className="pricing-note"><ShieldCheck size={16} /> Secure checkout with Razorpay. Manage your subscription on the web; run your shop in the app.</p></section>
+    <section className="faq-section landing-container"><div><p className="eyebrow">A FEW THINGS TO KNOW</p><h2>Good questions.<br /><em>Simple answers.</em></h2><a className="text-link" href="mailto:stitchbook3@gmail.com">Talk to us <ArrowRight size={16} /></a></div><div className="faq-list">{faqs.map(([question, answer]) => <details key={question}><summary>{question}<Plus size={19} /></summary><p>{answer}</p></details>)}</div></section>
+    <section className="landing-cta"><div className="landing-container"><Scissors size={32} strokeWidth={1.3} /><p className="eyebrow">LESS TO MANAGE. MORE TO MAKE.</p><h2>Your next chapter,<br /><em>beautifully organized.</em></h2><p>Bring a little calm to your busy tailoring shop.</p><Button className="landing-primary" href={downloadUrl}>Get the StitchBook app<ArrowRight size={18} /></Button><a className="cta-secondary" href="/login">Already with us? Sign in <ChevronRight size={14} /></a></div></section>
+  </div></PageShell>;
 }
-
-function StoreIcon({ type }) {
-  if (type === 'apple') {
-    return (
-      <svg aria-hidden="true" className="h-6 w-6 shrink-0 text-brass" fill="currentColor" viewBox="0 0 24 24">
-        <path d="M16.8 12.6c0-2.4 2-3.6 2.1-3.7-1.1-1.7-2.9-1.9-3.5-1.9-1.5-.2-2.9.9-3.6.9-.8 0-1.9-.9-3.1-.8-1.6 0-3.1.9-3.9 2.4-1.7 2.9-.4 7.2 1.2 9.6.8 1.2 1.8 2.5 3.1 2.4 1.2-.1 1.7-.8 3.2-.8s1.9.8 3.2.8c1.3 0 2.2-1.2 3-2.4.9-1.4 1.3-2.7 1.3-2.8 0-.1-2.9-1.2-3-3.7ZM14.4 5.4c.7-.8 1.1-1.9 1-3-.9 0-2 .6-2.7 1.4-.6.7-1.1 1.9-1 3 .9.1 2-.5 2.7-1.4Z" />
-      </svg>
-    );
-  }
-
-  return (
-    <svg aria-hidden="true" className="h-6 w-6 shrink-0 text-brass" fill="none" viewBox="0 0 24 24">
-      <path d="M5.5 3.6c-.4.2-.7.7-.7 1.4v14c0 .7.3 1.2.8 1.4l8.1-8.4-8.2-8.4Z" fill="currentColor" opacity="0.72" />
-      <path d="m15 10.7 2.3-2.4L7.1 2.6c-.6-.3-1.1-.3-1.5-.1l9.4 8.2Z" fill="currentColor" opacity="0.95" />
-      <path d="m15 13.3-9.4 8.2c.4.2.9.2 1.5-.1l10.2-5.7-2.3-2.4Z" fill="currentColor" opacity="0.55" />
-      <path d="m19.2 9.4-1.9-1.1-2.6 2.7 2.6 2.7 1.9-1.1c1.3-.8 1.3-2.4 0-3.2Z" fill="currentColor" />
-    </svg>
-  );
-}
-
-function LandingPage() {
-  const dailyWorkItems = [
-    ['Customer added', UserRound],
-    ['Measurements saved', Ruler],
-    ['Payment recorded', IndianRupee],
-  ];
-
-  return (
-    <PageShell>
-      <section className="brand-soft relative overflow-hidden text-ink">
-        <div className="absolute inset-x-0 top-0 h-px bg-brass/15" />
-        <div className="mx-auto grid max-w-7xl items-center gap-10 px-4 pb-14 pt-12 sm:px-6 lg:grid-cols-[0.95fr_1.05fr] md:gap-12 md:pb-20 md:pt-20 lg:px-8">
-          <motion.div
-            animate="visible"
-            initial="hidden"
-            transition={{ duration: 0.55, ease: 'easeOut' }}
-            variants={fadeUp}
-          >
-            <div className="inline-flex items-center gap-2 rounded-full border border-brass/15 bg-white px-4 py-2 text-sm font-semibold text-muted">
-              <Sparkles size={16} className="text-brass" />
-              Simple app for tailoring shops
-            </div>
-            <h1 className="brand-heading text-balance mt-7 max-w-3xl text-3xl font-semibold leading-tight sm:text-4xl lg:text-5xl">
-              Your shop, organized.
-            </h1>
-            <p className="mt-6 max-w-xl text-lg leading-8 text-muted md:text-xl">
-              StitchBook’s full shop features are in the mobile app. Use this website to sign in, choose a plan, renew subscription, and download the app.
-            </p>
-            <div className="mt-9 flex flex-col items-start gap-3 sm:flex-row sm:items-center">
-              <Button className="w-full px-7 sm:w-auto" href={downloadUrl} variant="primary">
-                {validDownloadUrl(configuredDownloadUrl) ? 'Download App' : 'Get the app'} <Smartphone size={17} />
-              </Button>
-              <Button className="w-full sm:w-auto" to="/billing" variant="secondary">
-                View Subscription Plans <ArrowRight size={17} />
-              </Button>
-            </div>
-            {(storeUrls.google || storeUrls.apple) && <div className="mt-6">
-              <p className="text-xs font-semibold uppercase tracking-wide text-muted">Also available on</p>
-              <div className="mt-3 flex flex-col gap-3 sm:flex-row">
-                <StoreBadge type="google" />
-                <StoreBadge type="apple" />
-              </div>
-            </div>}
-            <div className="mt-8 flex flex-wrap gap-2">
-              {trustSignals.map((signal) => (
-                <span className="rounded-full border border-ink/10 bg-white/76 px-3 py-1.5 text-xs font-semibold text-muted" key={signal}>
-                  {signal}
-                </span>
-              ))}
-            </div>
-            <ul className="mt-8 grid gap-3 text-sm text-muted">
-              {['Keep customer measurements together', 'Track order progress and delivery dates', 'Record advances and outstanding balances'].map(item => <li className="flex items-center gap-2" key={item}><CheckCircle2 size={18} className="shrink-0 text-brass" />{item}</li>)}
-            </ul>
-          </motion.div>
-
-          <motion.div
-            animate="visible"
-            className="relative"
-            initial={{ opacity: 0, scale: 0.96 }}
-            transition={{ delay: 0.12, duration: 0.55, ease: 'easeOut' }}
-            variants={{ visible: { opacity: 1, scale: 1 } }}
-          >
-            <div className="overflow-hidden rounded-2xl border border-brass/15 bg-white p-3">
-              <div className="relative overflow-hidden rounded-2xl">
-                <img
-                  alt="Premium tailoring studio with fabrics, garment patterns, and tailoring tools"
-                  className="h-[24rem] w-full object-cover sm:h-[28rem] md:h-[34rem]"
-                  src="/images/stitch-hero.png"
-                />
-                <div className="absolute inset-x-4 bottom-4 rounded-2xl border border-ink/10 bg-white/92 p-4 text-ink -md">
-                  <p className="brand-solid inline-flex rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-wide text-white">Daily work</p>
-                  <div className="mt-4 grid gap-3">
-                    {dailyWorkItems.map(([item, Icon]) => (
-                      <motion.div
-                        className="flex items-center justify-between rounded-2xl border border-brass/10 bg-mist px-4 py-3"
-                        key={item}
-                        transition={{ duration: 0.16 }}
-
-                      >
-                        <span className="text-sm font-medium text-ink/75">{item}</span>
-                        <Icon size={18} className="text-brass" />
-                      </motion.div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
-      <div className="section-divider h-px" />
-
-      <section className="bg-white px-4 py-16 sm:px-6 sm:py-20 lg:px-8" id="features">
-        <motion.div
-          className="mx-auto max-w-7xl"
-          initial="hidden"
-          transition={{ duration: 0.45, ease: 'easeOut' }}
-          variants={fadeUp}
-          viewport={motionViewport}
-          whileInView="visible"
-        >
-          <SectionHeading
-            eyebrow="Inside the mobile app"
-            title="Daily shop work happens in the app"
-            description="The website is for account and subscription. Install the StitchBook app to use the full tailoring workflow."
-          />
-          <motion.div className="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-6" variants={stagger}>
-            {features.map((feature) => {
-              const Icon = feature.icon;
-
-              return (
-                <motion.article
-                  className="surface-card rounded-2xl bg-bone p-6 lg:col-span-3 xl:col-span-3"
-                  key={feature.title}
-                  variants={fadeUp}
-
-                  transition={{ duration: 0.2 }}
-                >
-                  <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-mist text-ink">
-                    <Icon size={20} />
-                  </div>
-                  <h3 className="mt-6 text-xl font-semibold">{feature.title}</h3>
-                  <p className="mt-3 text-sm leading-6 text-muted">{feature.description}</p>
-                </motion.article>
-              );
-            })}
-          </motion.div>
-        </motion.div>
-      </section>
-
-      <section className="bg-linen px-4 py-16 sm:px-6 sm:py-20 lg:px-8" id="how-it-works">
-        <motion.div
-          className="mx-auto max-w-7xl"
-          initial="hidden"
-          variants={fadeUp}
-          viewport={motionViewport}
-          whileInView="visible"
-        >
-          <SectionHeading
-            eyebrow="How it works"
-            title="Website for subscription, app for daily work"
-          />
-          <motion.div className="relative mt-12 grid gap-5 md:grid-cols-3" variants={stagger}>
-            {steps.map(([title, description], index) => (
-              <motion.article className="surface-card rounded-2xl bg-bone/82 p-7" key={title} variants={fadeUp}>
-                <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-brass text-sm font-semibold text-white">
-                  {index + 1}
-                </span>
-                <h3 className="mt-7 font-sans text-3xl font-semibold">{title}</h3>
-                <p className="mt-3 text-sm leading-6 text-muted">{description}</p>
-              </motion.article>
-            ))}
-          </motion.div>
-        </motion.div>
-      </section>
-
-      <section className="bg-mist px-4 py-16 text-ink sm:px-6 sm:py-20 lg:px-8" id="languages">
-        <motion.div
-          className="mx-auto grid max-w-7xl gap-12 md:grid-cols-[0.9fr_1.1fr] md:items-center"
-          initial="hidden"
-          variants={fadeUp}
-          viewport={motionViewport}
-          whileInView="visible"
-        >
-          <div>
-            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white text-brass">
-              <Languages size={22} />
-            </div>
-            <h2 className="text-balance mt-6 font-sans text-4xl font-semibold leading-tight sm:text-3xl md:text-4xl">
-              Made for Indian tailoring shops
-            </h2>
-            <p className="mt-4 text-base leading-7 text-muted">
-              Install the app and use StitchBook in the way your shop already works. The website stays simple for login, subscription, and account support.
-            </p>
-          </div>
-          <motion.div className="grid gap-4 sm:grid-cols-2" variants={stagger}>
-            {['English', 'Hindi', 'Punjabi', 'Gujarati', 'Marathi', 'Telugu', 'Bengali'].map((language) => (
-              <motion.div className="flex items-center justify-between rounded-2xl border border-ink/10 bg-white px-5 py-4" key={language} variants={fadeUp}>
-                <span className="font-semibold">{language}</span>
-                <CheckCircle2 size={18} className="text-brass" />
-              </motion.div>
-            ))}
-          </motion.div>
-        </motion.div>
-      </section>
-
-      <section className="px-4 py-16 sm:px-6 sm:py-20 lg:px-8" id="insights">
-        <motion.div
-          className="mx-auto grid max-w-7xl gap-12 md:grid-cols-[1fr_1.1fr] md:items-center"
-          initial="hidden"
-          variants={fadeUp}
-          viewport={motionViewport}
-          whileInView="visible"
-        >
-          <div>
-            <SectionHeading
-              align="left"
-              eyebrow="Subscription website"
-              title="Buy or renew your plan here"
-              description="Use the website for secure checkout, billing status, and plan upgrades. Open the app for customers, measurements, orders, and staff work."
-            />
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <Button className="w-full sm:w-auto" to="/billing">View Plans</Button>
-              <Button className="w-full sm:w-auto" href={downloadUrl} variant="secondary">Download App</Button>
-            </div>
-          </div>
-          <motion.div className="surface-card rounded-2xl p-5" variants={fadeUp}>
-            <div className="flex items-center justify-between border-b border-ink/10 pb-4">
-              <div>
-                <p className="text-xs font-semibold uppercase tracking-wide text-brass">Website account</p>
-                <h3 className="mt-1 text-lg font-semibold">Subscription at a glance</h3>
-              </div>
-              <BarChart3 className="text-sage" size={28} />
-            </div>
-            <div className="mt-5 grid gap-3">
-              {[
-                ['Choose Basic, Team, or Pro plan', ClipboardList],
-                ['Pay securely with Razorpay checkout', CreditCard],
-                ['Continue daily work inside the app', Smartphone],
-              ].map(([item, Icon]) => (
-                <div className="flex items-center gap-3 rounded-2xl border border-ink/10 px-4 py-3" key={item}>
-                  <Icon size={17} className="text-brass" />
-                  <span className="text-sm font-medium text-muted">{item}</span>
-                </div>
-              ))}
-            </div>
-          </motion.div>
-        </motion.div>
-      </section>
-
-      <section className="border-t border-border bg-white px-4 py-12 sm:px-6 lg:px-8">
-        <div className="mx-auto flex max-w-7xl flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
-          <SectionHeading align="left" eyebrow="Support" title="Questions about your shop account?" description="Contact StitchBook for help with your account or subscription." />
-          <Button href="mailto:stitchbook3@gmail.com" variant="secondary">Contact support</Button>
-        </div>
-      </section>
-
-    </PageShell>
-  );
-}
-
-export default LandingPage;
