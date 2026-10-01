@@ -1,4 +1,4 @@
-import { ChevronDown, LayoutDashboard, LogIn, LogOut, Menu, X } from 'lucide-react';
+import { LayoutDashboard, LogIn, LogOut, Menu, X } from 'lucide-react';
 import { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { getAuthToken, getSavedUser, logout } from '../api/authApi.js';
@@ -23,7 +23,7 @@ function Navbar() {
   const userLabel = user?.name || user?.email || 'Account';
   const initials = getInitials(user);
   const navLinkClass = ({ isActive }) =>
-    `text-sm font-semibold transition hover:text-ink ${isActive ? 'text-ink' : 'text-ink/62'}`;
+    `text-sm font-semibold transition hover:text-ink ${isActive ? 'text-ink' : 'text-muted'}`;
 
   const handleLogout = async () => {
     await logout();
@@ -32,27 +32,26 @@ function Navbar() {
   };
 
   return (
-    <header className="sticky top-0 z-40 border-b border-ink/10 bg-bone/92 text-ink shadow-sm backdrop-blur-xl">
+    <header className="sticky top-0 z-40 border-b border-ink/10 bg-white text-ink">
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
         <Logo />
 
-        <div className="hidden items-center gap-8 md:flex">
-          <NavLink className={navLinkClass} to="/">Home</NavLink>
-          <a className="text-sm font-semibold text-ink/62 transition hover:text-ink" href="/#features">App Features</a>
+        <div className="hidden items-center gap-8 lg:flex">
+          <a className="text-sm font-semibold text-muted transition hover:text-ink" href="/#features">Product</a>
           <NavLink className={navLinkClass} to="/billing">Plans</NavLink>
           <NavLink className={navLinkClass} to="/about">About</NavLink>
         </div>
 
-        <div className="hidden md:block">
+        <div className="hidden lg:block">
           <div className="flex items-center gap-3">
             {isLoggedIn ? (
               <>
-                <span className="inline-flex min-h-11 items-center gap-2 rounded-full border border-ink/10 bg-white/72 px-3 py-1.5 shadow-sm">
-                  <span className="flex h-7 w-7 items-center justify-center rounded-full bg-ink text-[11px] font-extrabold text-bone">
+                <span className="inline-flex min-h-11 items-center gap-2 rounded-full border border-ink/10 bg-white px-3 py-1.5">
+                  <span className="flex h-7 w-7 items-center justify-center rounded-full bg-ink text-[11px] font-semibold text-bone">
                     {initials}
                   </span>
-                  <span className="max-w-36 truncate text-sm font-bold text-ink/72">{userLabel}</span>
-                  <ChevronDown size={15} className="text-ink/42" />
+                  <span className="hidden 2xl:block max-w-36 truncate text-sm font-semibold text-muted">{userLabel}</span>
+                  <ChevronDown size={15} className="text-muted" />
                 </span>
                 <Button to="/dashboard" variant="secondary">
                   <LayoutDashboard size={17} />
@@ -69,18 +68,18 @@ function Navbar() {
           </div>
         </div>
 
-        <div className="flex items-center gap-2 md:hidden">
+        <div className="flex items-center gap-2 lg:hidden">
           {isLoggedIn ? (
             <button
               aria-label="Open account menu"
-              className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-brass text-xs font-extrabold text-white shadow-sm"
+              className="inline-flex h-11 w-11 items-center justify-center rounded-full bg-brass text-xs font-semibold text-white"
               onClick={() => setOpen((value) => !value)}
               type="button"
             >
               {initials}
             </button>
           ) : (
-            <Button className="min-h-10 rounded-full px-4 py-2 text-xs" to="/login" variant="primary">
+            <Button className="min-h-11 rounded-full px-4 py-2 text-xs" to="/login" variant="primary">
               <LogIn size={15} />
               Login
             </Button>
@@ -88,7 +87,8 @@ function Navbar() {
           <button
             aria-label="Toggle navigation"
             aria-expanded={open}
-            className="rounded-xl border border-ink/10 bg-white/90 p-2 shadow-sm"
+            aria-controls="mobile-navigation"
+            className="min-h-11 min-w-11 rounded-xl border border-border bg-white p-2"
             onClick={() => setOpen((value) => !value)}
             type="button"
           >
@@ -98,22 +98,21 @@ function Navbar() {
       </nav>
 
       {open && (
-        <div className="border-t border-ink/10 bg-bone px-4 py-5 shadow-sm md:hidden">
+        <div id="mobile-navigation" className="border-t border-ink/10 bg-bone px-4 py-5 lg:hidden">
           <div className="mx-auto grid max-w-7xl gap-5">
             <div className="grid gap-2">
-              <NavLink className="rounded-xl px-3 py-2 text-base font-bold text-ink transition hover:bg-white" onClick={() => setOpen(false)} to="/">Home</NavLink>
-              <a className="rounded-xl px-3 py-2 text-base font-bold text-ink/72 transition hover:bg-white hover:text-ink" href="/#features" onClick={() => setOpen(false)}>App Features</a>
-              <NavLink className="rounded-xl px-3 py-2 text-base font-bold text-ink/72 transition hover:bg-white hover:text-ink" onClick={() => setOpen(false)} to="/billing">Plans</NavLink>
-              <NavLink className="rounded-xl px-3 py-2 text-base font-bold text-ink/72 transition hover:bg-white hover:text-ink" onClick={() => setOpen(false)} to="/about">About</NavLink>
+              <a className="min-h-11 flex items-center rounded-xl px-3 py-2 text-base font-semibold text-muted transition hover:bg-white hover:text-ink" href="/#features" onClick={() => setOpen(false)}>Product</a>
+              <NavLink className="min-h-11 flex items-center rounded-xl px-3 py-2 text-base font-semibold text-muted transition hover:bg-white hover:text-ink" onClick={() => setOpen(false)} to="/billing">Plans</NavLink>
+              <NavLink className="min-h-11 flex items-center rounded-xl px-3 py-2 text-base font-semibold text-muted transition hover:bg-white hover:text-ink" onClick={() => setOpen(false)} to="/about">About</NavLink>
             </div>
             {isLoggedIn ? (
-              <div className="rounded-2xl border border-ink/10 bg-white p-3 shadow-sm">
+              <div className="rounded-2xl border border-ink/10 bg-white p-3">
                 <div className="inline-flex min-h-11 w-full items-center gap-2 rounded-full bg-mist px-3 py-1.5">
-                  <span className="flex h-7 w-7 items-center justify-center rounded-full bg-ink text-[11px] font-extrabold text-bone">
+                  <span className="flex h-7 w-7 items-center justify-center rounded-full bg-ink text-[11px] font-semibold text-bone">
                     {initials}
                   </span>
-                  <span className="truncate text-sm font-bold text-ink/72">{userLabel}</span>
-                  <ChevronDown size={15} className="ml-auto text-ink/42" />
+                  <span className="truncate text-sm font-semibold text-muted">{userLabel}</span>
+                  <ChevronDown size={15} className="ml-auto text-muted" />
                 </div>
                 <Button className="mt-3 w-full" onClick={() => setOpen(false)} to="/dashboard" variant="primary">
                   <LayoutDashboard size={17} />
@@ -125,8 +124,8 @@ function Navbar() {
                 </Button>
               </div>
             ) : (
-              <div className="rounded-2xl border border-ink/10 bg-white p-3 shadow-sm">
-                <p className="px-1 text-sm font-semibold leading-6 text-ink/62">
+              <div className="rounded-2xl border border-ink/10 bg-white p-3">
+                <p className="px-1 text-sm font-semibold leading-6 text-muted">
                   Sign in to manage your subscription and download the mobile app.
                 </p>
                 <Button className="mt-3 w-full" onClick={() => setOpen(false)} to="/login" variant="primary">

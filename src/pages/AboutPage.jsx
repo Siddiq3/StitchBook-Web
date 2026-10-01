@@ -40,13 +40,13 @@ function AboutPage() {
           variants={fadeUp}
         >
           <div>
-            <p className="text-xs font-extrabold uppercase tracking-[0.2em] text-brass">About StitchBook</p>
-            <h1 className="text-balance mt-4 font-serif text-5xl font-semibold leading-tight sm:text-6xl md:text-7xl">
+            <p className="text-xs font-semibold uppercase tracking-wide text-brass">About StitchBook</p>
+            <h1 className="text-balance mt-4 font-sans text-3xl font-semibold leading-tight sm:text-4xl md:text-4xl">
               We help tailoring shops stay organized.
             </h1>
           </div>
-          <div className="rounded-lg border border-ink/10 bg-white p-7 shadow-sm">
-            <p className="text-lg leading-8 text-ink/68">
+          <div className="rounded-2xl border border-ink/10 bg-white p-7">
+            <p className="text-lg leading-8 text-muted">
               StitchBook is made for tailors, boutiques, and fashion designers.
               It helps you manage customers, measurements, orders, payments, and delivery details from one app.
             </p>
@@ -100,15 +100,15 @@ function AboutPage() {
 
               return (
                 <motion.article
-                  className="rounded-lg border border-ink/10 bg-white/72 p-7 shadow-sm"
+                  className="rounded-2xl border border-ink/10 bg-white p-7"
                   key={value.title}
-                  whileHover={{ y: -4 }}
+
                 >
-                  <div className="flex h-11 w-11 items-center justify-center rounded-lg bg-ink text-bone">
+                  <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-ink text-bone">
                     <Icon size={20} />
                   </div>
-                  <h3 className="mt-6 text-xl font-extrabold">{value.title}</h3>
-                  <p className="mt-3 text-sm leading-6 text-ink/65">{value.description}</p>
+                  <h3 className="mt-6 text-xl font-semibold">{value.title}</h3>
+                  <p className="mt-3 text-sm leading-6 text-muted">{value.description}</p>
                 </motion.article>
               );
             })}
@@ -125,19 +125,19 @@ function AboutPage() {
           whileInView="visible"
         >
           <div>
-            <p className="text-xs font-extrabold uppercase tracking-[0.2em] text-brass">Contact</p>
-            <h2 className="mt-4 font-serif text-4xl font-semibold leading-[0.95] sm:text-5xl md:text-6xl">
+            <p className="text-xs font-semibold uppercase tracking-wide text-brass">Contact</p>
+            <h2 className="mt-4 font-sans text-4xl font-semibold leading-tight sm:text-3xl md:text-4xl">
               Talk to StitchBook
             </h2>
           </div>
           <div className="grid gap-4 text-bone/75">
-            <a className="flex items-center gap-3 rounded-lg border border-white/10 p-4 hover:bg-white/5" href="mailto:stitchbook3@gmail.com">
+            <a className="flex items-center gap-3 rounded-2xl border border-white/10 p-4 hover:bg-white/5" href="mailto:stitchbook3@gmail.com">
               <Mail size={18} /> stitchbook3@gmail.com
             </a>
-            <a className="flex items-center gap-3 rounded-lg border border-white/10 p-4 hover:bg-white/5" href="tel:+919705116606">
+            <a className="flex items-center gap-3 rounded-2xl border border-white/10 p-4 hover:bg-white/5" href="tel:+919705116606">
               <Phone size={18} /> +91 97051 16606
             </a>
-            <span className="flex items-center gap-3 rounded-lg border border-white/10 p-4">
+            <span className="flex items-center gap-3 rounded-2xl border border-white/10 p-4">
               <MapPin size={18} /> Hyderabad, India
             </span>
           </div>

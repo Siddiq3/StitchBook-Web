@@ -148,12 +148,12 @@ function UpgradeSessionPage() {
   return (
     <main className="min-h-screen bg-bone px-4 py-8 text-ink sm:px-6">
       <div className="mx-auto flex max-w-4xl flex-col gap-6">
-        <header className="premium-card flex items-center justify-between gap-4 rounded-2xl border border-ink/10 bg-white p-5 shadow-soft">
+        <header className="surface-card flex flex-wrap items-center justify-between gap-4 rounded-2xl border border-ink/10 bg-white p-5">
           <div className="flex items-center gap-3">
             <LogoMark />
             <div>
-              <p className="font-serif text-2xl font-semibold leading-none">StitchBook</p>
-              <p className="mt-1 text-sm font-bold text-ink/55">Plan checkout</p>
+              <p className="font-sans text-2xl font-semibold leading-none">StitchBook</p>
+              <p className="mt-1 text-sm font-semibold text-muted">Plan checkout</p>
             </div>
           </div>
           <div className="flex items-center gap-2 rounded-full bg-mist px-3 py-1 text-sm font-semibold text-sage">
@@ -163,41 +163,41 @@ function UpgradeSessionPage() {
         </header>
 
         {loading ?
-        <section className="rounded-2xl border border-ink/10 bg-white p-8 text-center shadow-soft">
+        <section role="status" aria-busy="true" className="rounded-2xl border border-ink/10 bg-white p-8 text-center">
             <Loader2 className="mx-auto animate-spin text-brass" size={28} />
-            <p className="mt-4 text-sm font-semibold text-ink/65">Preparing your plan checkout...</p>
+            <p className="mt-4 text-sm font-semibold text-muted">Preparing your plan checkout...</p>
           </section> :
         null}
 
         {!loading && error ?
-        <section className="rounded-2xl border border-clay/30 bg-clay/10 p-6 shadow-soft">
-            <p className="text-sm font-bold uppercase tracking-[0.16em] text-clay">Checkout unavailable</p>
-            <h1 className="mt-3 font-serif text-3xl font-semibold">This checkout link is no longer available</h1>
-            <p className="mt-3 text-sm leading-6 text-ink/70">{error}</p>
+        <section role="alert" className="rounded-2xl border border-clay/30 bg-clay/10 p-6">
+            <p className="text-sm font-semibold uppercase tracking-wide text-clay">Checkout unavailable</p>
+            <h1 className="mt-3 font-sans text-3xl font-semibold">This checkout link is no longer available</h1>
+            <p className="mt-3 text-sm leading-6 text-muted">{error}</p>
           </section> :
         null}
 
         {!loading && !error && !paymentSuccess ?
         <section className="grid gap-6 lg:grid-cols-[1fr_0.8fr]">
-            <div className="premium-card subtle-lift rounded-2xl border border-ink/10 bg-white p-6 shadow-soft">
+            <div className="surface-card rounded-2xl border border-ink/10 bg-white p-6">
               <div className="flex items-center gap-3">
                 <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-ink text-bone">
                   <CreditCard size={22} />
                 </div>
                 <div>
-                  <p className="text-xs font-extrabold uppercase tracking-[0.16em] text-brass">Subscription plan</p>
-                  <h1 className="mt-1 font-serif text-3xl font-semibold">Activate {planLabel} plan</h1>
+                  <p className="text-xs font-semibold uppercase tracking-wide text-brass">Subscription plan</p>
+                  <h1 className="mt-1 font-sans text-3xl font-semibold">Activate {planLabel} plan</h1>
                 </div>
               </div>
 
               <div className="mt-6 rounded-xl border border-ink/10 bg-bone p-4">
-                <div className="flex items-start justify-between gap-3">
+                <div className="flex flex-col sm:flex-row items-start justify-between gap-3">
                   <div>
-                    <p className="text-lg font-extrabold">{planLabel} plan</p>
-                    <p className="mt-2 text-sm leading-6 text-ink/65">{planDetails.description}</p>
+                    <p className="text-lg font-semibold">{planLabel} plan</p>
+                    <p className="mt-2 text-sm leading-6 text-muted">{planDetails.description}</p>
                   </div>
                   <div className="text-right">
-                    <p className="font-serif text-2xl font-semibold">{planAmount}</p>
+                    <p className="font-sans text-2xl font-semibold">{planAmount}</p>
                   </div>
                 </div>
               </div>
@@ -207,32 +207,32 @@ function UpgradeSessionPage() {
                 {checkingOut ? 'Please wait...' : 'Pay now'}
               </Button>
               {checkoutError ? (
-                <div className="mt-4 rounded-lg border border-clay/25 bg-clay/10 p-4 text-sm font-semibold leading-6 text-ink/75">
+                <div role="alert" className="mt-4 rounded-2xl border border-clay/25 bg-clay/10 p-4 text-sm font-semibold leading-6 text-ink/75">
                   {checkoutError}
                 </div>
               ) : null}
             </div>
 
-            <div className="premium-card subtle-lift rounded-2xl border border-ink/10 bg-white p-6 shadow-soft">
-              <p className="text-xs font-extrabold uppercase tracking-[0.16em] text-brass">Checkout details</p>
+            <div className="surface-card rounded-2xl border border-ink/10 bg-white p-6">
+              <p className="text-xs font-semibold uppercase tracking-wide text-brass">Checkout details</p>
               <div className="mt-5 space-y-4 text-sm">
                 <div className="flex items-start justify-between gap-4 border-b border-ink/10 pb-3">
-                  <span className="text-ink/55">User</span>
+                  <span className="text-muted">User</span>
                   <span className="font-semibold text-right">{session?.user?.name || '—'}</span>
                 </div>
                 <div className="flex items-start justify-between gap-4 border-b border-ink/10 pb-3">
-                  <span className="text-ink/55">Email</span>
+                  <span className="text-muted">Email</span>
                   <span className="font-semibold text-right">{session?.user?.email || '—'}</span>
                 </div>
                 <div className="flex items-start justify-between gap-4 border-b border-ink/10 pb-3">
-                  <span className="text-ink/55">Phone</span>
+                  <span className="text-muted">Phone</span>
                   <span className="font-semibold text-right">{session?.user?.phone || '—'}</span>
                 </div>
                 <div className="flex items-start justify-between gap-4 border-b border-ink/10 pb-3">
-                  <span className="text-ink/55">Link valid until</span>
+                  <span className="text-muted">Link valid until</span>
                   <span className="font-semibold text-right">{formatDate(session?.expiresAt)}</span>
                 </div>
-                <div className="flex items-center gap-2 rounded-lg bg-mist/70 px-3 py-2 text-sm font-semibold text-sage">
+                <div className="flex items-center gap-2 rounded-2xl bg-mist/70 px-3 py-2 text-sm font-semibold text-sage">
                   <Clock3 size={15} />
                   For your safety, checkout links expire automatically.
                 </div>
@@ -242,30 +242,17 @@ function UpgradeSessionPage() {
         null}
 
         {!loading && !error && paymentSuccess ?
-        <section className="relative overflow-hidden rounded-2xl border border-sage/30 bg-white p-8 text-center shadow-soft">
-            <div className="pointer-events-none absolute inset-0">
-              {[...Array(18)].map((_, index) => (
-                <span
-                  className="absolute h-2 w-2 animate-[celebrate_1.8s_ease-out_infinite] rounded-full bg-brass/80"
-                  key={index}
-                  style={{
-                    left: `${8 + (index * 5) % 86}%`,
-                    top: `${10 + (index * 11) % 70}%`,
-                    animationDelay: `${index * 0.08}s`,
-                  }}
-                />
-              ))}
-            </div>
+        <section role="status" className="relative overflow-hidden rounded-2xl border border-sage/30 bg-white p-8 text-center">
             <div className="relative">
-              <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-sage/12 text-sage shadow-soft">
+              <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-sage/12 text-sage">
                 <CheckCircle2 size={44} />
               </div>
-              <div className="mt-5 flex items-center justify-center gap-2 text-sm font-extrabold uppercase tracking-[0.16em] text-brass">
+              <div className="mt-5 flex items-center justify-center gap-2 text-sm font-semibold uppercase tracking-wide text-brass">
                 <Sparkles size={17} />
                 Payment successful
               </div>
-              <h1 className="mt-3 font-serif text-4xl font-semibold">Your StitchBook plan is active</h1>
-              <p className="mx-auto mt-3 max-w-2xl text-sm leading-6 text-ink/70">
+              <h1 className="mt-3 font-sans text-4xl font-semibold">Your StitchBook plan is active</h1>
+              <p className="mx-auto mt-3 max-w-2xl text-sm leading-6 text-muted">
                 We have activated your subscription. You will be redirected to your dashboard in a few seconds.
               </p>
               <Button className="mt-7" onClick={() => navigate('/dashboard', { replace: true })} variant="brass">

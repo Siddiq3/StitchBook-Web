@@ -1,19 +1,4 @@
-import {
-  ArrowRight,
-  BarChart3,
-  Bell,
-  CheckCircle2,
-  ClipboardList,
-  CreditCard,
-  Languages,
-  IndianRupee,
-  Ruler,
-  Sparkles,
-  Star,
-  Smartphone,
-  UserRound,
-  Users,
-} from 'lucide-react';
+import { ArrowRight, BarChart3, Bell, CheckCircle2, ClipboardList, CreditCard, Languages, IndianRupee, Ruler, Sparkles, Smartphone, UserRound, Users } from "lucide-react";
 import { motion } from 'framer-motion';
 import Button from '../components/Button.jsx';
 import PageShell from '../components/PageShell.jsx';
@@ -50,30 +35,6 @@ const steps = [
   ['Run shop in app', 'Manage customers, measurements, orders, staff work, and payments in the app.'],
 ];
 
-const testimonials = [
-  {
-    quote: 'StitchBook helped us stop using too many notebooks. Now orders and payments are easier to check.',
-    name: 'Priya R.',
-    role: 'Boutique owner',
-  },
-  {
-    quote: 'We can quickly find measurements, delivery dates, and customer details whenever we need them.',
-    name: 'Arjun K.',
-    role: 'Tailoring studio',
-  },
-  {
-    quote: 'The app is simple for our team and makes our shop look more professional.',
-    name: 'Meera S.',
-    role: 'Designer boutique',
-  },
-];
-
-const insightCards = [
-  ['Monthly orders', '128', '+18%'],
-  ['Revenue tracked', '₹2.4L', '+12%'],
-  ['Pending dues', '₹36K', 'clear'],
-];
-
 const trustSignals = ['10-day trial', 'Made for Indian shops', 'Staff access plans'];
 
 const fadeUp = {
@@ -97,15 +58,15 @@ function StoreBadge({ type }) {
 
   return (
     <a
-      className="inline-flex min-h-11 w-full items-center gap-2 rounded-xl border border-ink/12 bg-white/78 px-3.5 py-2 text-left shadow-sm transition hover:-translate-y-0.5 hover:border-brass/30 hover:bg-white hover:shadow-glow sm:w-auto"
+      className="inline-flex min-h-11 w-full items-center gap-2 rounded-xl border border-ink/12 bg-white px-3.5 py-2 text-left transition hover:border-brass/30 hover:bg-white sm:w-auto"
       href={downloadUrl}
     >
       <StoreIcon type={type} />
       <span>
-        <span className="block text-[10px] font-semibold uppercase tracking-[0.14em] text-ink/42">
+        <span className="block text-[10px] font-semibold uppercase tracking-wide text-muted">
           {isApple ? 'Download on the' : 'Get it on'}
         </span>
-        <span className="block text-xs font-bold text-ink">{isApple ? 'App Store' : 'Google Play'}</span>
+        <span className="block text-xs font-semibold text-ink">{isApple ? 'App Store' : 'Google Play'}</span>
       </span>
     </a>
   );
@@ -139,23 +100,23 @@ function LandingPage() {
 
   return (
     <PageShell>
-      <section className="brand-soft-gradient relative overflow-hidden text-ink">
+      <section className="brand-soft relative overflow-hidden text-ink">
         <div className="absolute inset-x-0 top-0 h-px bg-brass/15" />
-        <div className="mx-auto grid max-w-7xl items-center gap-10 px-4 pb-14 pt-12 sm:px-6 md:grid-cols-[0.95fr_1.05fr] md:gap-12 md:pb-20 md:pt-20 lg:px-8">
+        <div className="mx-auto grid max-w-7xl items-center gap-10 px-4 pb-14 pt-12 sm:px-6 lg:grid-cols-[0.95fr_1.05fr] md:gap-12 md:pb-20 md:pt-20 lg:px-8">
           <motion.div
             animate="visible"
             initial="hidden"
             transition={{ duration: 0.55, ease: 'easeOut' }}
             variants={fadeUp}
           >
-            <div className="inline-flex items-center gap-2 rounded-full border border-brass/15 bg-white/90 px-4 py-2 text-sm font-bold text-ink/70 shadow-sm backdrop-blur">
+            <div className="inline-flex items-center gap-2 rounded-full border border-brass/15 bg-white px-4 py-2 text-sm font-semibold text-muted">
               <Sparkles size={16} className="text-brass" />
               Simple app for tailoring shops
             </div>
-            <h1 className="brand-text-gradient text-balance mt-7 max-w-3xl text-5xl font-extrabold leading-tight sm:text-6xl md:text-7xl">
-              Download the app. Manage subscription here.
+            <h1 className="brand-heading text-balance mt-7 max-w-3xl text-3xl font-semibold leading-tight sm:text-4xl lg:text-5xl">
+              Your shop, organized.
             </h1>
-            <p className="mt-6 max-w-xl text-lg leading-8 text-ink/65 md:text-xl">
+            <p className="mt-6 max-w-xl text-lg leading-8 text-muted md:text-xl">
               StitchBook’s full shop features are in the mobile app. Use this website to sign in, choose a plan, renew subscription, and download the app.
             </p>
             <div className="mt-9 flex flex-col items-start gap-3 sm:flex-row sm:items-center">
@@ -167,7 +128,7 @@ function LandingPage() {
               </Button>
             </div>
             <div className="mt-6">
-              <p className="text-xs font-extrabold uppercase tracking-[0.16em] text-ink/38">Also available on</p>
+              <p className="text-xs font-semibold uppercase tracking-wide text-muted">Also available on</p>
               <div className="mt-3 flex flex-col gap-3 sm:flex-row">
                 <StoreBadge type="google" />
                 <StoreBadge type="apple" />
@@ -175,28 +136,14 @@ function LandingPage() {
             </div>
             <div className="mt-8 flex flex-wrap gap-2">
               {trustSignals.map((signal) => (
-                <span className="rounded-full border border-ink/10 bg-white/76 px-3 py-1.5 text-xs font-extrabold text-ink/55 shadow-sm" key={signal}>
+                <span className="rounded-full border border-ink/10 bg-white/76 px-3 py-1.5 text-xs font-semibold text-muted" key={signal}>
                   {signal}
                 </span>
               ))}
             </div>
-            <div className="mt-10 grid max-w-xl grid-cols-1 gap-4 sm:grid-cols-3">
-              {[
-                ['Orders', '128'],
-                ['Paid', '₹2.4L'],
-                ['Dues', '₹36K'],
-              ].map(([label, value]) => (
-                <motion.div
-                  className="premium-card subtle-lift rounded-lg p-5"
-                  key={label}
-                  transition={{ duration: 0.18 }}
-                  whileHover={{ y: -3 }}
-                >
-                  <p className="text-xs font-bold uppercase text-ink/45">{label}</p>
-                  <p className="mt-4 text-2xl font-extrabold text-ink sm:text-3xl">{value}</p>
-                </motion.div>
-              ))}
-            </div>
+            <ul className="mt-8 grid gap-3 text-sm text-muted">
+              {['Keep customer measurements together', 'Track order progress and delivery dates', 'Record advances and outstanding balances'].map(item => <li className="flex items-center gap-2" key={item}><CheckCircle2 size={18} className="shrink-0 text-brass" />{item}</li>)}
+            </ul>
           </motion.div>
 
           <motion.div
@@ -206,22 +153,22 @@ function LandingPage() {
             transition={{ delay: 0.12, duration: 0.55, ease: 'easeOut' }}
             variants={{ visible: { opacity: 1, scale: 1 } }}
           >
-            <div className="overflow-hidden rounded-lg border border-brass/15 bg-white/90 p-3 shadow-soft backdrop-blur">
-              <div className="relative overflow-hidden rounded-lg">
+            <div className="overflow-hidden rounded-2xl border border-brass/15 bg-white p-3">
+              <div className="relative overflow-hidden rounded-2xl">
                 <img
                   alt="Premium tailoring studio with fabrics, garment patterns, and tailoring tools"
                   className="h-[24rem] w-full object-cover sm:h-[28rem] md:h-[34rem]"
                   src="/images/stitch-hero.png"
                 />
-                <div className="absolute inset-x-4 bottom-4 rounded-lg border border-ink/10 bg-white/92 p-4 text-ink shadow-soft backdrop-blur-md">
-                  <p className="brand-gradient inline-flex rounded-full px-3 py-1 text-xs font-extrabold uppercase tracking-[0.18em] text-white">Daily work</p>
+                <div className="absolute inset-x-4 bottom-4 rounded-2xl border border-ink/10 bg-white/92 p-4 text-ink -md">
+                  <p className="brand-solid inline-flex rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-wide text-white">Daily work</p>
                   <div className="mt-4 grid gap-3">
                     {dailyWorkItems.map(([item, Icon]) => (
                       <motion.div
-                        className="flex items-center justify-between rounded-lg border border-brass/10 bg-mist px-4 py-3"
+                        className="flex items-center justify-between rounded-2xl border border-brass/10 bg-mist px-4 py-3"
                         key={item}
                         transition={{ duration: 0.16 }}
-                        whileHover={{ x: 3 }}
+
                       >
                         <span className="text-sm font-medium text-ink/75">{item}</span>
                         <Icon size={18} className="text-brass" />
@@ -257,17 +204,17 @@ function LandingPage() {
 
               return (
                 <motion.article
-                  className="premium-card subtle-lift rounded-lg bg-bone p-6 lg:col-span-3 xl:col-span-3"
+                  className="surface-card rounded-2xl bg-bone p-6 lg:col-span-3 xl:col-span-3"
                   key={feature.title}
                   variants={fadeUp}
-                  whileHover={{ y: -4 }}
+
                   transition={{ duration: 0.2 }}
                 >
-                  <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-mist text-ink shadow-sm">
+                  <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-mist text-ink">
                     <Icon size={20} />
                   </div>
-                  <h3 className="mt-6 text-xl font-extrabold">{feature.title}</h3>
-                  <p className="mt-3 text-sm leading-6 text-ink/65">{feature.description}</p>
+                  <h3 className="mt-6 text-xl font-semibold">{feature.title}</h3>
+                  <p className="mt-3 text-sm leading-6 text-muted">{feature.description}</p>
                 </motion.article>
               );
             })}
@@ -289,12 +236,12 @@ function LandingPage() {
           />
           <motion.div className="relative mt-12 grid gap-5 md:grid-cols-3" variants={stagger}>
             {steps.map(([title, description], index) => (
-              <motion.article className="premium-card subtle-lift rounded-lg bg-bone/82 p-7" key={title} variants={fadeUp}>
-                <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-brass text-sm font-extrabold text-white shadow-sm">
+              <motion.article className="surface-card rounded-2xl bg-bone/82 p-7" key={title} variants={fadeUp}>
+                <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-brass text-sm font-semibold text-white">
                   {index + 1}
                 </span>
-                <h3 className="mt-7 font-serif text-3xl font-semibold">{title}</h3>
-                <p className="mt-3 text-sm leading-6 text-ink/65">{description}</p>
+                <h3 className="mt-7 font-sans text-3xl font-semibold">{title}</h3>
+                <p className="mt-3 text-sm leading-6 text-muted">{description}</p>
               </motion.article>
             ))}
           </motion.div>
@@ -310,19 +257,19 @@ function LandingPage() {
           whileInView="visible"
         >
           <div>
-            <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-white text-brass">
+            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white text-brass">
               <Languages size={22} />
             </div>
-            <h2 className="text-balance mt-6 font-serif text-4xl font-semibold leading-[0.95] sm:text-5xl md:text-6xl">
+            <h2 className="text-balance mt-6 font-sans text-4xl font-semibold leading-tight sm:text-3xl md:text-4xl">
               Made for Indian tailoring shops
             </h2>
-            <p className="mt-4 text-base leading-7 text-ink/65">
+            <p className="mt-4 text-base leading-7 text-muted">
               Install the app and use StitchBook in the way your shop already works. The website stays simple for login, subscription, and account support.
             </p>
           </div>
           <motion.div className="grid gap-4 sm:grid-cols-2" variants={stagger}>
-            {['English', 'Hindi', 'Telugu', 'Tamil', 'Kannada', 'Marathi'].map((language) => (
-              <motion.div className="subtle-lift flex items-center justify-between rounded-lg border border-ink/10 bg-white px-5 py-4 shadow-sm" key={language} variants={fadeUp}>
+            {['English', 'Hindi', 'Punjabi', 'Gujarati', 'Marathi', 'Telugu', 'Bengali'].map((language) => (
+              <motion.div className="flex items-center justify-between rounded-2xl border border-ink/10 bg-white px-5 py-4" key={language} variants={fadeUp}>
                 <span className="font-semibold">{language}</span>
                 <CheckCircle2 size={18} className="text-brass" />
               </motion.div>
@@ -351,31 +298,13 @@ function LandingPage() {
               <Button className="w-full sm:w-auto" href={downloadUrl} variant="secondary">Download App</Button>
             </div>
           </div>
-          <motion.div className="glass-panel rounded-lg p-5 shadow-soft" variants={fadeUp}>
+          <motion.div className="surface-card rounded-2xl p-5" variants={fadeUp}>
             <div className="flex items-center justify-between border-b border-ink/10 pb-4">
               <div>
-                <p className="text-xs font-bold uppercase tracking-[0.18em] text-brass">Website account</p>
+                <p className="text-xs font-semibold uppercase tracking-wide text-brass">Website account</p>
                 <h3 className="mt-1 text-lg font-semibold">Subscription at a glance</h3>
               </div>
               <BarChart3 className="text-sage" size={28} />
-            </div>
-            <div className="mt-5 grid gap-4 sm:grid-cols-3">
-              {insightCards.map(([label, value, trend]) => (
-                <div className="rounded-lg bg-linen p-4 shadow-sm" key={label}>
-                  <p className="text-xs font-semibold uppercase tracking-[0.14em] text-ink/45">{label}</p>
-                  <p className="mt-5 font-serif text-3xl font-semibold">{value}</p>
-                  <p className="mt-2 text-sm font-semibold text-sage">{trend}</p>
-                  <div className="mt-4 h-1.5 overflow-hidden rounded-full bg-ink/8">
-                    <motion.div
-                      className="h-full rounded-full bg-brass"
-                      initial={{ width: 0 }}
-                      transition={{ duration: 0.8, ease: 'easeOut' }}
-                      viewport={motionViewport}
-                      whileInView={{ width: label === 'Pending dues' ? '46%' : '72%' }}
-                    />
-                  </div>
-                </div>
-              ))}
             </div>
             <div className="mt-5 grid gap-3">
               {[
@@ -383,9 +312,9 @@ function LandingPage() {
                 ['Pay securely with Razorpay checkout', CreditCard],
                 ['Continue daily work inside the app', Smartphone],
               ].map(([item, Icon]) => (
-                <div className="flex items-center gap-3 rounded-lg border border-ink/10 px-4 py-3" key={item}>
+                <div className="flex items-center gap-3 rounded-2xl border border-ink/10 px-4 py-3" key={item}>
                   <Icon size={17} className="text-brass" />
-                  <span className="text-sm font-medium text-ink/65">{item}</span>
+                  <span className="text-sm font-medium text-muted">{item}</span>
                 </div>
               ))}
             </div>
@@ -393,36 +322,11 @@ function LandingPage() {
         </motion.div>
       </section>
 
-      <section className="bg-linen px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
-        <motion.div
-          className="mx-auto max-w-7xl"
-          initial="hidden"
-          variants={fadeUp}
-          viewport={motionViewport}
-          whileInView="visible"
-        >
-          <SectionHeading
-            eyebrow="Testimonials"
-            title="Trusted by tailoring shops"
-            description="Simple mobile tools for shops that want less confusion and better customer service."
-          />
-          <motion.div className="mt-12 grid gap-5 md:grid-cols-3" variants={stagger}>
-            {testimonials.map((testimonial) => (
-              <motion.article className="premium-card subtle-lift rounded-lg bg-bone p-7" key={testimonial.name} variants={fadeUp}>
-                <div className="flex gap-1 text-brass">
-                  {Array.from({ length: 5 }).map((_, index) => (
-                    <Star fill="currentColor" key={index} size={16} />
-                  ))}
-                </div>
-                <p className="mt-6 text-base leading-7 text-ink/75">“{testimonial.quote}”</p>
-                <div className="mt-6 border-t border-ink/10 pt-5">
-                  <p className="font-semibold">{testimonial.name}</p>
-                  <p className="text-sm text-ink/50">{testimonial.role}</p>
-                </div>
-              </motion.article>
-            ))}
-          </motion.div>
-        </motion.div>
+      <section className="border-t border-border bg-white px-4 py-12 sm:px-6 lg:px-8">
+        <div className="mx-auto flex max-w-7xl flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
+          <SectionHeading align="left" eyebrow="Support" title="Questions about your shop account?" description="Contact StitchBook for help with your account or subscription." />
+          <Button href="mailto:stitchbook3@gmail.com" variant="secondary">Contact support</Button>
+        </div>
       </section>
 
     </PageShell>

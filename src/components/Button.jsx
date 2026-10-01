@@ -1,39 +1,18 @@
 import { Link } from 'react-router-dom';
-
-const baseClass =
-  'inline-flex min-h-11 items-center justify-center gap-2 rounded-xl px-5 py-2.5 text-sm font-bold transition duration-200 hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-brass/40 focus:ring-offset-2 focus:ring-offset-bone active:translate-y-0';
-
+const baseClass = 'inline-flex min-h-11 items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold transition-colors duration-150 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brass active:opacity-80 disabled:cursor-not-allowed disabled:opacity-50';
 const variants = {
-  primary: 'brand-gradient text-white shadow-soft hover:shadow-glow',
-  secondary: 'border border-ink/15 bg-white/86 text-ink shadow-sm hover:border-brass/35 hover:bg-white',
-  brass: 'bg-plum text-white shadow-sm hover:bg-brass hover:shadow-glow',
-  ghost: 'text-ink/70 hover:bg-white/65 hover:text-ink',
+  primary: 'bg-brass text-white hover:bg-midnight',
+  secondary: 'border border-border bg-white text-ink hover:border-brass hover:bg-mist',
+  brass: 'bg-brass text-white hover:bg-midnight',
+  ghost: 'text-muted hover:bg-linen hover:text-ink',
 };
-
-function Button({ children, className = '', href, to, variant = 'primary', ...props }) {
-  const classes = `${baseClass} ${variants[variant]} ${className}`;
-
-  if (to) {
-    return (
-      <Link className={classes} to={to} {...props}>
-        {children}
-      </Link>
-    );
+function Button({ children, className = '', href, to, variant = 'primary', disabled = false, loading = false, ...props }) {
+  const unavailable = disabled || loading;
+  const classes = `${baseClass} ${variants[variant] || variants.primary} ${className}`;
+  if (to || href) {
+    if (unavailable) return <span className={`${classes} cursor-not-allowed opacity-50`} aria-disabled="true" aria-busy={loading}>{children}</span>;
+    return to ? <Link className={classes} to={to} {...props}>{children}</Link> : <a className={classes} href={href} {...props}>{children}</a>;
   }
-
-  if (href) {
-    return (
-      <a className={classes} href={href} {...props}>
-        {children}
-      </a>
-    );
-  }
-
-  return (
-    <button className={classes} type="button" {...props}>
-      {children}
-    </button>
-  );
+  return <button className={classes} type="button" disabled={unavailable} aria-busy={loading || undefined} {...props}>{children}</button>;
 }
-
 export default Button;

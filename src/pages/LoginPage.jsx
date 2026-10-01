@@ -99,7 +99,7 @@ function LoginPage() {
           type: 'standard',
           shape: 'rectangular',
           text: 'continue_with',
-          width: 320,
+          width: Math.min(320, googleButtonRef.current?.clientWidth || 320),
         });
       })
       .catch((err) => setError(err.message));
@@ -111,9 +111,9 @@ function LoginPage() {
   };
 
   return (
-    <main className="brand-soft-gradient min-h-screen text-ink">
-      <section className="mx-auto grid min-h-screen max-w-7xl items-center gap-8 px-4 py-8 sm:px-6 lg:grid-cols-[1.02fr_0.98fr] lg:px-8">
-        <div className="brand-gradient relative overflow-hidden rounded-lg p-6 text-white shadow-soft sm:p-8 lg:min-h-[38rem]">
+    <main className="brand-soft min-h-screen text-ink">
+      <section aria-busy={Boolean(loading)} className="mx-auto grid min-h-screen max-w-7xl items-center gap-8 px-4 py-8 sm:px-6 lg:grid-cols-[1.02fr_0.98fr] lg:px-8">
+        <div className="brand-solid relative overflow-hidden rounded-2xl p-6 text-white sm:p-8 lg:min-h-[32rem]">
           <img
             alt="Tailoring workspace"
             className="absolute inset-0 h-full w-full object-cover opacity-[0.34]"
@@ -121,21 +121,21 @@ function LoginPage() {
           />
           <div className="absolute inset-0 bg-brass/72" />
 
-          <div className="relative flex h-full min-h-[30rem] flex-col justify-between">
+          <div className="relative flex h-full min-h-[16rem] lg:min-h-[30rem] flex-col justify-between">
             <div className="flex items-center gap-3">
               <LogoMark />
               <div>
-                <p className="text-3xl font-extrabold leading-none">StitchBook</p>
+                <p className="text-3xl font-semibold leading-none">StitchBook</p>
                 <p className="mt-1 text-sm font-semibold text-white/72">Tailoring shop manager</p>
               </div>
             </div>
 
             <div className="max-w-xl">
-              <div className="inline-flex items-center gap-2 rounded-full border border-white/18 bg-white/14 px-4 py-2 text-sm font-bold text-white/88 backdrop-blur">
+              <div className="inline-flex items-center gap-2 rounded-full border border-white/18 bg-white/14 px-4 py-2 text-sm font-semibold text-white/88">
                 <Sparkles size={16} className="text-white" />
                 Subscription and account access
               </div>
-              <h1 className="text-balance mt-6 text-5xl font-extrabold leading-tight sm:text-6xl">
+              <h1 className="text-balance mt-6 text-3xl font-semibold leading-tight sm:text-4xl">
                 Sign in to manage your StitchBook plan
               </h1>
               <p className="mt-5 text-base leading-7 text-white/78 sm:text-lg">
@@ -145,23 +145,23 @@ function LoginPage() {
 
             <div className="grid gap-3 sm:grid-cols-3">
               {trustItems.map(({ icon: Icon, label }) => (
-                <div className="rounded-lg border border-white/16 bg-white/14 p-4 backdrop-blur" key={label}>
+                <div className="rounded-2xl border border-white/16 bg-white/14 p-4" key={label}>
                   <Icon className="text-white" size={20} />
-                  <p className="mt-3 text-sm font-extrabold text-white/90">{label}</p>
+                  <p className="mt-3 text-sm font-semibold text-white/90">{label}</p>
                 </div>
               ))}
             </div>
           </div>
         </div>
 
-        <div className="premium-card rounded-lg bg-white/88 p-5 shadow-soft backdrop-blur sm:p-7 lg:p-8">
+        <div className="surface-card rounded-2xl bg-white p-5 sm:p-7 lg:p-8">
           <div>
-            <p className="inline-flex items-center gap-2 rounded-full bg-linen px-3 py-1 text-xs font-extrabold uppercase tracking-[0.16em] text-brass">
+            <p className="inline-flex items-center gap-2 rounded-full bg-linen px-3 py-1 text-xs font-semibold uppercase tracking-wide text-brass">
               <ShieldCheck size={14} />
               Secure sign in
             </p>
-            <h2 className="mt-5 text-4xl font-extrabold leading-tight">Continue to StitchBook</h2>
-            <p className="mt-3 text-sm leading-6 text-ink/58">
+            <h2 className="mt-5 text-4xl font-semibold leading-tight">Continue to StitchBook</h2>
+            <p className="mt-3 text-sm leading-6 text-muted">
               Choose the sign-in method you use for your shop account.
             </p>
           </div>
@@ -170,27 +170,26 @@ function LoginPage() {
             {googleClientId ? (
               <div ref={googleButtonRef} />
             ) : (
-              <p className="rounded-md border border-ink/10 bg-ink/[0.03] px-3 py-2 text-sm font-medium text-ink/55">
+              <p className="rounded-md border border-ink/10 bg-ink/[0.03] px-3 py-2 text-sm font-medium text-muted">
                 Google login is not configured.
               </p>
             )}
           </div>
 
-
           {message ? (
-            <div className="mt-5 flex items-start gap-3 rounded-xl border border-sage/20 bg-mist p-4 text-sm font-semibold text-ink">
+            <div role="status" className="mt-5 flex items-start gap-3 rounded-xl border border-sage/20 bg-mist p-4 text-sm font-semibold text-ink">
               <CheckCircle2 className="mt-0.5 text-sage" size={18} />
               <span>{message}</span>
             </div>
           ) : null}
 
           {error ? (
-            <div className="mt-5 rounded-xl border border-rosewood/20 bg-rosewood/10 p-4 text-sm font-semibold text-rosewood">
+            <div role="alert" className="mt-5 rounded-xl border border-rosewood/20 bg-rosewood/10 p-4 text-sm font-semibold text-rosewood">
               {error}
             </div>
           ) : null}
 
-          <p className="mt-6 text-center text-xs font-semibold leading-5 text-ink/42">
+          <p className="mt-6 text-center text-xs font-semibold leading-5 text-muted">
             By continuing, you confirm this account belongs to your tailoring business.
           </p>
         </div>

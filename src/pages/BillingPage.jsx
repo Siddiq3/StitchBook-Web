@@ -85,7 +85,7 @@ function BillingPage() {
   const isActive = subscription?.isActive && subscription?.status === 'active';
   const isTrial = subscription?.status === 'trial' && subscription?.isActive;
   const isTrialExpired = subscription?.status === 'trial_expired';
-  const statusLabel = isActive
+  const statusLabel = error && !subscription ? "Status unavailable" : isActive
     ? 'Active plan'
     : isTrial
     ? 'Free trial active'
@@ -121,8 +121,8 @@ function BillingPage() {
           <div className="flex items-center gap-3">
             <LogoMark />
             <div>
-              <p className="font-serif text-3xl font-semibold leading-none">StitchBook</p>
-              <p className="mt-1 text-sm font-bold text-ink/55">Subscription status</p>
+              <p className="font-sans text-3xl font-semibold leading-none">StitchBook</p>
+              <p className="mt-1 text-sm font-semibold text-muted">Subscription status</p>
             </div>
           </div>
           <Button onClick={loadStatus} variant="secondary">
@@ -132,10 +132,10 @@ function BillingPage() {
         </header>
 
         {needsLogin ? (
-          <section className="premium-card subtle-lift mt-10 rounded-lg border border-ink/10 bg-white p-6 shadow-soft sm:p-8">
-            <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-brass">Billing login required</p>
-            <h1 className="mt-3 font-serif text-4xl font-semibold leading-tight">Sign in to continue subscription</h1>
-            <p className="mt-4 max-w-2xl text-sm leading-6 text-ink/62">
+          <section className="surface-card mt-10 rounded-2xl border border-ink/10 bg-white p-6 sm:p-8">
+            <p className="text-xs font-semibold uppercase tracking-wide text-brass">Billing login required</p>
+            <h1 className="mt-3 font-sans text-4xl font-semibold leading-tight">Sign in to continue subscription</h1>
+            <p className="mt-4 max-w-2xl text-sm leading-6 text-muted">
               Please sign in again to view your plan and continue payment.
             </p>
             <Button className="mt-6" to="/login?redirect=/billing" variant="primary">
@@ -145,37 +145,37 @@ function BillingPage() {
         ) : null}
 
         {!needsLogin ? (
-        <section className="mt-10 grid gap-6 lg:grid-cols-[1fr_0.85fr]">
-          <div className="premium-card subtle-lift rounded-lg border border-ink/10 bg-white p-5 shadow-soft sm:p-7">
+        <section className="mt-10 grid gap-6">
+          <div className="surface-card rounded-2xl border border-ink/10 bg-white p-5 sm:p-7">
             <div className="flex items-start gap-4">
-              <span className="flex h-12 w-12 items-center justify-center rounded-lg bg-ink text-bone">
+              <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-ink text-bone">
                 <CreditCard size={22} />
               </span>
               <div>
-                <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-brass">Subscription</p>
-                <h1 className="mt-2 font-serif text-5xl font-semibold leading-none">Choose your StitchBook plan</h1>
-                <p className="mt-4 max-w-2xl text-sm leading-6 text-ink/62">
+                <p className="text-xs font-semibold uppercase tracking-wide text-brass">Subscription</p>
+                <h1 className="mt-2 font-sans text-2xl font-semibold leading-tight">Choose your StitchBook plan</h1>
+                <p className="mt-4 max-w-2xl text-sm leading-6 text-muted">
                   Choose the plan that matches your shop size. After payment, continue daily work in the StitchBook mobile app.
                 </p>
               </div>
             </div>
 
-            <div className="mt-8 grid gap-4 md:grid-cols-3">
+            <div className="mt-8 grid gap-4 lg:grid-cols-3">
               {Object.entries(plans).map(([key, plan]) => (
-                <div className="subtle-lift rounded-lg border border-ink/10 bg-bone p-5" key={key}>
+                <div className="rounded-2xl border border-ink/10 bg-bone p-5" key={key}>
                   <div className="flex items-start justify-between gap-3">
                     <div>
-                      <p className="text-lg font-extrabold">{plan.planName}</p>
-                      <p className="mt-2 text-sm leading-6 text-ink/58">{plan.description}</p>
+                      <p className="text-lg font-semibold">{plan.planName}</p>
+                      <p className="mt-2 text-sm leading-6 text-muted">{plan.description}</p>
                     </div>
                     {plan.badge ? (
-                      <span className="rounded-full bg-mist px-3 py-1 text-xs font-extrabold text-sage">{plan.badge}</span>
+                      <span className="rounded-full bg-mist px-3 py-1 text-xs font-semibold text-sage">{plan.badge}</span>
                     ) : null}
                   </div>
-                  <p className="mt-6 font-serif text-4xl font-semibold">{plan.display}</p>
+                  <p className="mt-6 font-sans text-2xl font-semibold">{plan.display}</p>
                   <Button
                     className="mt-6 w-full"
-                    disabled={checkoutPlan === key}
+                    disabled={Boolean(checkoutPlan)}
                     onClick={() => startUpgrade(key)}
                     variant={key === 'team' ? 'brass' : 'primary'}
                   >
@@ -187,11 +187,11 @@ function BillingPage() {
             </div>
           </div>
 
-          <aside className="grid gap-5">
-            <div className="premium-card subtle-lift rounded-lg border border-ink/10 bg-white p-5 shadow-soft">
-              <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-brass">Current Status</p>
+          <aside className="grid gap-5 md:grid-cols-2">
+            <div className="surface-card rounded-2xl border border-ink/10 bg-white p-5">
+              <p className="text-xs font-semibold uppercase tracking-wide text-brass">Current Status</p>
               {loading ? (
-                <div className="mt-5 flex items-center gap-3 text-sm font-semibold text-ink/60">
+                <div className="mt-5 flex items-center gap-3 text-sm font-semibold text-muted">
                   <Loader2 className="animate-spin text-brass" size={18} />
                   Loading subscription
                 </div>
@@ -199,37 +199,37 @@ function BillingPage() {
                 <div className="mt-5">
                   <div className="flex items-center gap-2">
                     <CheckCircle2 className={isActive || isTrial ? 'text-sage' : 'text-clay'} size={20} />
-                    <p className="text-xl font-extrabold">{statusLabel}</p>
+                    <p className="text-xl font-semibold">{statusLabel}</p>
                   </div>
                   <div className="mt-5 grid gap-3 text-sm">
                     <div className="flex justify-between gap-4 border-b border-ink/10 pb-3">
-                      <span className="text-ink/55">Plan</span>
-                      <span className="font-bold">{subscription?.planType || 'free'}</span>
+                      <span className="text-muted">Plan</span>
+                      <span className="font-semibold">{subscription?.planType || (error ? '—' : 'free')}</span>
                     </div>
                     <div className="flex justify-between gap-4 border-b border-ink/10 pb-3">
-                      <span className="text-ink/55">Valid until</span>
-                      <span className="font-bold">{formatDate(subscription?.endDate)}</span>
+                      <span className="text-muted">Valid until</span>
+                      <span className="font-semibold">{formatDate(subscription?.endDate)}</span>
                     </div>
                     {subscription?.trialEndDate ? (
                       <div className="flex justify-between gap-4 border-b border-ink/10 pb-3">
-                        <span className="text-ink/55">Trial ends</span>
-                        <span className="font-bold">{formatDate(subscription.trialEndDate)}</span>
+                        <span className="text-muted">Trial ends</span>
+                        <span className="font-semibold">{formatDate(subscription.trialEndDate)}</span>
                       </div>
                     ) : null}
                     <div className="flex justify-between gap-4">
-                      <span className="text-ink/55">Days remaining</span>
-                      <span className="font-bold">{subscription?.daysRemaining ?? 0}</span>
+                      <span className="text-muted">Days remaining</span>
+                      <span className="font-semibold">{subscription?.daysRemaining ?? (error ? "—" : 0)}</span>
                     </div>
                   </div>
                 </div>
               )}
             </div>
 
-            <div className="premium-card subtle-lift rounded-lg border border-ink/10 bg-white p-5 shadow-soft">
-              <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-brass">App access includes</p>
+            <div className="surface-card rounded-2xl border border-ink/10 bg-white p-5">
+              <p className="text-xs font-semibold uppercase tracking-wide text-brass">App access includes</p>
               <div className="mt-5 grid gap-3">
                 {features.map((feature) => (
-                  <div className="flex items-center gap-3 text-sm font-semibold text-ink/70" key={feature}>
+                  <div className="flex items-center gap-3 text-sm font-semibold text-muted" key={feature}>
                     <CheckCircle2 className="text-sage" size={17} />
                     {feature}
                   </div>
@@ -241,7 +241,7 @@ function BillingPage() {
         ) : null}
 
         {error ? (
-          <div className="mt-6 rounded-lg border border-clay/25 bg-clay/10 p-4 text-sm font-semibold text-ink/75">{error}</div>
+          <div role="alert" className="mt-6 rounded-2xl border border-clay/25 bg-clay/10 p-4 text-sm font-semibold text-ink/75">{error}</div>
         ) : null}
       </div>
     </main>

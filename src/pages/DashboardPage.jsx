@@ -106,7 +106,7 @@ function DashboardPage() {
 
   const statusLabel = getStatusLabel(subscription);
   const statusTone = subscription?.isActive ? 'text-sage' : 'text-clay';
-  const planName = subscription?.planType || subscription?.billingCycle || 'free';
+  const planName = subscription?.planType || subscription?.billingCycle || (loading || error ? '—' : 'free');
   const initials = useMemo(() => {
     const source = user?.name || user?.email || user?.phone || 'SB';
     return source
@@ -141,20 +141,20 @@ function DashboardPage() {
   return (
     <PageShell>
       <section className="bg-bone px-4 py-8 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-7xl">
-          <div className="grid gap-6 lg:grid-cols-[1fr_0.72fr]">
-            <div className="premium-card subtle-lift rounded-lg border border-ink/10 bg-white p-5 shadow-soft sm:p-7">
+        <div className="mx-auto max-w-7xl" aria-busy={loading}>
+          <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_minmax(0,0.72fr)]">
+            <div className="surface-card rounded-2xl border border-ink/10 bg-white p-5 sm:p-7">
               <div className="flex flex-col gap-5 sm:flex-row sm:items-start sm:justify-between">
                 <div className="flex items-start gap-4">
-                  <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-ink text-xl font-extrabold text-bone shadow-soft">
+                  <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-ink text-xl font-semibold text-bone">
                     {initials}
                   </div>
                   <div>
-                    <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-brass">Account</p>
-                    <h1 className="mt-2 font-serif text-4xl font-semibold leading-tight sm:text-5xl">
+                    <p className="text-xs font-semibold uppercase tracking-wide text-brass">Account</p>
+                    <h1 className="mt-2 font-sans text-4xl font-semibold leading-tight sm:text-3xl">
                       Welcome, {user?.name || 'StitchBook user'}
                     </h1>
-                    <div className="mt-4 flex flex-wrap gap-2 text-sm font-semibold text-ink/62">
+                    <div className="mt-4 flex flex-wrap gap-2 text-sm font-semibold text-muted">
                       {user?.email ? (
                         <span className="rounded-full border border-ink/10 bg-bone px-3 py-1">{user.email}</span>
                       ) : null}
@@ -179,34 +179,34 @@ function DashboardPage() {
               </div>
 
               {error ? (
-                <div className="mt-6 flex items-start gap-3 rounded-lg border border-clay/25 bg-clay/10 p-4 text-sm font-semibold text-ink/75">
+                <div role="alert" className="mt-6 flex items-start gap-3 rounded-2xl border border-clay/25 bg-clay/10 p-4 text-sm font-semibold text-ink/75">
                   <AlertCircle className="mt-0.5 text-clay" size={18} />
                   {error}
                 </div>
               ) : null}
 
               <div className="mt-7 grid gap-4 md:grid-cols-3">
-                <div className="rounded-lg border border-ink/10 bg-bone p-4">
+                <div className="rounded-2xl border border-ink/10 bg-bone p-4">
                   <CalendarClock className="text-brass" size={22} />
-                  <p className="mt-4 text-xs font-extrabold uppercase tracking-[0.15em] text-ink/45">Status</p>
+                  <p className="mt-4 text-xs font-semibold uppercase tracking-wide text-muted">Status</p>
                   <p className={`mt-2 text-xl font-extrabold ${statusTone}`}>{statusLabel}</p>
                 </div>
-                <div className="rounded-lg border border-ink/10 bg-bone p-4">
+                <div className="rounded-2xl border border-ink/10 bg-bone p-4">
                   <Crown className="text-brass" size={22} />
-                  <p className="mt-4 text-xs font-extrabold uppercase tracking-[0.15em] text-ink/45">Current Plan</p>
-                  <p className="mt-2 text-xl font-extrabold capitalize">{planName}</p>
+                  <p className="mt-4 text-xs font-semibold uppercase tracking-wide text-muted">Current Plan</p>
+                  <p className="mt-2 text-xl font-semibold capitalize">{planName}</p>
                 </div>
-                <div className="rounded-lg border border-ink/10 bg-bone p-4">
+                <div className="rounded-2xl border border-ink/10 bg-bone p-4">
                   <ShieldCheck className="text-brass" size={22} />
-                  <p className="mt-4 text-xs font-extrabold uppercase tracking-[0.15em] text-ink/45">Valid Until</p>
-                  <p className="mt-2 text-xl font-extrabold">{formatDate(subscription?.endDate || subscription?.trialEndDate)}</p>
+                  <p className="mt-4 text-xs font-semibold uppercase tracking-wide text-muted">Valid Until</p>
+                  <p className="mt-2 text-xl font-semibold">{formatDate(subscription?.endDate || subscription?.trialEndDate)}</p>
                 </div>
               </div>
             </div>
 
-            <aside className="subtle-lift rounded-lg border border-ink/10 bg-ink p-5 text-bone shadow-soft sm:p-7">
+            <aside className="rounded-2xl border border-ink/10 bg-ink p-5 text-bone sm:p-7">
               <ClipboardList className="text-brass" size={26} />
-              <h2 className="mt-5 font-serif text-4xl font-semibold leading-tight">Your subscription hub</h2>
+              <h2 className="mt-5 font-sans text-4xl font-semibold leading-tight">Your shop subscription</h2>
               <p className="mt-4 text-sm leading-6 text-bone/68">
                 The full tailoring workflow is inside the StitchBook app. Use this website for plan changes, checkout, and account status.
               </p>
@@ -221,11 +221,11 @@ function DashboardPage() {
             </aside>
           </div>
 
-          <section className="premium-card subtle-lift mt-8 rounded-lg border border-ink/10 bg-white p-5 shadow-soft sm:p-7">
+          <section className="surface-card mt-8 rounded-2xl border border-ink/10 bg-white p-5 sm:p-7">
             <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
               <div>
-                <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-brass">Subscription</p>
-                <h2 className="mt-2 font-serif text-4xl font-semibold">Choose the plan for your app access</h2>
+                <p className="text-xs font-semibold uppercase tracking-wide text-brass">Subscription</p>
+                <h2 className="mt-2 font-sans text-4xl font-semibold">Choose the plan for your app access</h2>
               </div>
               <Button to="/billing" variant="secondary">
                 Billing details
@@ -236,30 +236,30 @@ function DashboardPage() {
             <div className="mt-7 grid gap-4 lg:grid-cols-3">
               {plans.map((plan) => (
                 <article
-                  className={`subtle-lift rounded-lg border p-5 ${
+                  className={`rounded-2xl border p-5 ${
                     plan.highlighted
-                      ? 'border-brass/40 bg-linen shadow-glow'
+                      ? 'border-brass/40 bg-mist'
                       : 'border-ink/10 bg-bone'
                   }`}
                   key={plan.key}
                 >
                   <div className="flex items-start justify-between gap-3">
                     <div>
-                      <p className="text-xl font-extrabold">{plan.name}</p>
-                      <p className="mt-2 text-sm leading-6 text-ink/60">{plan.description}</p>
+                      <p className="text-xl font-semibold">{plan.name}</p>
+                      <p className="mt-2 text-sm leading-6 text-muted">{plan.description}</p>
                     </div>
                     {plan.highlighted ? (
-                      <span className="rounded-full bg-brass px-3 py-1 text-xs font-extrabold text-white">Popular</span>
+                      <span className="rounded-full bg-brass px-3 py-1 text-xs font-semibold text-white">Popular</span>
                     ) : null}
                   </div>
                   <div className="mt-6 flex items-end gap-1">
-                    <span className="font-serif text-5xl font-semibold leading-none">{plan.price}</span>
-                    <span className="pb-1 text-sm font-bold text-ink/48">{plan.period}</span>
+                    <span className="font-sans text-3xl font-semibold leading-none">{plan.price}</span>
+                    <span className="pb-1 text-sm font-semibold text-muted">{plan.period}</span>
                   </div>
-                  <p className="mt-3 text-xs font-extrabold uppercase tracking-[0.14em] text-ink/42">{plan.note}</p>
+                  <p className="mt-3 text-xs font-semibold uppercase tracking-wide text-muted">{plan.note}</p>
                   <Button
                     className="mt-6 w-full"
-                    disabled={checkoutPlan === plan.key}
+                    disabled={Boolean(checkoutPlan)}
                     onClick={() => startUpgrade(plan.key)}
                     variant={plan.highlighted ? 'brass' : 'primary'}
                   >

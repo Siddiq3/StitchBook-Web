@@ -158,23 +158,23 @@ function CheckoutPage() {
       <div className="mx-auto flex min-h-[calc(100vh-5rem)] max-w-4xl items-center justify-center">
         <motion.section
           animate={{ opacity: 1, y: 0 }}
-          className="premium-card w-full rounded-lg border border-ink/10 bg-white p-5 shadow-soft sm:p-6 md:p-8"
+          className="surface-card w-full rounded-2xl border border-ink/10 bg-white p-5 sm:p-6 md:p-8"
           initial={{ opacity: 0, y: 18 }}
           transition={{ duration: 0.45, ease: 'easeOut' }}
         >
           <div className="grid gap-8 md:grid-cols-[1fr_0.9fr] md:items-center">
             <div>
-              <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-brass text-white">
+              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-brass text-white">
                 <CreditCard size={22} />
               </div>
-              <h1 className="text-balance mt-6 font-serif text-4xl font-semibold leading-[0.95] sm:text-5xl md:text-6xl">
+              <h1 className="text-balance mt-6 font-sans text-4xl font-semibold leading-tight sm:text-3xl md:text-4xl">
                 StitchBook payment
               </h1>
-              <p className="mt-4 text-sm leading-6 text-ink/65">
+              <p className="mt-4 text-sm leading-6 text-muted">
                 Review the order amount and complete your payment safely.
               </p>
 
-              <div className="mt-7 flex items-start gap-3 rounded-lg border border-ink/10 bg-bone p-4">
+              <div role={status === "error" ? "alert" : "status"} aria-live="polite" className="mt-7 flex items-start gap-3 rounded-2xl border border-ink/10 bg-bone p-4">
                 {status === 'confirming' || status === 'loading' ? (
                   <Loader2 className="mt-0.5 animate-spin text-brass" size={19} />
                 ) : status === 'error' ? (
@@ -182,40 +182,40 @@ function CheckoutPage() {
                 ) : (
                   <CheckCircle2 className="mt-0.5 text-sage" size={19} />
                 )}
-                <p className="text-sm leading-6 text-ink/70">
+                <p className="text-sm leading-6 text-muted">
                   {message || 'The payment window will open automatically when the order details are correct.'}
                 </p>
               </div>
             </div>
 
-            <div className="subtle-lift rounded-lg border border-ink/10 bg-bone p-5 text-ink">
-              <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-brass">Order summary</p>
+            <div className="rounded-2xl border border-ink/10 bg-bone p-5 text-ink">
+              <p className="text-xs font-semibold uppercase tracking-wide text-brass">Order summary</p>
               <div className="mt-6 grid gap-4 text-sm">
                 <div className="flex items-center justify-between gap-4 border-b border-ink/10 pb-3">
-                  <span className="text-ink/55">Order ID</span>
-                  <span className="font-semibold">{details.orderNumber || details.orderId || 'Missing'}</span>
+                  <span className="text-muted">Order ID</span>
+                  <span className="min-w-0 break-all text-right font-semibold">{details.orderNumber || details.orderId || 'Missing'}</span>
                 </div>
                 <div className="flex items-center justify-between gap-4 border-b border-ink/10 pb-3">
-                  <span className="text-ink/55">Customer</span>
+                  <span className="text-muted">Customer</span>
                   <span className="text-right font-semibold">{details.name || 'Guest'}</span>
                 </div>
                 <div className="flex items-center justify-between gap-4 border-b border-ink/10 pb-3">
-                  <span className="text-ink/55">Contact</span>
+                  <span className="text-muted">Contact</span>
                   <span className="text-right font-semibold">{details.phone || details.email || 'Not provided'}</span>
                 </div>
                 <div className="flex items-end justify-between gap-4 pt-2">
-                  <span className="text-ink/55">Payable</span>
-                  <span className="font-serif text-3xl font-semibold sm:text-4xl">₹{Number(details.amount || 0).toLocaleString('en-IN')}</span>
+                  <span className="text-muted">Payable</span>
+                  <span className="font-sans text-3xl font-semibold sm:text-4xl">₹{Number(details.amount || 0).toLocaleString('en-IN')}</span>
                 </div>
               </div>
 
               {!razorpayKeyId && (
-                <p className="mt-5 rounded-lg border border-clay/30 bg-clay/15 p-3 text-xs leading-5 text-ink/75">
+                <p className="mt-5 rounded-2xl border border-clay/30 bg-clay/15 p-3 text-xs leading-5 text-ink/75">
                   Payment details are incomplete. Please start again.
                 </p>
               )}
 
-              <Button className="mt-7 w-full" disabled={status === 'loading' || status === 'confirming'} onClick={startPayment} variant="brass">
+              <Button className="mt-7 w-full" disabled={!canPay || status === 'loading' || status === 'confirming'} onClick={startPayment} variant="brass">
                 {status === 'loading' || status === 'confirming' ? 'Please wait' : 'Pay now'}
               </Button>
             </div>
