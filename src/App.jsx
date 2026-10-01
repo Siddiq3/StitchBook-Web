@@ -3,9 +3,11 @@ import AboutPage from './pages/AboutPage.jsx';
 import BillingPage from './pages/BillingPage.jsx';
 import CheckoutPage from './pages/CheckoutPage.jsx';
 import DashboardPage from './pages/DashboardPage.jsx';
+import DeleteAccountPage from './pages/DeleteAccountPage.jsx';
 import LandingPage from './pages/LandingPage.jsx';
 import LoginPage from './pages/LoginPage.jsx';
 import PaymentResultPage from './pages/PaymentResultPage.jsx';
+import PrivacyPage from './pages/PrivacyPage.jsx';
 import UpgradeSessionPage from './pages/UpgradeSessionPage.jsx';
 import ProtectedRoute from './components/ProtectedRoute.jsx';
 
@@ -14,6 +16,8 @@ function App() {
     <Routes>
       <Route path="/" element={<LandingPage />} />
       <Route path="/about" element={<AboutPage />} />
+      <Route path="/privacy" element={<PrivacyPage />} />
+      <Route path="/delete-account" element={<DeleteAccountPage />} />
       <Route path="/dashboard" element={<ProtectedRoute><DashboardPage /></ProtectedRoute>} />
       <Route path="/billing" element={<ProtectedRoute><BillingPage /></ProtectedRoute>} />
       <Route path="/checkout" element={<CheckoutPage />} />

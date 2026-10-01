@@ -9,6 +9,8 @@ function Footer() {
         <a className="flex min-h-11 items-center hover:text-brass" href="/#features">Product</a>
         <Link className="flex min-h-11 items-center hover:text-brass" to="/billing">Plans</Link>
         <Link className="flex min-h-11 items-center hover:text-brass" to="/about">About</Link>
+        <Link className="flex min-h-11 items-center hover:text-brass" to="/privacy">Privacy</Link>
+        <Link className="flex min-h-11 items-center hover:text-brass" to="/delete-account">Delete account</Link>
       </div></div>
       <div><h3 className="text-sm font-semibold">Contact</h3><div className="mt-3 grid gap-1 text-sm text-muted">
         <a className="flex min-h-11 items-center gap-2 hover:text-brass" href="mailto:stitchbook3@gmail.com"><Mail size={18} />stitchbook3@gmail.com</a>
