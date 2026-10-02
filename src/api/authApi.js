@@ -45,6 +45,16 @@ export async function loginWithPassword(identifier, password, device = {}) {
   return res.data.data;
 }
 
+export async function requestPasswordReset(email) {
+  const res = await apiClient.post('/auth/forgot-password', { email });
+  return res.data;
+}
+
+export async function resetPasswordWithOtp({ email, otp, newPassword }) {
+  const res = await apiClient.post('/auth/reset-password', { email, otp, newPassword });
+  return res.data;
+}
+
 export async function loginWithGoogle(idToken, device = {}) {
   const res = await apiClient.post('/auth/google', {
     idToken,
