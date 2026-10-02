@@ -2194,3 +2194,109 @@ button:active:not(:disabled), a:active { transform: translateY(1px) scale(.992);
     border-color:rgba(60,91,255,.16);
   }
 }
+
+
+/* Editorial StitchBook watermark system */
+.feature-section,
+.data-showcase,
+.pricing-section,
+.landing-cta {
+  position: relative;
+  overflow: hidden;
+}
+
+.feature-section::after,
+.data-showcase::after,
+.pricing-section::after,
+.landing-cta::after {
+  content: "STITCHBOOK";
+  position: absolute;
+  font-family: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
+  font-weight: 800;
+  line-height: .82;
+  letter-spacing: -.08em;
+  white-space: nowrap;
+  pointer-events: none;
+  user-select: none;
+  z-index: 0;
+}
+
+/* Feature: top-right editorial mark */
+.feature-section::after {
+  top: clamp(1rem, 2.8vw, 2rem);
+  right: clamp(1rem, 3vw, 2.4rem);
+  font-size: clamp(4.5rem, 10vw, 8.5rem);
+  color: var(--brand-ink);
+  opacity: .035;
+  transform: rotate(-1.5deg);
+}
+
+/* Data: large lower-right mark on dark section */
+.data-showcase::after {
+  right: clamp(-1.5rem, 1vw, 1rem);
+  bottom: clamp(.6rem, 2vw, 1.5rem);
+  font-size: clamp(5rem, 11vw, 9.5rem);
+  color: #fff;
+  opacity: .055;
+  transform: rotate(1deg);
+}
+
+/* Pricing: centered oversized, almost architectural */
+.pricing-section::after {
+  left: 50%;
+  top: 1.1rem;
+  transform: translateX(-50%);
+  font-size: clamp(5rem, 12vw, 10rem);
+  color: var(--brand-cobalt);
+  opacity: .025;
+}
+
+/* CTA: left-side oversized finish */
+.landing-cta::after {
+  left: clamp(-1.5rem, 1vw, .8rem);
+  bottom: clamp(-.8rem, 1vw, .5rem);
+  font-size: clamp(5rem, 13vw, 10.5rem);
+  color: var(--brand-ink);
+  opacity: .03;
+  transform: rotate(-2deg);
+}
+
+/* Keep actual section content above watermark */
+.feature-section > *,
+.data-showcase > *,
+.pricing-section > *,
+.landing-cta > * {
+  position: relative;
+  z-index: 1;
+}
+
+@media (max-width: 640px) {
+  .feature-section::after,
+  .data-showcase::after,
+  .pricing-section::after,
+  .landing-cta::after {
+    font-size: clamp(2.8rem, 14vw, 4.8rem);
+    letter-spacing: -.07em;
+    opacity: .024;
+  }
+
+  .feature-section::after {
+    top: .75rem;
+    right: .75rem;
+  }
+
+  .data-showcase::after {
+    right: .5rem;
+    bottom: .75rem;
+    opacity: .032;
+  }
+
+  .pricing-section::after {
+    top: .7rem;
+  }
+
+  .landing-cta::after {
+    left: .4rem;
+    bottom: .4rem;
+  }
+}
