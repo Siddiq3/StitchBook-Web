@@ -126,7 +126,18 @@ export default function LandingPage() {
   return <PageShell><div className="landing">
     <motion.section className="landing-hero landing-container" {...reveal}>
       <div className="hero-copy"><p className="eyebrow"><span className="live-dot" /> BUILT FOR REAL TAILORING SHOPS</p><h1>Run your shop<br />without <em>running after details.</em></h1><p className="hero-description">Keep customers, measurements, orders, delivery dates and payments in one place—so you always know what is next, what is ready, and what is still due.</p><div className="hero-actions"><Button className="landing-primary" href={downloadUrl}>Start with StitchBook <ArrowRight size={18} /></Button><a className="text-link" href="#features">Explore the app <ArrowDown size={16} /></a></div><div className="hero-reassurance"><span><Check size={15} /> Built around tailoring workflows</span><span><Check size={15} /> Owner and staff plans available</span></div>{storeLinks.length > 0 && <div className="store-links">{storeLinks.map(([name, url]) => <a href={url} key={name}><Smartphone size={15} />{name}<ArrowRight size={14} /></a>)}</div>}</div>
-      <ProductPreview />
+      <div className="hero-visual-stack">
+        <figure className="hero-editorial-shot" aria-hidden="true">
+          <img src="/images/stitch-hero.png" alt="" loading="eager" />
+          <span>CRAFT × CLARITY</span>
+        </figure>
+        <ProductPreview />
+        <div className="hero-proof-card" aria-hidden="true">
+          <span>Today</span>
+          <strong>08 ready</strong>
+          <small>Deliveries stay visible.</small>
+        </div>
+      </div>
     </motion.section>
     <motion.div className="audience-strip" {...reveal}><div className="landing-container"><span>BUILT FOR SHOPS THAT WORK WITH THEIR HANDS</span><p>Independent tailors <i /> Boutique owners <i /> Fashion designers <i /> Growing teams</p><Scissors size={24} aria-hidden="true" /></div></motion.div>
     <motion.section className="landing-container feature-section" id="features" {...reveal}><div className="section-intro"><div><p className="eyebrow">ONE CLEAR VIEW OF YOUR SHOP</p><h2>Stop remembering everything.<br /><em>Let StitchBook remember it.</em></h2></div><p>From the first measurement to the final payment, every important detail stays connected to the customer and order it belongs to.</p></div><div className="feature-editorial">{features.map(({
