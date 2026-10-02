@@ -26,8 +26,44 @@ export function loadCashfreeScript() {
 }
 
 export async function openCashfreeCheckout({ paymentSessionId, mode }) {
-  if (!paymentSessionId || !['sandbox', 'production'].includes(mode)) throw new Error('Payment details are incomplete. Please start again.');
+  if (!paymentSessionId || !['sandbox', 'production'].includes(mode)) {
+    const error = new Error('Payment details are incomplete. Please start again.');
+    error.code = 'CASHFREE_INVALID_SESSION';
+    throw error;
+  }
+
   const loaded = await loadCashfreeScript();
-  if (!loaded || !window.Cashfree) throw new Error('Unable to load Cashfree checkout. Please try again.');
-  return window.Cashfree({ mode }).checkout({ paymentSessionId, redirectTarget: '_self' });
+  if (!loaded || !window.Cashfree) {
+    const error = new Error('Unable to load Cashfree checkout. Please try again.');
+    error.code = 'CASHFREE_SDK_LOAD_FAILED';
+    throw error;
+  }
+
+  try {
+    const cashfree = window.Cashfree({ mode });
+    const result = await cashfree.checkout({
+      paymentSessionId,
+      redirectTarget: '_self',
+    });
+
+    if (result?.error) {
+      const message =
+        result.error.message ||
+        result.error.description ||
+        result.error.code ||
+        'Cashfree could not open checkout.';
+      const error = new Error(message);
+      error.code = result.error.code || 'CASHFREE_CHECKOUT_FAILED';
+      error.details = result.error;
+      throw error;
+    }
+
+    return result;
+  } catch (error) {
+    if (error?.code) throw error;
+    const wrapped = new Error(error?.message || 'Cashfree checkout failed. Please try again.');
+    wrapped.code = 'CASHFREE_CHECKOUT_FAILED';
+    wrapped.details = error;
+    throw wrapped;
+  }
 }
