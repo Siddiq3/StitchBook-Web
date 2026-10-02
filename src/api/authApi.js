@@ -21,6 +21,30 @@ export async function logout() {
   }
 }
 
+export async function registerWithPassword({ name, email, phone, password }, device = {}) {
+  const res = await apiClient.post('/auth/register', {
+    name,
+    email,
+    phone,
+    password,
+    platform: 'web',
+    device,
+  });
+  saveAuthSession(res.data.data);
+  return res.data.data;
+}
+
+export async function loginWithPassword(identifier, password, device = {}) {
+  const res = await apiClient.post('/auth/login', {
+    identifier,
+    password,
+    platform: 'web',
+    device,
+  });
+  saveAuthSession(res.data.data);
+  return res.data.data;
+}
+
 export async function loginWithGoogle(idToken, device = {}) {
   const res = await apiClient.post('/auth/google', {
     idToken,

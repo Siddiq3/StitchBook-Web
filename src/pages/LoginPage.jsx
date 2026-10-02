@@ -1,129 +1,71 @@
-import { useEffect, useRef, useState } from 'react';
-import { CheckCircle2, Clock3, Ruler, ShieldCheck, Sparkles, Users } from 'lucide-react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Eye, EyeOff, LockKeyhole, ShieldCheck } from 'lucide-react';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { LogoMark } from '../components/Logo.jsx';
-import { getAuthToken, loginWithGoogle } from '../api/authApi.js';
-
-const configuredGoogleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
-const googleClientId = configuredGoogleClientId && !configuredGoogleClientId.startsWith('your-') ? configuredGoogleClientId : '';
-
-const trustItems = [
-  { icon: Users, label: 'Customers' },
-  { icon: Ruler, label: 'Measurements' },
-  { icon: Clock3, label: 'Orders due' },
-];
-
-function loadScript(src) {
-  return new Promise((resolve, reject) => {
-    const existing = document.querySelector(`script[src="${src}"]`);
-    if (existing) {
-      if (existing.dataset.loaded === 'true') {
-        resolve(existing);
-        return;
-      }
-      existing.addEventListener('load', () => resolve(existing), { once: true });
-      existing.addEventListener('error', () => reject(new Error(`Could not load ${src}`)), { once: true });
-      return;
-    }
-
-    const script = document.createElement('script');
-    script.src = src;
-    script.async = true;
-    script.onload = () => {
-      script.dataset.loaded = 'true';
-      resolve(script);
-    };
-    script.onerror = () => reject(new Error(`Could not load ${src}`));
-    document.head.appendChild(script);
-  });
-}
+import { getAuthToken, loginWithPassword } from '../api/authApi.js';
 
 function LoginPage() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const googleButtonRef = useRef(null);
-  const [loading, setLoading] = useState('');
-  const [message, setMessage] = useState('');
+  const [form, setForm] = useState({ identifier: '', password: '' });
+  const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
-  const completeLogin = (result, label) => {
-    setMessage(`${label} successful. Welcome ${result.user?.name || result.user?.phone || 'back'}.`);
-    setError('');
-    const redirectTo = searchParams.get('redirect');
-    const isPublicUpgradeFlow = redirectTo?.startsWith('/upgrade/session/');
-
-    // Same-origin paths only: "//host" and "/\\host" are treated as external URLs.
-    const isSafeRedirect = redirectTo?.startsWith('/') && !redirectTo.startsWith('//') && !redirectTo.startsWith('/\\');
-
-    if (isSafeRedirect && !isPublicUpgradeFlow) {
-      setTimeout(() => navigate(redirectTo, { replace: true }), 400);
-    } else {
-      setTimeout(() => navigate('/dashboard', { replace: true }), 400);
-    }
-  };
-
   useEffect(() => {
-    if (getAuthToken()) {
-      navigate('/dashboard', { replace: true });
-    }
+    if (getAuthToken()) navigate('/dashboard', { replace: true });
   }, [navigate]);
 
-  useEffect(() => {
-    if (!googleClientId) { setError('Google sign-in is not configured. Please contact support.'); return; }
-    if (!googleButtonRef.current) return;
+  const set = (key) => (event) => {
+    setForm((prev) => ({ ...prev, [key]: event.target.value }));
+    setError('');
+  };
 
-    loadScript('https://accounts.google.com/gsi/client')
-      .then(() => {
-        if (!window.google?.accounts?.id) {
-          throw new Error('Google login is unavailable. Please refresh or use mobile login.');
-        }
+  const submit = async (event) => {
+    event.preventDefault();
+    if (!form.identifier.trim() || !form.password) {
+      setError('Enter your email or mobile number and password.');
+      return;
+    }
 
-        window.google.accounts.id.initialize({
-          client_id: googleClientId,
-          callback: async ({ credential }) => {
-            try {
-              setLoading('google');
-              const result = await loginWithGoogle(credential, {
-                name: navigator.userAgent,
-              });
-              completeLogin(result, 'Google login');
-            } catch (err) {
-              setError(err.response?.data?.message || err.message || 'Google login failed');
-            } finally {
-              setLoading('');
-            }
-          },
-        });
+    setLoading(true);
+    setError('');
+    try {
+      await loginWithPassword(form.identifier.trim(), form.password, {
+        name: navigator.userAgent,
+      });
 
-        window.google.accounts.id.renderButton(googleButtonRef.current, {
-          theme: 'filled_blue',
-          size: 'large',
-          type: 'standard',
-          shape: 'rectangular',
-          text: 'continue_with',
-          width: Math.min(320, googleButtonRef.current?.clientWidth || 320),
-        });
-      })
-      .catch((err) => setError(err.message));
-  }, []);
+      const redirectTo = searchParams.get('redirect');
+      const isPublicUpgradeFlow = redirectTo?.startsWith('/upgrade/session/');
+      const isSafeRedirect =
+        redirectTo?.startsWith('/') &&
+        !redirectTo.startsWith('//') &&
+        !redirectTo.startsWith('/\\');
 
-  const handleMobileLogin = async () => {
-    setError('Mobile OTP login is disabled in this build.');
-    setLoading('');
+      navigate(isSafeRedirect && !isPublicUpgradeFlow ? redirectTo : '/dashboard', {
+        replace: true,
+      });
+    } catch (err) {
+      setError(
+        err.response?.data?.message ||
+        'Invalid email/mobile number or password'
+      );
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <main className="brand-soft min-h-screen text-ink">
-      <section aria-busy={Boolean(loading)} className="mx-auto grid min-h-screen max-w-7xl items-center gap-8 px-4 py-8 sm:px-6 lg:grid-cols-[1.02fr_0.98fr] lg:px-8">
-        <div className="order-last lg:order-first brand-solid relative overflow-hidden rounded-2xl p-6 text-white sm:p-8 lg:min-h-[32rem]">
+      <section className="mx-auto grid min-h-screen max-w-6xl items-center gap-8 px-4 py-8 sm:px-6 lg:grid-cols-[1fr_0.9fr] lg:px-8">
+        <div className="brand-solid relative overflow-hidden rounded-3xl p-7 text-white sm:p-9 lg:min-h-[34rem]">
           <img
             alt="Tailoring workspace"
-            className="absolute inset-0 h-full w-full object-cover opacity-[0.34]"
+            className="absolute inset-0 h-full w-full object-cover opacity-[0.3]"
             src="/images/tailoring-craft.webp"
           />
           <div className="absolute inset-0 bg-brass/72" />
-
-          <div className="relative flex h-full min-h-[16rem] lg:min-h-[30rem] flex-col justify-between">
+          <div className="relative flex h-full min-h-[28rem] flex-col justify-between">
             <div className="flex items-center gap-3">
               <LogoMark />
               <div>
@@ -133,57 +75,70 @@ function LoginPage() {
             </div>
 
             <div className="max-w-xl">
-              <div className="inline-flex items-center gap-2 rounded-full border border-white/18 bg-white/14 px-4 py-2 text-sm font-semibold text-white/88">
-                <Sparkles size={16} className="text-white" />
-                Subscription and account access
-              </div>
-              <h1 className="text-balance mt-6 text-3xl font-semibold leading-tight sm:text-4xl">
-                Sign in to manage your StitchBook plan
+              <span className="inline-flex items-center gap-2 rounded-full border border-white/18 bg-white/14 px-4 py-2 text-sm font-semibold text-white/88">
+                <ShieldCheck size={16} />
+                Secure account access
+              </span>
+              <h1 className="mt-6 text-4xl font-semibold leading-tight">
+                One StitchBook account for mobile and web.
               </h1>
-              <p className="mt-5 text-base leading-7 text-white/78 sm:text-lg">
-                Use the website for subscription, billing, and account access. Open the mobile app for customers, measurements, orders, and payments.
+              <p className="mt-5 max-w-lg text-base leading-7 text-white/80">
+                Sign in with either your email address or mobile number and your password.
               </p>
             </div>
 
-            <div className="grid gap-3 sm:grid-cols-3">
-              {trustItems.map(({ icon: Icon, label }) => (
-                <div className="rounded-2xl border border-white/16 bg-white/14 p-4" key={label}>
-                  <Icon className="text-white" size={20} />
-                  <p className="mt-3 text-sm font-semibold text-white/90">{label}</p>
-                </div>
-              ))}
+            <div className="flex items-center gap-3 text-sm font-semibold text-white/82">
+              <LockKeyhole size={18} />
+              Password credentials are verified only by the StitchBook backend.
             </div>
           </div>
         </div>
 
-        <div className="order-first lg:order-last surface-card rounded-2xl bg-white p-5 sm:p-7 lg:p-8">
-          <div>
-            <p className="inline-flex items-center gap-2 rounded-full bg-linen px-3 py-1 text-xs font-semibold uppercase tracking-wide text-brass">
-              <ShieldCheck size={14} />
-              Secure sign in
-            </p>
-            <h2 className="mt-5 text-4xl font-semibold leading-tight">Continue to StitchBook</h2>
-            <p className="mt-3 text-sm leading-6 text-muted">
-              Choose the sign-in method you use for your shop account.
-            </p>
-          </div>
+        <form onSubmit={submit} className="surface-card rounded-3xl bg-white p-6 sm:p-8">
+          <p className="inline-flex items-center gap-2 rounded-full bg-linen px-3 py-1 text-xs font-semibold uppercase tracking-wide text-brass">
+            <ShieldCheck size={14} />
+            Secure sign in
+          </p>
+          <h2 className="mt-5 text-4xl font-semibold leading-tight">Welcome back</h2>
+          <p className="mt-3 text-sm leading-6 text-muted">
+            Use the email address or mobile number connected to your StitchBook account.
+          </p>
 
-          <div className="mt-7 rounded-xl border border-ink/10 bg-bone p-4">
-            {googleClientId ? (
-              <div ref={googleButtonRef} />
-            ) : (
-              <p className="rounded-md border border-ink/10 bg-ink/[0.03] px-3 py-2 text-sm font-medium text-muted">
-                Google login is not configured.
-              </p>
-            )}
-          </div>
+          <div className="mt-8 space-y-5">
+            <label className="block">
+              <span className="mb-2 block text-sm font-semibold">Email or mobile number</span>
+              <input
+                autoComplete="username"
+                autoCapitalize="none"
+                className="w-full rounded-xl border border-ink/15 bg-white px-4 py-3.5 text-base outline-none transition focus:border-brass focus:ring-4 focus:ring-brass/10"
+                value={form.identifier}
+                onChange={set('identifier')}
+                placeholder="you@example.com or 98765 43210"
+              />
+            </label>
 
-          {message ? (
-            <div role="status" className="mt-5 flex items-start gap-3 rounded-xl border border-sage/20 bg-mist p-4 text-sm font-semibold text-ink">
-              <CheckCircle2 className="mt-0.5 text-sage" size={18} />
-              <span>{message}</span>
-            </div>
-          ) : null}
+            <label className="block">
+              <span className="mb-2 block text-sm font-semibold">Password</span>
+              <div className="flex items-center rounded-xl border border-ink/15 bg-white pr-3 focus-within:border-brass focus-within:ring-4 focus-within:ring-brass/10">
+                <input
+                  autoComplete="current-password"
+                  className="min-w-0 flex-1 rounded-xl bg-transparent px-4 py-3.5 text-base outline-none"
+                  type={showPassword ? 'text' : 'password'}
+                  value={form.password}
+                  onChange={set('password')}
+                  placeholder="Enter your password"
+                />
+                <button
+                  aria-label={showPassword ? 'Hide password' : 'Show password'}
+                  className="rounded-lg p-2 text-muted transition hover:bg-bone hover:text-ink"
+                  onClick={() => setShowPassword((value) => !value)}
+                  type="button"
+                >
+                  {showPassword ? <EyeOff size={19} /> : <Eye size={19} />}
+                </button>
+              </div>
+            </label>
+          </div>
 
           {error ? (
             <div role="alert" className="mt-5 rounded-xl border border-rosewood/20 bg-rosewood/10 p-4 text-sm font-semibold text-rosewood">
@@ -191,10 +146,21 @@ function LoginPage() {
             </div>
           ) : null}
 
-          <p className="mt-6 text-center text-xs font-semibold leading-5 text-muted">
-            By continuing, you confirm this account belongs to your tailoring business.
+          <button
+            className="mt-6 min-h-12 w-full rounded-xl bg-brass px-5 py-3 font-semibold text-white transition hover:brightness-95 disabled:cursor-not-allowed disabled:opacity-60"
+            disabled={loading}
+            type="submit"
+          >
+            {loading ? 'Signing in…' : 'Sign in'}
+          </button>
+
+          <p className="mt-6 text-center text-sm text-muted">
+            New to StitchBook?{' '}
+            <Link className="font-semibold text-brass hover:underline" to="/register">
+              Create an account
+            </Link>
           </p>
-        </div>
+        </form>
       </section>
     </main>
   );
