@@ -1,5 +1,5 @@
-import { motion, useReducedMotion } from 'framer-motion';
-import { useState } from 'react';
+import { motion, useReducedMotion, useScroll, useTransform } from 'framer-motion';
+import { useRef, useState } from 'react';
 import { ArrowDown, ArrowRight, Check, ChevronRight, ClipboardList, Clock3, IndianRupee, Plus, Ruler, Scissors, ShieldCheck, Smartphone, Users } from 'lucide-react';
 import Button from '../components/Button.jsx';
 import PageShell from '../components/PageShell.jsx';
@@ -81,27 +81,88 @@ function ProductPreview() {
   </div>;
 }
 
-function CuttingDivider({ reduceMotion }) {
+function SignatureCutTransition({ reduceMotion }) {
+  const sectionRef = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ['start start', 'end end']
+  });
+
+  const seamProgress = useTransform(scrollYProgress, [0.05, 0.58], [0, 1]);
+  const scissorX = useTransform(scrollYProgress, [0.04, 0.62], ['74vw', '37vw']);
+  const scissorY = useTransform(scrollYProgress, [0.04, 0.62], ['-6vh', '78vh']);
+  const scissorRotate = useTransform(scrollYProgress, [0.04, 0.62], [-12, 18]);
+  const leftX = useTransform(scrollYProgress, [0.5, 0.9], ['0%', '-64%']);
+  const rightX = useTransform(scrollYProgress, [0.5, 0.9], ['0%', '64%']);
+  const fabricScale = useTransform(scrollYProgress, [0, 0.55, 0.92], [1, 1.015, 1.045]);
+  const introOpacity = useTransform(scrollYProgress, [0, 0.18, 0.45], [1, 1, 0]);
+  const revealOpacity = useTransform(scrollYProgress, [0.55, 0.82], [0, 1]);
+  const revealY = useTransform(scrollYProgress, [0.55, 0.88], [36, 0]);
+
+  if (reduceMotion) {
+    return (
+      <section className="signature-cut signature-cut-reduced" aria-label="Cut through the chaos">
+        <div className="signature-cut-static">
+          <Scissors size={84} strokeWidth={1.25} aria-hidden="true" />
+          <p className="eyebrow">CUT THROUGH THE CHAOS</p>
+          <h2>From scattered shop details<br /><em>to one clear workflow.</em></h2>
+        </div>
+      </section>
+    );
+  }
+
   return (
-    <div className="cutting-divider" aria-hidden="true">
-      <motion.div
-        className="cut-thread"
-        initial={reduceMotion ? false : { scaleX: 0 }}
-        whileInView={reduceMotion ? undefined : { scaleX: 1 }}
-        viewport={{ once: false, amount: 0.7 }}
-        transition={{ duration: 1.15, ease: [0.22, 1, 0.36, 1] }}
-      />
-      <motion.div
-        className="cut-scissors"
-        initial={reduceMotion ? false : { left: '2%', rotate: -8, opacity: 0 }}
-        whileInView={reduceMotion ? undefined : { left: '93%', rotate: 8, opacity: 1 }}
-        viewport={{ once: false, amount: 0.72 }}
-        transition={{ duration: 1.35, ease: [0.22, 1, 0.36, 1] }}
-      >
-        <Scissors size={24} strokeWidth={1.7} />
-      </motion.div>
-      <span className="cut-label">CUT THROUGH THE CHAOS</span>
-    </div>
+    <section ref={sectionRef} className="signature-cut" aria-label="Cut through the chaos">
+      <div className="signature-cut-sticky">
+        <div className="signature-cut-reveal">
+          <motion.div style={{ opacity: revealOpacity, y: revealY }} className="signature-cut-reveal-copy">
+            <p className="eyebrow">STITCHBOOK, REVEALED</p>
+            <h2>Cut away the clutter.<br /><em>Keep the craft moving.</em></h2>
+            <p>Orders, measurements, deadlines and payments stop living in separate places. The next section shows the shop as one connected flow.</p>
+          </motion.div>
+          <div className="signature-pattern signature-pattern-one" />
+          <div className="signature-pattern signature-pattern-two" />
+        </div>
+
+        <motion.div className="signature-fabric signature-fabric-left" style={{ x: leftX, scale: fabricScale }}>
+          <div className="fabric-weave" />
+          <motion.div className="signature-cut-intro" style={{ opacity: introOpacity }}>
+            <span>01 / THE CUT</span>
+            <strong>Too many details.<br />Too many places.</strong>
+          </motion.div>
+        </motion.div>
+
+        <motion.div className="signature-fabric signature-fabric-right" style={{ x: rightX, scale: fabricScale }}>
+          <div className="fabric-weave" />
+          <motion.div className="signature-cut-mark" style={{ opacity: introOpacity }}>
+            <span>TAILORING WORK SHOULD FLOW</span>
+          </motion.div>
+        </motion.div>
+
+        <svg className="signature-seam" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+          <motion.path
+            d="M72 -4 C69 20 62 36 58 52 S49 80 42 104"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="0.35"
+            strokeDasharray="1.6 1.4"
+            style={{ pathLength: seamProgress }}
+          />
+        </svg>
+
+        <motion.div
+          className="signature-scissors"
+          style={{ x: scissorX, y: scissorY, rotate: scissorRotate }}
+          aria-hidden="true"
+        >
+          <Scissors strokeWidth={1.15} />
+          <span>CUTTING</span>
+        </motion.div>
+
+        <div className="signature-measure signature-measure-top" aria-hidden="true" />
+        <div className="signature-measure signature-measure-bottom" aria-hidden="true" />
+      </div>
+    </section>
   );
 }
 
@@ -247,7 +308,7 @@ export default function LandingPage() {
             title,
             description
           }) => <motion.article key={number} initial={reduceMotion ? false : { opacity: 0, y: 26, scale: .985 }} whileInView={reduceMotion ? undefined : { opacity: 1, y: 0, scale: 1 }} viewport={{ once: false, amount: 0.28 }} transition={{ duration: .48, delay: Number(number) * .035, ease: [0.22, 1, 0.36, 1] }}><div className="feature-top"><Icon size={24} strokeWidth={1.5} /><span>{number}</span></div><h3>{title}</h3><p>{description}</p></motion.article>)}</div></motion.section>
-    <CuttingDivider reduceMotion={reduceMotion} />
+    <SignatureCutTransition reduceMotion={reduceMotion} />
     <DataShowcase reduceMotion={reduceMotion} />
     <motion.section className="craft-section" id="how-it-works" {...reveal}><motion.div className="craft-photo" {...revealLeft}><img src="/images/tailoring-craft.webp" alt="Tailor guiding ivory linen through a sewing machine in warm workshop light" loading="lazy" width="1536" height="1024" /><span>FOR THE HANDS THAT MAKE IT HAPPEN.</span></motion.div><motion.div className="craft-copy" {...revealRight}><p className="eyebrow">LESS CHASING. MORE MAKING.</p><h2>Your craft stays personal.<br />Your shop stays<br /><em>under control.</em></h2><p>Busy tailoring shops run on hundreds of small details. StitchBook keeps those details visible, so your team can move work forward without depending on memory.</p><ol className="workflow"><li><span>01</span><div><h3>Set up your shop once.</h3><p>Add your business and start with the people and work you already have.</p></div></li><li><span>02</span><div><h3>Keep every order connected.</h3><p>Customer, measurements, due date, progress and payment stay together.</p></div></li><li><span>03</span><div><h3>Know what needs attention.</h3><p>Open the app and see what is pending, in progress, ready or overdue.</p></div></li></ol></motion.div></motion.section>
     <motion.section className="landing-container pricing-section" id="plans" {...reveal}><div className="section-intro"><div><p className="eyebrow">PRICING THAT GROWS WITH YOUR SHOP</p><h2>Start simple.<br /><em>Add your team when you need them.</em></h2></div><p>Choose owner-only access or bring cutters and stitchers into the same workflow as your business grows.</p></div><div className="pricing-columns">{Object.entries(plans).map(([key, plan]) => <motion.article className={`pricing-column ${key === 'team' ? 'featured-plan' : ''}`} key={key} initial={reduceMotion ? false : { opacity: 0, y: 28 }} whileInView={reduceMotion ? undefined : { opacity: 1, y: 0 }} viewport={{ once: false, amount: .25 }} transition={{ duration: .5, ease: [0.22, 1, 0.36, 1] }}><div className="plan-heading"><h3>{plan.label}</h3>{key === 'team' && <span>FOR SMALL TEAMS</span>}</div><p>{plan.description}</p><div className="plan-price">₹{plan.amount}<span>/ month</span></div><div className="plan-access"><Users size={17} />{plan.access}</div><ul>{['Customers & measurements', 'Orders & delivery tracking', 'Payments & invoices', ...(plan.staffLimit ? ['Cutting & stitching assignments'] : ['Your own shop workspace'])].map(feature => <li key={feature}><Check size={15} />{feature}</li>)}</ul><Button className={key === 'team' ? 'landing-primary' : 'plan-button'} to="/billing" variant={key === 'team' ? 'primary' : 'secondary'}>Choose {plan.label}<ArrowRight size={16} /></Button></motion.article>)}</div><p className="pricing-note"><ShieldCheck size={16} /> Secure checkout with Cashfree. Manage your subscription on the web; run your shop in the app.</p></motion.section>

@@ -1643,3 +1643,364 @@ button:active:not(:disabled), a:active { transform: translateY(1px) scale(.992);
   .cut-scissors { left:90% !important; }
   .cut-thread { transform:scaleX(1) !important; }
 }
+
+
+/* Full-screen scroll-driven tailoring cut */
+.signature-cut {
+  position: relative;
+  height: 230vh;
+  margin-block: clamp(2rem, 5vw, 5rem);
+}
+.signature-cut-sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  min-height: 640px;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 20% 16%, rgba(240,194,157,.12), transparent 24rem),
+    radial-gradient(circle at 85% 78%, rgba(96,117,163,.16), transparent 28rem),
+    #111A22;
+  isolation: isolate;
+}
+.signature-cut-reveal {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: clamp(2rem, 6vw, 7rem);
+  background:
+    radial-gradient(circle at 18% 12%, rgba(244,173,123,.28), transparent 24rem),
+    radial-gradient(circle at 84% 82%, rgba(91,143,136,.26), transparent 25rem),
+    linear-gradient(135deg, #612F43 0%, #2D4B59 52%, #1A504A 100%);
+  color: #FFF8EE;
+}
+.signature-cut-reveal-copy {
+  position: relative;
+  z-index: 2;
+  max-width: 920px;
+  text-align: center;
+}
+.signature-cut-reveal-copy .eyebrow {
+  justify-content: center;
+  color: #F2C48B;
+}
+.signature-cut-reveal-copy h2 {
+  margin-top: 1rem;
+  color: #FFF8EE;
+  font-size: clamp(3.1rem, 7vw, 7.1rem);
+  line-height: .96;
+  letter-spacing: -.07em;
+}
+.signature-cut-reveal-copy h2 em {
+  color: #F4C7B7;
+}
+.signature-cut-reveal-copy > p:not(.eyebrow) {
+  max-width: 52rem;
+  margin: 1.5rem auto 0;
+  color: rgba(255,248,238,.72);
+  font-size: clamp(.95rem, 1.5vw, 1.15rem);
+  line-height: 1.8;
+}
+.signature-pattern {
+  position: absolute;
+  border: 1px dashed rgba(255,255,255,.16);
+  border-radius: 48% 52% 38% 62% / 56% 36% 64% 44%;
+}
+.signature-pattern-one {
+  width: 38vw;
+  height: 28vw;
+  left: -8vw;
+  top: 11vh;
+  transform: rotate(-18deg);
+}
+.signature-pattern-two {
+  width: 31vw;
+  height: 43vw;
+  right: -6vw;
+  bottom: -16vw;
+  transform: rotate(26deg);
+}
+
+.signature-fabric {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  overflow: hidden;
+  will-change: transform;
+}
+.signature-fabric-left {
+  clip-path: polygon(0 0, 74% 0, 42% 100%, 0 100%);
+  background:
+    radial-gradient(circle at 20% 20%, rgba(247,207,173,.22), transparent 18rem),
+    linear-gradient(135deg, #8D3E55 0%, #6D3047 52%, #532438 100%);
+}
+.signature-fabric-right {
+  clip-path: polygon(74% 0, 100% 0, 100% 100%, 42% 100%);
+  background:
+    radial-gradient(circle at 78% 20%, rgba(227,190,119,.18), transparent 20rem),
+    linear-gradient(145deg, #C47859 0%, #9D5A48 48%, #7D3D3C 100%);
+}
+.fabric-weave {
+  position: absolute;
+  inset: 0;
+  opacity: .2;
+  background:
+    repeating-linear-gradient(0deg, rgba(255,255,255,.06) 0 1px, transparent 1px 7px),
+    repeating-linear-gradient(90deg, rgba(0,0,0,.05) 0 1px, transparent 1px 9px);
+  mix-blend-mode: soft-light;
+}
+.signature-fabric-left::after,
+.signature-fabric-right::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.signature-fabric-left::after {
+  background: linear-gradient(120deg, rgba(255,255,255,.05), transparent 45%, rgba(0,0,0,.13));
+}
+.signature-fabric-right::after {
+  background: linear-gradient(240deg, rgba(255,255,255,.08), transparent 42%, rgba(0,0,0,.12));
+}
+.signature-cut-intro {
+  position: absolute;
+  left: clamp(1.5rem, 8vw, 8rem);
+  top: 21%;
+  z-index: 2;
+  color: #FFF7EF;
+}
+.signature-cut-intro span,
+.signature-cut-mark span {
+  display: block;
+  font-size: clamp(.62rem, .9vw, .78rem);
+  font-weight: 800;
+  letter-spacing: .18em;
+}
+.signature-cut-intro span {
+  color: #F1C690;
+}
+.signature-cut-intro strong {
+  display: block;
+  margin-top: .8rem;
+  max-width: 9ch;
+  font-family: 'Instrument Serif', Georgia, serif;
+  font-size: clamp(2.8rem, 5.8vw, 6.3rem);
+  font-weight: 400;
+  line-height: .95;
+  letter-spacing: -.04em;
+}
+.signature-cut-mark {
+  position: absolute;
+  right: clamp(1rem, 6vw, 6rem);
+  bottom: 13%;
+  z-index: 2;
+  color: rgba(255,247,239,.72);
+  transform: rotate(-90deg) translateX(100%);
+  transform-origin: right bottom;
+}
+.signature-seam {
+  position: absolute;
+  inset: 0;
+  z-index: 7;
+  width: 100%;
+  height: 100%;
+  color: rgba(255,245,233,.9);
+  pointer-events: none;
+  filter: drop-shadow(0 0 6px rgba(255,255,255,.2));
+}
+.signature-scissors {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 10;
+  display: grid;
+  justify-items: center;
+  color: #FFF8EE;
+  filter: drop-shadow(0 18px 24px rgba(18,16,20,.28));
+  pointer-events: none;
+  will-change: transform;
+}
+.signature-scissors svg {
+  width: clamp(86px, 10vw, 155px);
+  height: clamp(86px, 10vw, 155px);
+}
+.signature-scissors span {
+  margin-top: -.6rem;
+  padding: .28rem .55rem;
+  border: 1px solid rgba(255,255,255,.18);
+  border-radius: 999px;
+  background: rgba(17,26,34,.4);
+  backdrop-filter: blur(8px);
+  font-size: .54rem;
+  font-weight: 800;
+  letter-spacing: .16em;
+}
+.signature-measure {
+  position: absolute;
+  z-index: 6;
+  pointer-events: none;
+  opacity: .44;
+}
+.signature-measure-top {
+  left: 0;
+  right: 0;
+  top: 4.5rem;
+  height: 10px;
+  background: repeating-linear-gradient(90deg, rgba(255,255,255,.65) 0 1px, transparent 1px 24px);
+}
+.signature-measure-bottom {
+  left: 3rem;
+  right: 3rem;
+  bottom: 3rem;
+  height: 1px;
+  border-top: 1px dashed rgba(255,255,255,.42);
+}
+
+.signature-cut-reduced {
+  height: auto;
+  min-height: 70vh;
+  display: grid;
+  place-items: center;
+  padding: 5rem 1.5rem;
+  background: linear-gradient(135deg, #6D3047, #274A52);
+  color: #FFF8EE;
+}
+.signature-cut-static {
+  max-width: 860px;
+  text-align: center;
+}
+.signature-cut-static svg {
+  margin: 0 auto 1.5rem;
+}
+.signature-cut-static .eyebrow { justify-content: center; color: #F2C48B; }
+.signature-cut-static h2 {
+  margin-top: 1rem;
+  color: #FFF8EE;
+  font-size: clamp(3rem, 7vw, 6rem);
+  line-height: .98;
+}
+.signature-cut-static h2 em { color: #F4C7B7; }
+
+/* Section-specific palettes: editorial, not one repeated theme */
+.feature-section {
+  background:
+    radial-gradient(circle at 92% 12%, rgba(118,89,154,.14), transparent 20rem),
+    radial-gradient(circle at 4% 88%, rgba(233,164,104,.13), transparent 18rem),
+    linear-gradient(145deg, #FFF9F3, #F7F0F7);
+}
+.data-showcase {
+  position: relative;
+  max-width: 1320px;
+  margin-block: clamp(4rem, 8vw, 8rem);
+  padding: clamp(2.4rem, 5vw, 5.5rem);
+  border-radius: 2.5rem;
+  background:
+    radial-gradient(circle at 90% 0%, rgba(214,170,94,.18), transparent 22rem),
+    radial-gradient(circle at 5% 100%, rgba(91,151,139,.22), transparent 24rem),
+    linear-gradient(135deg, #143D3A 0%, #174A46 52%, #1F5B55 100%);
+  box-shadow: 0 42px 110px rgba(20,61,58,.18);
+  color: #F6F3E9;
+}
+.data-showcase::before {
+  content:'';
+  position:absolute;
+  inset:1rem;
+  border:1px dashed rgba(247,237,213,.14);
+  border-radius:1.8rem;
+  pointer-events:none;
+}
+.data-showcase-copy,
+.data-stage { position: relative; z-index: 1; }
+.data-showcase-copy .eyebrow { color: #E2BE74; }
+.data-showcase-copy h2,
+.data-showcase-copy h2 em { color: #FFF7E8; }
+.data-showcase-copy h2 em { color: #F4B8A4; }
+.data-showcase-copy > p:not(.eyebrow) { color: rgba(246,243,233,.72); }
+.data-legend { color: rgba(246,243,233,.62); }
+.data-stage {
+  background:
+    radial-gradient(circle at 12% 12%, rgba(225,172,125,.15), transparent 18rem),
+    radial-gradient(circle at 85% 88%, rgba(91,151,139,.13), transparent 20rem),
+    linear-gradient(145deg, #FFFAF1, #F3EBDD);
+  border-color: rgba(255,244,223,.48);
+}
+.craft-section {
+  background:
+    radial-gradient(circle at 80% 20%, rgba(161,94,128,.22), transparent 22rem),
+    radial-gradient(circle at 92% 82%, rgba(221,151,92,.14), transparent 24rem),
+    linear-gradient(140deg,#211B2A,#39233A 54%,#4A2C33);
+}
+.craft-copy .eyebrow { color:#E6B76D; }
+.craft-copy h2 em { color:#F0A986; }
+.pricing-section {
+  padding-inline: clamp(1rem, 3vw, 2rem);
+  border-radius: 2.25rem;
+  background:
+    radial-gradient(circle at 78% 6%, rgba(224,188,105,.16), transparent 20rem),
+    linear-gradient(180deg, #FFF9E9, #F6EFE1);
+}
+.faq-section {
+  background:
+    radial-gradient(circle at 12% 8%, rgba(236,151,122,.18), transparent 20rem),
+    radial-gradient(circle at 92% 90%, rgba(111,76,128,.24), transparent 24rem),
+    linear-gradient(135deg,#261A31,#43233F 55%,#523044);
+}
+.landing-cta {
+  background:
+    radial-gradient(circle at 16% 18%, rgba(230,126,91,.3), transparent 22rem),
+    radial-gradient(circle at 82% 72%, rgba(101,101,173,.18), transparent 26rem),
+    linear-gradient(135deg,#F7C7A8 0%,#E9B0AA 38%,#D7C5EA 72%,#BFD7D3 100%);
+}
+.landing-cta h2 { color:#2A1E29; }
+.landing-cta h2 em {
+  background: linear-gradient(100deg,#8C3940,#604D88);
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+}
+.landing-cta p:not(.eyebrow),
+.landing-cta .eyebrow { color:#5C4B57; }
+
+@media (max-width: 900px) {
+  .signature-cut { height: 205vh; }
+  .signature-cut-sticky { min-height: 560px; }
+  .signature-cut-intro { top: 18%; }
+  .signature-cut-mark { display:none; }
+  .data-showcase {
+    margin-inline: 1rem;
+    padding: 2.3rem 1.4rem;
+    border-radius: 2rem;
+  }
+}
+@media (max-width: 640px) {
+  .signature-cut { height: 185vh; margin-block: 2rem; }
+  .signature-cut-sticky { min-height: 520px; }
+  .signature-fabric-left { clip-path: polygon(0 0, 79% 0, 34% 100%, 0 100%); }
+  .signature-fabric-right { clip-path: polygon(79% 0,100% 0,100% 100%,34% 100%); }
+  .signature-cut-intro {
+    left: 1.25rem;
+    top: 20%;
+  }
+  .signature-cut-intro strong {
+    font-size: clamp(2.6rem, 14vw, 4.2rem);
+  }
+  .signature-scissors svg {
+    width: clamp(72px, 22vw, 98px);
+    height: clamp(72px, 22vw, 98px);
+  }
+  .signature-cut-reveal {
+    padding: 2rem 1.2rem;
+  }
+  .signature-cut-reveal-copy h2 {
+    font-size: clamp(2.7rem, 13vw, 4.6rem);
+  }
+  .signature-cut-reveal-copy > p:not(.eyebrow) {
+    font-size: .92rem;
+  }
+  .signature-measure-top { top: 3.5rem; }
+  .pricing-section { border-radius: 1.5rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .signature-cut { height:auto; }
+}
