@@ -5,31 +5,7 @@ import Button from '../components/Button.jsx';
 import { LogoMark } from '../components/Logo.jsx';
 import { createUpgradeSession, getSubscriptionStatus } from '../api/subscriptionApi.js';
 
-const plans = {
-  basic: {
-    label: 'Basic',
-    planName: 'Basic',
-    amount: 299,
-    display: '₹299 / month',
-    description: 'Owner-only access for customers, orders, measurements, payments and bills.',
-  },
-  team: {
-    label: 'Team',
-    planName: 'Team',
-    amount: 399,
-    display: '₹399 / month',
-    description: 'Owner plus 2 staff users for cutter/stitcher login and assignment.',
-    badge: 'Most useful',
-  },
-  pro: {
-    label: 'Pro',
-    planName: 'Pro',
-    amount: 599,
-    display: '₹599 / month',
-    description: 'Owner plus 5 staff users with earnings and production tracking.',
-    badge: 'Best for teams',
-  },
-};
+import { plans } from '../data/plans.js';
 
 const features = [
   'Order management',

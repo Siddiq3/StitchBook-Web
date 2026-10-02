@@ -2,9 +2,9 @@ import { Link } from 'react-router-dom';
 const baseClass = 'inline-flex min-h-11 items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold transition-colors duration-150 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brass active:opacity-80 disabled:cursor-not-allowed disabled:opacity-50';
 const variants = {
   primary: 'bg-brass text-white hover:bg-midnight',
-  secondary: 'border border-border bg-white text-ink hover:border-brass hover:bg-mist',
+  secondary: 'border border-brass/30 bg-white text-brass hover:border-brass hover:bg-mist',
   brass: 'bg-brass text-white hover:bg-midnight',
-  ghost: 'text-muted hover:bg-linen hover:text-ink',
+  ghost: 'text-brass hover:bg-mist hover:text-midnight',
 };
 function Button({ children, className = '', href, to, variant = 'primary', disabled = false, loading = false, ...props }) {
   const unavailable = disabled || loading;

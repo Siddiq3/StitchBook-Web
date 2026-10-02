@@ -1,150 +1,32 @@
-import { Mail, MapPin, Phone, ShieldCheck, Sparkles, Users } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { ArrowRight, Mail, MapPin, Phone, Ruler, Scissors, Users } from 'lucide-react';
 import PageShell from '../components/PageShell.jsx';
-import SectionHeading from '../components/SectionHeading.jsx';
-
-const values = [
-  {
-    icon: Sparkles,
-    title: 'Made for tailors',
-    description: 'StitchBook is built for real tailoring shops and daily shop work.',
-  },
-  {
-    icon: ShieldCheck,
-    title: 'Easy to follow',
-    description: 'Every order is easier to track from start to delivery.',
-  },
-  {
-    icon: Users,
-    title: 'Better customer service',
-    description: 'Find customer details fast and give clear updates when needed.',
-  },
-];
-
-const fadeUp = {
-  hidden: { opacity: 0, y: 22 },
-  visible: { opacity: 1, y: 0 },
-};
-
-const viewport = { once: true, amount: 0.2 };
-
-function AboutPage() {
-  return (
-    <PageShell>
-      <section className="bg-bone px-4 py-16 text-ink sm:px-6 sm:py-20 lg:px-8">
-        <motion.div
-          animate="visible"
-          className="mx-auto grid max-w-7xl gap-12 md:grid-cols-[0.95fr_1.05fr] md:items-center"
-          initial="hidden"
-          transition={{ duration: 0.5, ease: 'easeOut' }}
-          variants={fadeUp}
-        >
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-wide text-brass">About StitchBook</p>
-            <h1 className="text-balance mt-4 font-sans text-3xl font-semibold leading-tight sm:text-4xl md:text-4xl">
-              We help tailoring shops stay organized.
-            </h1>
-          </div>
-          <div className="rounded-2xl border border-ink/10 bg-white p-7">
-            <p className="text-lg leading-8 text-muted">
-              StitchBook is made for tailors, boutiques, and fashion designers.
-              It helps you manage customers, measurements, orders, payments, and delivery details from one app.
-            </p>
-          </div>
-        </motion.div>
-      </section>
-
-      <section className="bg-linen px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
-        <motion.div
-          className="mx-auto grid max-w-7xl gap-10 md:grid-cols-2"
-          initial="hidden"
-          variants={fadeUp}
-          viewport={viewport}
-          whileInView="visible"
-        >
-          <div>
-            <SectionHeading
-              align="left"
-              eyebrow="Mission"
-              title="Make shop work easier"
-              description="We help shops spend less time searching for details and more time serving customers."
-            />
-          </div>
-          <div>
-            <SectionHeading
-              align="left"
-              eyebrow="Vision"
-              title="Help tailors grow"
-              description="We want every tailoring shop to look professional and manage work with confidence."
-            />
-          </div>
-        </motion.div>
-      </section>
-
-      <section className="px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
-        <motion.div
-          className="mx-auto max-w-7xl"
-          initial="hidden"
-          variants={fadeUp}
-          viewport={viewport}
-          whileInView="visible"
-        >
-          <SectionHeading
-            eyebrow="Team"
-            title="Built for the tailoring business"
-            description="We focus on simple tools that make everyday shop work easier."
-          />
-          <div className="mt-12 grid gap-5 md:grid-cols-3">
-            {values.map((value) => {
-              const Icon = value.icon;
-
-              return (
-                <motion.article
-                  className="rounded-2xl border border-ink/10 bg-white p-7"
-                  key={value.title}
-
-                >
-                  <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-ink text-bone">
-                    <Icon size={20} />
-                  </div>
-                  <h3 className="mt-6 text-xl font-semibold">{value.title}</h3>
-                  <p className="mt-3 text-sm leading-6 text-muted">{value.description}</p>
-                </motion.article>
-              );
-            })}
-          </div>
-        </motion.div>
-      </section>
-
-      <section className="bg-ink px-4 py-16 text-bone sm:px-6 sm:py-20 lg:px-8">
-        <motion.div
-          className="mx-auto grid max-w-7xl gap-10 md:grid-cols-[1fr_1.1fr]"
-          initial="hidden"
-          variants={fadeUp}
-          viewport={viewport}
-          whileInView="visible"
-        >
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-wide text-brass">Contact</p>
-            <h2 className="mt-4 font-sans text-4xl font-semibold leading-tight sm:text-3xl md:text-4xl">
-              Talk to StitchBook
-            </h2>
-          </div>
-          <div className="grid gap-4 text-bone/75">
-            <a className="flex items-center gap-3 rounded-2xl border border-white/10 p-4 hover:bg-white/5" href="mailto:stitchbook3@gmail.com">
-              <Mail size={18} /> stitchbook3@gmail.com
-            </a>
-            <a className="flex items-center gap-3 rounded-2xl border border-white/10 p-4 hover:bg-white/5" href="tel:+919705116606">
-              <Phone size={18} /> +91 97051 16606
-            </a>
-            <span className="flex items-center gap-3 rounded-2xl border border-white/10 p-4">
-              <MapPin size={18} /> Hyderabad, India
-            </span>
-          </div>
-        </motion.div>
-      </section>
-    </PageShell>
-  );
+import Button from '../components/Button.jsx';
+const principles = [{
+  icon: Scissors,
+  number: '01',
+  title: 'Built around your craft.',
+  description: 'A tailoring shop has its own rhythm. Customers, outfit measurements, cutting, stitching, and delivery belong in one connected workflow.'
+}, {
+  icon: Ruler,
+  number: '02',
+  title: 'Care in every detail.',
+  description: 'The right measurement. A remembered preference. A clear payment record. Small details make the experience better for you and your customers.'
+}, {
+  icon: Users,
+  number: '03',
+  title: 'Space for your whole team.',
+  description: 'Work independently with Basic, or bring your staff into the picture with Team and Pro. Keep assignments and order progress together.'
+}];
+export default function AboutPage() {
+  return <PageShell><div className="landing about-editorial">
+    <section className="landing-container about-intro"><p className="eyebrow">THE STORY BEHIND STITCHBOOK</p><h1>Made for the people<br />who make <em>the perfect fit.</em></h1><div className="about-statement"><Scissors size={30} strokeWidth={1.3} /><p>Tailoring is personal. Your tools should feel that way, too. StitchBook helps independent tailors, boutique owners, and fashion designers bring a little clarity to a busy shop.</p></div></section>
+    <section className="craft-section"><div className="craft-photo"><img src="/images/tailoring-craft.webp" alt="A tailor carefully sewing ivory linen" width="1536" height="1024" loading="lazy" /><span>BUILT WITH EVERYDAY CRAFT IN MIND.</span></div><div className="craft-copy"><p className="eyebrow">A SIMPLE PURPOSE</p><h2>Less searching.<br />More creating.<br /><em>Better days.</em></h2><p>Customer details in one place. Measurements ready for the next visit. Orders with clear progress and delivery dates. Payments you can follow.</p><p>Our purpose is simple: help you spend less time keeping track and more time doing the work you love. Manage your shop in the mobile app and your subscription here on the website.</p><Button className="mt-8" to="/billing">Find your plan<ArrowRight size={16} /></Button></div></section>
+    <section className="landing-container feature-section"><p className="eyebrow">WHAT WE BUILD FOR</p><h2 className="mt-5">The everyday details.<br /><em>The bigger picture.</em></h2><div className="feature-editorial about-principles">{principles.map(({
+            icon: Icon,
+            number,
+            title,
+            description
+          }) => <article key={number}><div className="feature-top"><Icon size={25} strokeWidth={1.5} /><span>{number}</span></div><h3>{title}</h3><p>{description}</p></article>)}</div></section>
+    <section className="about-contact"><div className="landing-container"><div><p className="eyebrow">LET’S TALK</p><h2>A real question?<br /><em>We’re here to help.</em></h2></div><div><a href="mailto:stitchbook3@gmail.com"><Mail size={18} />stitchbook3@gmail.com<ArrowRight size={17} /></a><a href="tel:+919705116606"><Phone size={18} />+91 97051 16606<ArrowRight size={17} /></a><p><MapPin size={18} />Hyderabad, India</p></div></div></section>
+  </div></PageShell>;
 }
-
-export default AboutPage;

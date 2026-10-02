@@ -2,12 +2,12 @@ import { Mail, MapPin, Phone } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import Logo from './Logo.jsx';
 function Footer() {
-  return <footer className="border-t border-border bg-white text-ink">
+  return <footer className="site-footer border-t border-border text-ink">
     <div className="mx-auto grid max-w-7xl gap-8 px-4 py-10 sm:px-6 md:grid-cols-[1.4fr_1fr_1fr] lg:px-8">
-      <div><Logo /><p className="mt-4 max-w-sm text-sm leading-6 text-muted">Manage daily shop work in the app. Your account and subscription are available here.</p></div>
+      <div><Logo /><p className="mt-4 max-w-sm text-sm leading-6 text-muted">A little less admin. A lot more craft. Simple tools for the people who make the perfect fit.</p></div>
       <div><h3 className="text-sm font-semibold">Explore</h3><div className="mt-3 grid gap-1 text-sm text-muted">
         <a className="flex min-h-11 items-center hover:text-brass" href="/#features">Product</a>
-        <Link className="flex min-h-11 items-center hover:text-brass" to="/billing">Plans</Link>
+        <Link className="flex min-h-11 items-center hover:text-brass" to="/billing">Subscription plans</Link>
         <Link className="flex min-h-11 items-center hover:text-brass" to="/about">About</Link>
         <Link className="flex min-h-11 items-center hover:text-brass" to="/terms">Terms and support</Link>
         <Link className="flex min-h-11 items-center hover:text-brass" to="/privacy">Privacy</Link>

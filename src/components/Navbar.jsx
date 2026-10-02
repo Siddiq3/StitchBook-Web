@@ -1,4 +1,4 @@
-import { LayoutDashboard, LogIn, LogOut, Menu, X } from 'lucide-react';
+import { ChevronDown, ArrowRight, LayoutDashboard, LogIn, LogOut, Menu, X } from 'lucide-react';
 import { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { getAuthToken, getSavedUser, logout } from '../api/authApi.js';
@@ -32,14 +32,14 @@ function Navbar() {
   };
 
   return (
-    <header className="sticky top-0 z-40 border-b border-ink/10 bg-white text-ink">
-      <nav className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
+    <header className="site-header sticky top-0 z-40 border-b border-ink/10 text-ink">
+      <nav className="mx-auto flex max-w-7xl items-center justify-between px-4 py-5 sm:px-6 lg:px-8">
         <Logo />
 
         <div className="hidden items-center gap-8 lg:flex">
           <a className="text-sm font-semibold text-muted transition hover:text-ink" href="/#features">Product</a>
-          <NavLink className={navLinkClass} to="/billing">Plans</NavLink>
-          <NavLink className={navLinkClass} to="/about">About</NavLink>
+          <a className="text-sm font-semibold text-muted transition hover:text-ink" href="/#plans">Pricing</a>
+          <NavLink className={navLinkClass} to="/about">Our story</NavLink>
         </div>
 
         <div className="hidden lg:block">
@@ -63,7 +63,7 @@ function Navbar() {
                 </Button>
               </>
             ) : (
-              <Button to="/login" variant="secondary">Login</Button>
+              <><Button to="/login" variant="primary">Sign in</Button><Button to="/billing" variant="secondary">Get started <ArrowRight size={16} /></Button></>
             )}
           </div>
         </div>
@@ -102,7 +102,7 @@ function Navbar() {
           <div className="mx-auto grid max-w-7xl gap-5">
             <div className="grid gap-2">
               <a className="min-h-11 flex items-center rounded-xl px-3 py-2 text-base font-semibold text-muted transition hover:bg-white hover:text-ink" href="/#features" onClick={() => setOpen(false)}>Product</a>
-              <NavLink className="min-h-11 flex items-center rounded-xl px-3 py-2 text-base font-semibold text-muted transition hover:bg-white hover:text-ink" onClick={() => setOpen(false)} to="/billing">Plans</NavLink>
+              <a className="min-h-11 flex items-center rounded-xl px-3 py-2 text-base font-semibold text-muted transition hover:bg-white hover:text-ink" onClick={() => setOpen(false)} href="/#plans">Pricing</a>
               <NavLink className="min-h-11 flex items-center rounded-xl px-3 py-2 text-base font-semibold text-muted transition hover:bg-white hover:text-ink" onClick={() => setOpen(false)} to="/about">About</NavLink>
             </div>
             {isLoggedIn ? (

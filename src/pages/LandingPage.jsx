@@ -3,19 +3,48 @@ import { ArrowDown, ArrowRight, Check, ChevronRight, ClipboardList, IndianRupee,
 import Button from '../components/Button.jsx';
 import PageShell from '../components/PageShell.jsx';
 import { plans } from '../data/plans.js';
-
 function validDownloadUrl(value) {
-  try { const url = new URL(value); return url.protocol === 'https:' && url.hostname !== 'example.com' ? url.href : null; } catch { return null; }
+  try {
+    const url = new URL(value);
+    return url.protocol === 'https:' && url.hostname !== 'example.com' ? url.href : null;
+  } catch {
+    return null;
+  }
 }
 const downloadUrl = validDownloadUrl(import.meta.env.VITE_APP_DOWNLOAD_URL) || 'mailto:stitchbook3@gmail.com?subject=StitchBook%20app%20download';
 const storeLinks = [['Google Play', validDownloadUrl(import.meta.env.VITE_GOOGLE_PLAY_URL)], ['App Store', validDownloadUrl(import.meta.env.VITE_APP_STORE_URL)]].filter(([, url]) => url);
-const previewTabs = [{ name: 'Orders', icon: ClipboardList }, { name: 'Measurements', icon: Ruler }, { name: 'Payments', icon: IndianRupee }];
-const orders = [
-  { initials: 'AK', name: 'Ananya Kumar', outfit: 'Linen kurta · #1042', status: 'Stitching', className: 'stitching', date: '06 Oct' },
-  { initials: 'RS', name: 'Riya Sharma', outfit: 'Silk blouse · #1043', status: 'Ready', className: 'ready', date: '07 Oct' },
-  { initials: 'VP', name: 'Vikram Patel', outfit: 'Cotton shirt · #1044', status: 'Cutting', className: 'cutting', date: '08 Oct' },
-];
-
+const previewTabs = [{
+  name: 'Orders',
+  icon: ClipboardList
+}, {
+  name: 'Measurements',
+  icon: Ruler
+}, {
+  name: 'Payments',
+  icon: IndianRupee
+}];
+const orders = [{
+  initials: 'AK',
+  name: 'Ananya Kumar',
+  outfit: 'Linen kurta · #1042',
+  status: 'Stitching',
+  className: 'stitching',
+  date: '06 Oct'
+}, {
+  initials: 'RS',
+  name: 'Riya Sharma',
+  outfit: 'Silk blouse · #1043',
+  status: 'Ready',
+  className: 'ready',
+  date: '07 Oct'
+}, {
+  initials: 'VP',
+  name: 'Vikram Patel',
+  outfit: 'Cotton shirt · #1044',
+  status: 'Cutting',
+  className: 'cutting',
+  date: '08 Oct'
+}];
 function ProductPreview() {
   const [activeTab, setActiveTab] = useState('Orders');
   return <div className="product-stage">
@@ -26,7 +55,18 @@ function ProductPreview() {
         <div className="preview-shop"><span className="preview-shop-icon"><Scissors size={21} /></span><div><strong>The everyday atelier</strong><span>Shop owner workspace</span></div><span className="preview-avatar">S</span></div>
         <div className="preview-greeting"><span>A little clarity for your day.</span><h2>Good morning, tailor.</h2></div>
         <div className="preview-stats"><div><span>Active orders</span><strong>24 <small>in progress</small></strong></div><div><span>Ready to deliver</span><strong>08 <small>all stitched up</small></strong></div></div>
-        <div className="preview-tabs" role="tablist" aria-label="Explore the app preview">{previewTabs.map(({ name, icon: Icon }) => <button type="button" role="tab" aria-selected={activeTab === name} id={`tab-${name}`} aria-controls="preview-panel" key={name} onClick={() => setActiveTab(name)} tabIndex={activeTab === name ? 0 : -1} onKeyDown={event => { if (['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) { event.preventDefault(); const index = previewTabs.findIndex(tab => tab.name === activeTab); const next = event.key === 'Home' ? 0 : event.key === 'End' ? 2 : (index + (event.key === 'ArrowRight' ? 1 : 2)) % 3; setActiveTab(previewTabs[next].name); document.getElementById(`tab-${previewTabs[next].name}`)?.focus(); } }}><Icon size={15} />{name}</button>)}</div>
+        <div className="preview-tabs" role="tablist" aria-label="Explore the app preview">{previewTabs.map(({
+            name,
+            icon: Icon
+          }) => <button type="button" role="tab" aria-selected={activeTab === name} id={`tab-${name}`} aria-controls="preview-panel" key={name} onClick={() => setActiveTab(name)} tabIndex={activeTab === name ? 0 : -1} onKeyDown={event => {
+            if (['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) {
+              event.preventDefault();
+              const index = previewTabs.findIndex(tab => tab.name === activeTab);
+              const next = event.key === 'Home' ? 0 : event.key === 'End' ? 2 : (index + (event.key === 'ArrowRight' ? 1 : 2)) % 3;
+              setActiveTab(previewTabs[next].name);
+              document.getElementById(`tab-${previewTabs[next].name}`)?.focus();
+            }
+          }}><Icon size={15} />{name}</button>)}</div>
         <div className="preview-panel" id="preview-panel" role="tabpanel" aria-labelledby={`tab-${activeTab}`} tabIndex={0}>
           {activeTab === 'Orders' && <><div className="preview-list-heading"><strong>Upcoming deliveries</strong><span>3 orders</span></div>{orders.map(order => <div className="preview-order" key={order.name}><span className={`customer-initials ${order.className}`}>{order.initials}</span><div><strong>{order.name}</strong><span>{order.outfit}</span></div><div className="order-meta"><span className={`order-status ${order.className}`}>{order.status}</span><span>{order.date}</span></div></div>)}</>}
           {activeTab === 'Measurements' && <><div className="preview-list-heading"><strong>Ananya’s kurta</strong><span>Saved measurements</span></div><div className="measurement-grid">{[['Chest', '36'], ['Waist', '30'], ['Shoulder', '14'], ['Length', '42']].map(([label, value]) => <div key={label}><span>{label}</span><strong>{value}<small> in</small></strong></div>)}</div><p className="preview-hint"><Check size={14} /> Ready to reuse on the next order.</p></>}
@@ -39,20 +79,28 @@ function ProductPreview() {
     <div className="stitched-orbit" aria-hidden="true" />
   </div>;
 }
-
-const features = [
-  { number: '01', icon: Users, title: 'Remember every customer.', description: 'Names, contact details, past orders. Give every returning customer a familiar welcome.' },
-  { number: '02', icon: Ruler, title: 'A perfect fit, on record.', description: 'Save measurements by outfit and reuse them. The right details, without searching through notebooks.' },
-  { number: '03', icon: ClipboardList, title: 'Follow every stitch.', description: 'From pending to cutting, stitching, ready, and delivered. Keep delivery dates and progress together.' },
-  { number: '04', icon: IndianRupee, title: 'Know what’s paid. And due.', description: 'Record advances, track outstanding balances, and keep payment history alongside each order.' },
-];
-const faqs = [
-  ['What can I do with StitchBook?', 'The mobile app brings together customers, outfit measurements, orders, delivery dates, payments, invoices, and staff assignments. This website is where you sign in and manage your subscription.'],
-  ['How do I get started?', 'Get the StitchBook mobile app and sign in as a shop owner. New accounts receive a trial. When you are ready, sign in here to choose and pay for a plan.'],
-  ['Can my staff use StitchBook?', 'Yes. Team includes access for 2 staff members, and Pro includes 5. Assign cutting and stitching work to your staff. Basic provides owner-only access.'],
-  ['How do payments for my subscription work?', 'Choose a plan on this website and complete the secure Razorpay checkout. Your subscription status is updated after payment verification, so you can continue working in the app.'],
-];
-
+const features = [{
+  number: '01',
+  icon: Users,
+  title: 'Remember every customer.',
+  description: 'Names, contact details, past orders. Give every returning customer a familiar welcome.'
+}, {
+  number: '02',
+  icon: Ruler,
+  title: 'A perfect fit, on record.',
+  description: 'Save measurements by outfit and reuse them. The right details, without searching through notebooks.'
+}, {
+  number: '03',
+  icon: ClipboardList,
+  title: 'Follow every stitch.',
+  description: 'From pending to cutting, stitching, ready, and delivered. Keep delivery dates and progress together.'
+}, {
+  number: '04',
+  icon: IndianRupee,
+  title: 'Know what’s paid. And due.',
+  description: 'Record advances, track outstanding balances, and keep payment history alongside each order.'
+}];
+const faqs = [['What can I do with StitchBook?', 'The mobile app brings together customers, outfit measurements, orders, delivery dates, payments, invoices, and staff assignments. This website is where you sign in and manage your subscription.'], ['How do I get started?', 'Get the StitchBook mobile app and sign in as a shop owner. New accounts receive a trial. When you are ready, sign in here to choose and pay for a plan.'], ['Can my staff use StitchBook?', 'Yes. Team includes access for 2 staff members, and Pro includes 5. Assign cutting and stitching work to your staff. Basic provides owner-only access.'], ['How do payments for my subscription work?', 'Choose a plan on this website and complete the secure Razorpay checkout. Your subscription status is updated after payment verification, so you can continue working in the app.']];
 export default function LandingPage() {
   return <PageShell><div className="landing">
     <section className="landing-hero landing-container">
@@ -60,7 +108,12 @@ export default function LandingPage() {
       <ProductPreview />
     </section>
     <div className="audience-strip"><div className="landing-container"><span>ONE APP. MANY WAYS TO CREATE.</span><p>Independent tailors <i /> Boutique owners <i /> Fashion designers <i /> Growing teams</p><Scissors size={24} aria-hidden="true" /></div></div>
-    <section className="landing-container feature-section" id="features"><div className="section-intro"><div><p className="eyebrow">THE DETAILS MAKE THE DIFFERENCE</p><h2>Everything your shop needs.<br /><em>Nothing in your way.</em></h2></div><p>From the first measurement to the final handover, keep the whole story of every order in your pocket.</p></div><div className="feature-editorial">{features.map(({ number, icon: Icon, title, description }) => <article key={number}><div className="feature-top"><Icon size={24} strokeWidth={1.5} /><span>{number}</span></div><h3>{title}</h3><p>{description}</p></article>)}</div></section>
+    <section className="landing-container feature-section" id="features"><div className="section-intro"><div><p className="eyebrow">THE DETAILS MAKE THE DIFFERENCE</p><h2>Everything your shop needs.<br /><em>Nothing in your way.</em></h2></div><p>From the first measurement to the final handover, keep the whole story of every order in your pocket.</p></div><div className="feature-editorial">{features.map(({
+            number,
+            icon: Icon,
+            title,
+            description
+          }) => <article key={number}><div className="feature-top"><Icon size={24} strokeWidth={1.5} /><span>{number}</span></div><h3>{title}</h3><p>{description}</p></article>)}</div></section>
     <section className="craft-section" id="how-it-works"><div className="craft-photo"><img src="/images/tailoring-craft.webp" alt="Tailor guiding ivory linen through a sewing machine in warm workshop light" loading="lazy" width="1536" height="1024" /><span>FOR THE HANDS THAT MAKE IT HAPPEN.</span></div><div className="craft-copy"><p className="eyebrow">YOUR CRAFT. YOUR BUSINESS.</p><h2>You make the fit.<br />We keep the<br /><em>details together.</em></h2><p>A busy shop has enough moving parts. StitchBook gives your day a little structure, so your attention stays where it belongs.</p><ol className="workflow"><li><span>01</span><div><h3>Make your shop at home.</h3><p>Install the app and sign in as the owner.</p></div></li><li><span>02</span><div><h3>Bring the details together.</h3><p>Add customers, save measurements, and record orders.</p></div></li><li><span>03</span><div><h3>Keep the whole team in step.</h3><p>Choose a plan here. Manage daily work in the app.</p></div></li></ol></div></section>
     <section className="landing-container pricing-section" id="plans"><div className="section-intro"><div><p className="eyebrow">A PLAN THAT FITS YOUR SHOP</p><h2>Small shop. Big plans.<br /><em>Room for both.</em></h2></div><p>Start with the people you have today.<br />Choose more staff access as your shop grows.</p></div><div className="pricing-columns">{Object.entries(plans).map(([key, plan]) => <article className={`pricing-column ${key === 'team' ? 'featured-plan' : ''}`} key={key}><div className="plan-heading"><h3>{plan.label}</h3>{key === 'team' && <span>FOR SMALL TEAMS</span>}</div><p>{plan.description}</p><div className="plan-price">₹{plan.amount}<span>/ month</span></div><div className="plan-access"><Users size={17} />{plan.access}</div><ul>{['Customers & measurements', 'Orders & delivery tracking', 'Payments & invoices', ...(plan.staffLimit ? ['Cutting & stitching assignments'] : ['Your own shop workspace'])].map(feature => <li key={feature}><Check size={15} />{feature}</li>)}</ul><Button className={key === 'team' ? 'landing-primary' : 'plan-button'} to="/billing" variant={key === 'team' ? 'primary' : 'secondary'}>Choose {plan.label}<ArrowRight size={16} /></Button></article>)}</div><p className="pricing-note"><ShieldCheck size={16} /> Secure checkout with Razorpay. Manage your subscription on the web; run your shop in the app.</p></section>
     <section className="faq-section landing-container"><div><p className="eyebrow">A FEW THINGS TO KNOW</p><h2>Good questions.<br /><em>Simple answers.</em></h2><a className="text-link" href="mailto:stitchbook3@gmail.com">Talk to us <ArrowRight size={16} /></a></div><div className="faq-list">{faqs.map(([question, answer]) => <details key={question}><summary>{question}<Plus size={19} /></summary><p>{answer}</p></details>)}</div></section>

@@ -96,7 +96,7 @@ function LoginPage() {
         });
 
         window.google.accounts.id.renderButton(googleButtonRef.current, {
-          theme: 'outline',
+          theme: 'filled_blue',
           size: 'large',
           type: 'standard',
           shape: 'rectangular',
@@ -115,11 +115,11 @@ function LoginPage() {
   return (
     <main className="brand-soft min-h-screen text-ink">
       <section aria-busy={Boolean(loading)} className="mx-auto grid min-h-screen max-w-7xl items-center gap-8 px-4 py-8 sm:px-6 lg:grid-cols-[1.02fr_0.98fr] lg:px-8">
-        <div className="brand-solid relative overflow-hidden rounded-2xl p-6 text-white sm:p-8 lg:min-h-[32rem]">
+        <div className="order-last lg:order-first brand-solid relative overflow-hidden rounded-2xl p-6 text-white sm:p-8 lg:min-h-[32rem]">
           <img
             alt="Tailoring workspace"
             className="absolute inset-0 h-full w-full object-cover opacity-[0.34]"
-            src="/images/stitch-hero.png"
+            src="/images/tailoring-craft.webp"
           />
           <div className="absolute inset-0 bg-brass/72" />
 
@@ -156,7 +156,7 @@ function LoginPage() {
           </div>
         </div>
 
-        <div className="surface-card rounded-2xl bg-white p-5 sm:p-7 lg:p-8">
+        <div className="order-first lg:order-last surface-card rounded-2xl bg-white p-5 sm:p-7 lg:p-8">
           <div>
             <p className="inline-flex items-center gap-2 rounded-full bg-linen px-3 py-1 text-xs font-semibold uppercase tracking-wide text-brass">
               <ShieldCheck size={14} />
