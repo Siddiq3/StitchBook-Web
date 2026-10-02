@@ -104,8 +104,8 @@ function SignatureCutTransition({ reduceMotion }) {
       <section className="signature-cut signature-cut-reduced" aria-label="Cut through the chaos">
         <div className="signature-cut-static">
           <Scissors size={84} strokeWidth={1.25} aria-hidden="true" />
-          <p className="eyebrow">CUT THROUGH THE CHAOS</p>
-          <h2>From scattered shop details<br /><em>to one clear workflow.</em></h2>
+          <p className="eyebrow">CUT THROUGH THE CONFUSION</p>
+          <h2>From scattered details<br /><em>to one simple system.</em></h2>
         </div>
       </section>
     );
@@ -116,9 +116,9 @@ function SignatureCutTransition({ reduceMotion }) {
       <div className="signature-cut-sticky">
         <div className="signature-cut-reveal">
           <motion.div style={{ opacity: revealOpacity, y: revealY }} className="signature-cut-reveal-copy">
-            <p className="eyebrow">STITCHBOOK, REVEALED</p>
-            <h2>Cut away the clutter.<br /><em>Keep the craft moving.</em></h2>
-            <p>Orders, measurements, deadlines and payments stop living in separate places. The next section shows the shop as one connected flow.</p>
+            <p className="eyebrow">A CLEARER WAY TO WORK</p>
+            <h2>Remove the confusion.<br /><em>Keep your shop work moving.</em></h2>
+            <p>Keep orders, measurements, delivery dates and payments together, so your daily shop work is easier to follow.</p>
           </motion.div>
           <div className="signature-pattern signature-pattern-one" />
           <div className="signature-pattern signature-pattern-two" />
@@ -128,14 +128,14 @@ function SignatureCutTransition({ reduceMotion }) {
           <div className="fabric-weave" />
           <motion.div className="signature-cut-intro" style={{ opacity: introOpacity }}>
             <span>01 / THE CUT</span>
-            <strong>Too many details.<br />Too many places.</strong>
+            <strong>Too many details.<br />Too many notebooks.</strong>
           </motion.div>
         </motion.div>
 
         <motion.div className="signature-fabric signature-fabric-right" style={{ x: rightX, scale: fabricScale }}>
           <div className="fabric-weave" />
           <motion.div className="signature-cut-mark" style={{ opacity: introOpacity }}>
-            <span>TAILORING WORK SHOULD FLOW</span>
+            <span>KEEP SHOP WORK SIMPLE</span>
           </motion.div>
         </motion.div>
 
@@ -183,10 +183,10 @@ function DataShowcase({ reduceMotion }) {
         viewport={{ once: false, amount: 0.28 }}
         transition={{ duration: .55, ease: [0.22, 1, 0.36, 1] }}
       >
-        <p className="eyebrow">YOUR DAY, AT A GLANCE</p>
-        <h2 id="data-showcase-title">See the shop move.<br /><em>Before something gets missed.</em></h2>
-        <p>StitchBook turns day-to-day tailoring work into a clear operating view—what is moving, what is ready, what is paid, and what still needs attention.</p>
-        <div className="data-legend"><span><span className="live-dot" /> Illustrative live shop data</span><span><Clock3 size={14} /> Updated as work changes</span></div>
+        <p className="eyebrow">SEE YOUR SHOP AT A GLANCE</p>
+        <h2 id="data-showcase-title">Know what is happening.<br /><em>Before you miss anything.</em></h2>
+        <p>See active orders, ready deliveries, payments and saved measurements in one place. Quickly know what needs attention today.</p>
+        <div className="data-legend"><span><span className="live-dot" /> Illustrative live shop data</span><span><Clock3 size={14} /> Updates as work changes</span></div>
       </motion.div>
 
       <div className="data-stage">
@@ -245,23 +245,23 @@ function DataShowcase({ reduceMotion }) {
 const features = [{
   number: '01',
   icon: Users,
-  title: 'Know every customer at a glance.',
-  description: 'Keep contact details, order history and preferences together, so repeat customers never feel like a fresh start.'
+  title: 'Keep every customer detail ready.',
+  description: 'Save phone number, order history and customer details together, so you can quickly check them when they return.'
 }, {
   number: '02',
   icon: Ruler,
-  title: 'Measurements ready when you need them.',
-  description: 'Save measurements by outfit and reuse them on the next order—without searching through pages of handwritten notes.'
+  title: 'Save measurements and use them again.',
+  description: 'Save measurements for each outfit and use them again for the next order. No need to search old notebooks.'
 }, {
   number: '03',
   icon: ClipboardList,
-  title: 'See exactly where every order stands.',
-  description: 'Track cutting, stitching, ready and delivered stages alongside due dates, so nothing quietly slips behind.'
+  title: 'Know the status of every order.',
+  description: 'Track each order from cutting to stitching, ready and delivered, along with the delivery date.'
 }, {
   number: '04',
   icon: IndianRupee,
-  title: 'Know what came in—and what is still due.',
-  description: 'Record advances, balances and payment history on the order itself, so payment conversations stay simple.'
+  title: 'Track advance and balance easily.',
+  description: 'Record advance, balance and payment history with each order, so you always know what is paid and what is due.'
 }];
 const faqs = [['What can I do with StitchBook?', 'The mobile app brings together customers, outfit measurements, orders, delivery dates, payments, invoices, and staff assignments. This website is where you sign in and manage your subscription.'], ['How do I get started?', 'Get the StitchBook mobile app and sign in as a shop owner. New accounts receive a trial. When you are ready, sign in here to choose and pay for a plan.'], ['Can my staff use StitchBook?', 'Yes. Team includes access for 2 staff members, and Pro includes 5. Assign cutting and stitching work to your staff. Basic provides owner-only access.'], ['How do payments for my subscription work?', 'Choose a plan on this website and complete the secure Cashfree checkout. Your subscription status is updated after payment verification, so you can continue working in the app.']];
 export default function LandingPage() {
@@ -287,7 +287,7 @@ export default function LandingPage() {
 
   return <PageShell><div className="landing">
     <motion.section className="landing-hero landing-container" {...reveal}>
-      <div className="hero-copy"><p className="eyebrow"><span className="live-dot" /> BUILT FOR REAL TAILORING SHOPS</p><h1>Run your shop<br />without <em>running after details.</em></h1><p className="hero-description">Keep customers, measurements, orders, delivery dates and payments in one place—so you always know what is next, what is ready, and what is still due.</p><div className="hero-actions"><Button className="landing-primary" href={downloadUrl}>Start with StitchBook <ArrowRight size={18} /></Button><a className="text-link" href="#features">Explore the app <ArrowDown size={16} /></a></div><div className="hero-reassurance"><span><Check size={15} /> Built around tailoring workflows</span><span><Check size={15} /> Owner and staff plans available</span></div>{storeLinks.length > 0 && <div className="store-links">{storeLinks.map(([name, url]) => <a href={url} key={name}><Smartphone size={15} />{name}<ArrowRight size={14} /></a>)}</div>}</div>
+      <div className="hero-copy"><p className="eyebrow"><span className="live-dot" /> BUILT FOR REAL TAILORING SHOPS</p><h1>Manage your tailoring shop<br /><em>without missing any details.</em></h1><p className="hero-description">Keep customer details, measurements, orders, delivery dates and payments in one place. Know what is pending, what is ready and what payment is still due.</p><div className="hero-actions"><Button className="landing-primary" href={downloadUrl}>Start with StitchBook <ArrowRight size={18} /></Button><a className="text-link" href="#features">Explore the app <ArrowDown size={16} /></a></div><div className="hero-reassurance"><span><Check size={15} /> Built around tailoring workflows</span><span><Check size={15} /> Owner and staff plans available</span></div>{storeLinks.length > 0 && <div className="store-links">{storeLinks.map(([name, url]) => <a href={url} key={name}><Smartphone size={15} />{name}<ArrowRight size={14} /></a>)}</div>}</div>
       <div className="hero-visual-stack">
         <figure className="hero-editorial-shot" aria-hidden="true">
           <img src="/images/stitch-hero.png" alt="" loading="eager" />
@@ -301,8 +301,8 @@ export default function LandingPage() {
         </div>
       </div>
     </motion.section>
-    <motion.div className="audience-strip" {...reveal}><div className="landing-container"><span>BUILT FOR SHOPS THAT WORK WITH THEIR HANDS</span><p>Independent tailors <i /> Boutique owners <i /> Fashion designers <i /> Growing teams</p><Scissors size={24} aria-hidden="true" /></div></motion.div>
-    <motion.section className="landing-container feature-section" id="features" {...reveal}><div className="section-intro"><div><p className="eyebrow">ONE CLEAR VIEW OF YOUR SHOP</p><h2>Stop remembering everything.<br /><em>Let StitchBook remember it.</em></h2></div><p>From the first measurement to the final payment, every important detail stays connected to the customer and order it belongs to.</p></div><div className="feature-editorial">{features.map(({
+    <motion.div className="audience-strip" {...reveal}><div className="landing-container"><span>MADE FOR INDIAN TAILORS AND BOUTIQUES</span><p>Independent tailors <i /> Boutique owners <i /> Fashion designers <i /> Growing teams</p><Scissors size={24} aria-hidden="true" /></div></motion.div>
+    <motion.section className="landing-container feature-section" id="features" {...reveal}><div className="section-intro"><div><p className="eyebrow">ONE CLEAR VIEW OF YOUR SHOP</p><h2>Keep every shop detail<br /><em>in one simple place.</em></h2></div><p>From measurement to delivery and payment, keep every detail linked to the right customer and order.</p></div><div className="feature-editorial">{features.map(({
             number,
             icon: Icon,
             title,
@@ -310,9 +310,9 @@ export default function LandingPage() {
           }) => <motion.article key={number} initial={reduceMotion ? false : { opacity: 0, y: 26, scale: .985 }} whileInView={reduceMotion ? undefined : { opacity: 1, y: 0, scale: 1 }} viewport={{ once: false, amount: 0.28 }} transition={{ duration: .48, delay: Number(number) * .035, ease: [0.22, 1, 0.36, 1] }}><div className="feature-top"><Icon size={24} strokeWidth={1.5} /><span>{number}</span></div><h3>{title}</h3><p>{description}</p></motion.article>)}</div></motion.section>
     <SignatureCutTransition reduceMotion={reduceMotion} />
     <DataShowcase reduceMotion={reduceMotion} />
-    <motion.section className="craft-section" id="how-it-works" {...reveal}><motion.div className="craft-photo" {...revealLeft}><img src="/images/tailoring-craft.webp" alt="Tailor guiding ivory linen through a sewing machine in warm workshop light" loading="lazy" width="1536" height="1024" /><span>FOR THE HANDS THAT MAKE IT HAPPEN.</span></motion.div><motion.div className="craft-copy" {...revealRight}><p className="eyebrow">LESS CHASING. MORE MAKING.</p><h2>Your craft stays personal.<br />Your shop stays<br /><em>under control.</em></h2><p>Busy tailoring shops run on hundreds of small details. StitchBook keeps those details visible, so your team can move work forward without depending on memory.</p><ol className="workflow"><li><span>01</span><div><h3>Set up your shop once.</h3><p>Add your business and start with the people and work you already have.</p></div></li><li><span>02</span><div><h3>Keep every order connected.</h3><p>Customer, measurements, due date, progress and payment stay together.</p></div></li><li><span>03</span><div><h3>Know what needs attention.</h3><p>Open the app and see what is pending, in progress, ready or overdue.</p></div></li></ol></motion.div></motion.section>
-    <motion.section className="landing-container pricing-section" id="plans" {...reveal}><div className="section-intro"><div><p className="eyebrow">PRICING THAT GROWS WITH YOUR SHOP</p><h2>Start simple.<br /><em>Add your team when you need them.</em></h2></div><p>Choose owner-only access or bring cutters and stitchers into the same workflow as your business grows.</p></div><div className="pricing-columns">{Object.entries(plans).map(([key, plan]) => <motion.article className={`pricing-column ${key === 'team' ? 'featured-plan' : ''}`} key={key} initial={reduceMotion ? false : { opacity: 0, y: 28 }} whileInView={reduceMotion ? undefined : { opacity: 1, y: 0 }} viewport={{ once: false, amount: .25 }} transition={{ duration: .5, ease: [0.22, 1, 0.36, 1] }}><div className="plan-heading"><h3>{plan.label}</h3>{key === 'team' && <span>FOR SMALL TEAMS</span>}</div><p>{plan.description}</p><div className="plan-price">₹{plan.amount}<span>/ month</span></div><div className="plan-access"><Users size={17} />{plan.access}</div><ul>{['Customers & measurements', 'Orders & delivery tracking', 'Payments & invoices', ...(plan.staffLimit ? ['Cutting & stitching assignments'] : ['Your own shop workspace'])].map(feature => <li key={feature}><Check size={15} />{feature}</li>)}</ul><Button className={key === 'team' ? 'landing-primary' : 'plan-button'} to="/billing" variant={key === 'team' ? 'primary' : 'secondary'}>Choose {plan.label}<ArrowRight size={16} /></Button></motion.article>)}</div><p className="pricing-note"><ShieldCheck size={16} /> Secure checkout with Cashfree. Manage your subscription on the web; run your shop in the app.</p></motion.section>
-    <motion.section className="faq-section landing-container" {...reveal}><div><p className="eyebrow">BEFORE YOU GET STARTED</p><h2>Clear answers.<br /><em>No fine-print feeling.</em></h2><a className="text-link" href="mailto:stitchbook3@gmail.com">Talk to us <ArrowRight size={16} /></a></div><div className="faq-list">{faqs.map(([question, answer]) => <details key={question}><summary>{question}<Plus size={19} /></summary><p>{answer}</p></details>)}</div></motion.section>
-    <motion.section className="landing-cta" {...reveal}><div className="landing-container"><Scissors size={32} strokeWidth={1.3} /><p className="eyebrow">YOUR SHOP DESERVES A BETTER SYSTEM</p><h2>Leave the notebook chaos behind.<br /><em>Keep the craft.</em></h2><p>Start with one customer, one order, and one clearer way to run the day.</p><Button className="landing-primary" href={downloadUrl}>Get the StitchBook app<ArrowRight size={18} /></Button><a className="cta-secondary" href="/login">Already use StitchBook? Sign in <ChevronRight size={14} /></a></div></motion.section>
+    <motion.section className="craft-section" id="how-it-works" {...reveal}><motion.div className="craft-photo" {...revealLeft}><img src="/images/tailoring-craft.webp" alt="Tailor guiding ivory linen through a sewing machine in warm workshop light" loading="lazy" width="1536" height="1024" /><span>FOR THE HANDS THAT MAKE IT HAPPEN.</span></motion.div><motion.div className="craft-copy" {...revealRight}><p className="eyebrow">LESS CHASING. MORE MAKING.</p><h2>Focus on stitching.<br />Keep your shop<br /><em>under control.</em></h2><p>A busy tailoring shop has many small details to manage. StitchBook keeps them organized so you and your staff can work without depending on memory.</p><ol className="workflow"><li><span>01</span><div><h3>Set up your shop.</h3><p>Add your shop details, customers and current work.</p></div></li><li><span>02</span><div><h3>Keep every order in one place.</h3><p>Customer details, measurements, delivery date, status and payment stay together.</p></div></li><li><span>03</span><div><h3>See what needs attention.</h3><p>Open the app and check what is pending, in progress, ready or overdue.</p></div></li></ol></motion.div></motion.section>
+    <motion.section className="landing-container pricing-section" id="plans" {...reveal}><div className="section-intro"><div><p className="eyebrow">PLANS FOR EVERY SIZE OF SHOP</p><h2>Start with yourself.<br /><em>Add staff when you need them.</em></h2></div><p>Choose a plan for only you, or add cutters and stitchers when your shop grows.</p></div><div className="pricing-columns">{Object.entries(plans).map(([key, plan]) => <motion.article className={`pricing-column ${key === 'team' ? 'featured-plan' : ''}`} key={key} initial={reduceMotion ? false : { opacity: 0, y: 28 }} whileInView={reduceMotion ? undefined : { opacity: 1, y: 0 }} viewport={{ once: false, amount: .25 }} transition={{ duration: .5, ease: [0.22, 1, 0.36, 1] }}><div className="plan-heading"><h3>{plan.label}</h3>{key === 'team' && <span>FOR SMALL TEAMS</span>}</div><p>{plan.description}</p><div className="plan-price">₹{plan.amount}<span>/ month</span></div><div className="plan-access"><Users size={17} />{plan.access}</div><ul>{['Customers & measurements', 'Orders & delivery tracking', 'Payments & invoices', ...(plan.staffLimit ? ['Cutting & stitching assignments'] : ['Your own shop workspace'])].map(feature => <li key={feature}><Check size={15} />{feature}</li>)}</ul><Button className={key === 'team' ? 'landing-primary' : 'plan-button'} to="/billing" variant={key === 'team' ? 'primary' : 'secondary'}>Choose {plan.label}<ArrowRight size={16} /></Button></motion.article>)}</div><p className="pricing-note"><ShieldCheck size={16} /> Secure checkout with Cashfree. Manage your subscription on the web; run your shop in the app.</p></motion.section>
+    <motion.section className="faq-section landing-container" {...reveal}><div><p className="eyebrow">BEFORE YOU GET STARTED</p><h2>Simple questions.<br /><em>Clear answers.</em></h2><a className="text-link" href="mailto:stitchbook3@gmail.com">Talk to us <ArrowRight size={16} /></a></div><div className="faq-list">{faqs.map(([question, answer]) => <details key={question}><summary>{question}<Plus size={19} /></summary><p>{answer}</p></details>)}</div></motion.section>
+    <motion.section className="landing-cta" {...reveal}><div className="landing-container"><Scissors size={32} strokeWidth={1.3} /><p className="eyebrow">YOUR SHOP DESERVES A BETTER SYSTEM</p><h2>Leave old notebooks behind.<br /><em>Manage your shop better.</em></h2><p>Start with your customers and orders, and manage the day with less confusion.</p><Button className="landing-primary" href={downloadUrl}>Get the StitchBook app<ArrowRight size={18} /></Button><a className="cta-secondary" href="/login">Already use StitchBook? Sign in <ChevronRight size={14} /></a></div></motion.section>
   </div></PageShell>;
 }
