@@ -140,7 +140,7 @@ function DashboardPage() {
 
   return (
     <PageShell>
-      <section className="bg-bone px-4 py-8 sm:px-6 lg:px-8">
+      <section className="dashboard-page bg-bone px-4 py-8 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl" aria-busy={loading}>
           <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_minmax(0,0.72fr)]">
             <div className="surface-card rounded-2xl border border-ink/10 bg-white p-5 sm:p-7">

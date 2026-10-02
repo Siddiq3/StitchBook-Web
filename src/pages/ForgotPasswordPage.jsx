@@ -81,7 +81,7 @@ function ForgotPasswordPage() {
   };
 
   return (
-    <main className="brand-soft min-h-screen text-ink">
+    <main className="auth-page auth-recovery brand-soft min-h-screen text-ink">
       <section className="mx-auto flex min-h-screen max-w-xl items-center px-4 py-8 sm:px-6">
         <div className="w-full">
           <Link

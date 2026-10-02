@@ -56,7 +56,7 @@ function LoginPage() {
   };
 
   return (
-    <main className="brand-soft min-h-screen text-ink">
+    <main className="auth-page auth-login brand-soft min-h-screen text-ink">
       <section className="mx-auto grid min-h-screen max-w-6xl items-center gap-8 px-4 py-8 sm:px-6 lg:grid-cols-[1fr_0.9fr] lg:px-8">
         <div className="brand-solid relative overflow-hidden rounded-3xl p-7 text-white sm:p-9 lg:min-h-[34rem]">
           <img

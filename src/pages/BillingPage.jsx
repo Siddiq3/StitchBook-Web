@@ -91,7 +91,7 @@ function BillingPage() {
   };
 
   return (
-    <main className="min-h-screen bg-bone px-4 py-8 text-ink sm:px-6">
+    <main className="billing-page min-h-screen bg-bone px-4 py-8 text-ink sm:px-6">
       <div className="mx-auto max-w-6xl">
         <header className="flex flex-wrap items-center justify-between gap-4">
           <div className="flex items-center gap-3">

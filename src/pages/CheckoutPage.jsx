@@ -114,7 +114,7 @@ function CheckoutPage() {
   }, [checkoutDetails, searchParams, handleSuccess, status]);
 
   return (
-    <main className="min-h-screen bg-bone px-4 py-8 text-ink sm:px-6 sm:py-10">
+    <main className="checkout-page min-h-screen bg-bone px-4 py-8 text-ink sm:px-6 sm:py-10">
       <div className="mx-auto flex min-h-[calc(100vh-5rem)] max-w-4xl items-center justify-center">
         <motion.section
           animate={{ opacity: 1, y: 0 }}

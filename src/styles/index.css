@@ -373,3 +373,90 @@ button:not(:disabled):active, a[role="button"]:active { transform: translateY(1p
 @media (hover:hover) {
   .surface-card:hover { box-shadow: var(--sb-shadow-md); }
 }
+
+
+/* Product surface polish */
+.dashboard-page { padding-block: clamp(2rem, 5vw, 4.5rem); }
+.dashboard-page > div { position: relative; }
+.dashboard-page > div::before {
+  content: '';
+  position: absolute;
+  inset: -2rem 8% auto;
+  height: 12rem;
+  background: radial-gradient(circle, rgba(181,94,58,.10), transparent 68%);
+  filter: blur(24px);
+  pointer-events: none;
+}
+.dashboard-page .surface-card { border-color: rgba(228,224,216,.92); }
+.dashboard-page .surface-card > .mt-7.grid > div {
+  background: linear-gradient(180deg,#FBFAF7,#F4F1EB);
+  border-color: #E5E0D7;
+}
+.dashboard-page aside {
+  background: linear-gradient(145deg,#17212B,#243443);
+  box-shadow: 0 24px 60px rgba(23,33,43,.16);
+}
+.dashboard-page article { transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease; }
+@media (hover:hover) {
+  .dashboard-page article:hover { transform: translateY(-2px); box-shadow: var(--sb-shadow-md); border-color: rgba(181,94,58,.24); }
+}
+.billing-page, .checkout-page, .upgrade-page {
+  background:
+    radial-gradient(circle at 10% 0%, rgba(181,94,58,.08), transparent 26rem),
+    radial-gradient(circle at 100% 20%, rgba(35,58,87,.06), transparent 30rem),
+    var(--sb-canvas);
+}
+.billing-page > div > header, .upgrade-page > div > header {
+  border-bottom: 1px solid var(--sb-border);
+  padding-bottom: 1.25rem;
+}
+.billing-page .surface-card, .checkout-page .surface-card, .upgrade-page .surface-card {
+  box-shadow: var(--sb-shadow-sm);
+}
+.billing-page .surface-card > div.mt-8 > div {
+  background: linear-gradient(180deg,#FFFFFF,#F8F6F2);
+  transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
+}
+@media (hover:hover) {
+  .billing-page .surface-card > div.mt-8 > div:hover { transform: translateY(-2px); border-color: rgba(181,94,58,.25); box-shadow: var(--sb-shadow-md); }
+}
+.auth-page {
+  background:
+    radial-gradient(circle at 12% 8%, rgba(181,94,58,.12), transparent 28rem),
+    linear-gradient(180deg,#FBFAF7,#F3F0EA);
+}
+.auth-page .brand-solid {
+  background: linear-gradient(145deg,#17212B,#283A49);
+  box-shadow: 0 30px 80px rgba(23,33,43,.16);
+}
+.auth-page .brand-solid > .absolute.inset-0.bg-brass\/72,
+.auth-page .brand-solid > .absolute.inset-0.bg-brass\/80 { background: linear-gradient(180deg,rgba(23,33,43,.22),rgba(23,33,43,.76)); }
+.auth-page form.surface-card {
+  box-shadow: 0 24px 70px rgba(23,33,43,.10);
+  border-color: rgba(228,224,216,.9);
+}
+.auth-page form h2, .auth-page h1 { letter-spacing: -.035em; }
+.auth-page label > span { color: #344252; }
+.auth-page input { min-height: 3.25rem; }
+.auth-recovery .surface-card { box-shadow: 0 24px 70px rgba(23,33,43,.10); }
+.checkout-page .surface-card { border-radius: 1.5rem; box-shadow: 0 30px 80px rgba(23,33,43,.10); }
+.checkout-page .surface-card > .grid > div:last-child,
+.upgrade-page section > div.surface-card:last-child {
+  background: linear-gradient(180deg,#F7F4EF,#F0ECE5);
+}
+.upgrade-page section.grid > .surface-card:first-child { box-shadow: 0 22px 60px rgba(23,33,43,.08); }
+#main-content > main > article {
+  border-radius: 1.5rem;
+  border-color: var(--sb-border);
+  box-shadow: var(--sb-shadow-sm);
+}
+#main-content > main > article h1 { letter-spacing: -.035em; }
+#main-content > main > article h2 { color: var(--sb-ink); letter-spacing: -.015em; }
+#main-content > main > article p { color: var(--sb-muted); }
+@media (max-width: 640px) {
+  .dashboard-page { padding-block: 1.5rem 2.5rem; }
+  .auth-page section { padding-block: 1.25rem; }
+  .auth-page .brand-solid { border-radius: 1.25rem; }
+  .auth-page form.surface-card, .auth-recovery .surface-card { border-radius: 1.25rem; }
+  .billing-page, .checkout-page, .upgrade-page { padding-top: 1.5rem; }
+}

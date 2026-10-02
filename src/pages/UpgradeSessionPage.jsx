@@ -151,7 +151,7 @@ function UpgradeSessionPage() {
   };
 
   return (
-    <main className="min-h-screen bg-bone px-4 py-8 text-ink sm:px-6">
+    <main className="upgrade-page min-h-screen bg-bone px-4 py-8 text-ink sm:px-6">
       <div className="mx-auto flex max-w-4xl flex-col gap-6">
         <header className="surface-card flex flex-wrap items-center justify-between gap-4 rounded-2xl border border-ink/10 bg-white p-5">
           <div className="flex items-center gap-3">

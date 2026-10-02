@@ -37,7 +37,7 @@ export default function RegisterPage(){
     }finally{setLoading(false);}
   };
 
-  return <main className="brand-soft min-h-screen text-ink">
+  return <main className="auth-page auth-register brand-soft min-h-screen text-ink">
     <section className="mx-auto grid min-h-screen max-w-6xl items-center gap-8 px-4 py-8 sm:px-6 lg:grid-cols-[0.9fr_1.1fr] lg:px-8">
       <div className="surface-card order-last rounded-3xl bg-white p-6 sm:p-8 lg:order-first">
         <div className="flex items-center gap-3"><LogoMark/><div><p className="text-2xl font-semibold">StitchBook</p><p className="text-sm text-muted">Tailoring shop manager</p></div></div>
