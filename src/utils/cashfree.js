@@ -29,5 +29,5 @@ export async function openCashfreeCheckout({ paymentSessionId, mode }) {
   if (!paymentSessionId || !['sandbox', 'production'].includes(mode)) throw new Error('Payment details are incomplete. Please start again.');
   const loaded = await loadCashfreeScript();
   if (!loaded || !window.Cashfree) throw new Error('Unable to load Cashfree checkout. Please try again.');
-  return window.Cashfree({ mode }).checkout({ paymentSessionId, redirectTarget: '_modal' });
+  return window.Cashfree({ mode }).checkout({ paymentSessionId, redirectTarget: '_self' });
 }
