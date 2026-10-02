@@ -7,6 +7,7 @@ import DashboardPage from './pages/DashboardPage.jsx';
 import DeleteAccountPage from './pages/DeleteAccountPage.jsx';
 import LandingPage from './pages/LandingPage.jsx';
 import LoginPage from './pages/LoginPage.jsx';
+import ForgotPasswordPage from './pages/ForgotPasswordPage.jsx';
 import RegisterPage from './pages/RegisterPage.jsx';
 import PaymentResultPage from './pages/PaymentResultPage.jsx';
 import PrivacyPage from './pages/PrivacyPage.jsx';
@@ -26,6 +27,7 @@ function App() {
       <Route path="/checkout" element={<CheckoutPage />} />
       <Route path="/upgrade/session/:sessionId" element={<UpgradeSessionPage />} />
       <Route path="/login" element={<LoginPage />} />
+      <Route path="/forgot-password" element={<ForgotPasswordPage />} />
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/payment-success" element={<PaymentResultPage status="success" />} />
       <Route path="/payment-failure" element={<PaymentResultPage status="failure" />} />
