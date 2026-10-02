@@ -1,24 +1,38 @@
-import { Mail, MapPin, Phone } from 'lucide-react';
+import { ArrowUpRight, Mail, MapPin, Phone } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import Logo from './Logo.jsx';
+
 function Footer() {
-  return <footer className="site-footer border-t border-border text-ink">
-    <div className="mx-auto grid max-w-7xl gap-8 px-4 py-10 sm:px-6 md:grid-cols-[1.4fr_1fr_1fr] lg:px-8">
-      <div><Logo /><p className="mt-4 max-w-sm text-sm leading-6 text-muted">A little less admin. A lot more craft. Simple tools for the people who make the perfect fit.</p></div>
-      <div><h3 className="text-sm font-semibold">Explore</h3><div className="mt-3 grid gap-1 text-sm text-muted">
-        <a className="flex min-h-11 items-center hover:text-brass" href="/#features">Product</a>
-        <Link className="flex min-h-11 items-center hover:text-brass" to="/billing">Subscription plans</Link>
-        <Link className="flex min-h-11 items-center hover:text-brass" to="/about">About</Link>
-        <Link className="flex min-h-11 items-center hover:text-brass" to="/terms">Terms and support</Link>
-        <Link className="flex min-h-11 items-center hover:text-brass" to="/privacy">Privacy</Link>
-        <Link className="flex min-h-11 items-center hover:text-brass" to="/delete-account">Delete account</Link>
-      </div></div>
-      <div><h3 className="text-sm font-semibold">Contact</h3><div className="mt-3 grid gap-1 text-sm text-muted">
-        <a className="flex min-h-11 items-center gap-2 hover:text-brass" href="mailto:stitchbook3@gmail.com"><Mail size={18} />stitchbook3@gmail.com</a>
-        <a className="flex min-h-11 items-center gap-2 hover:text-brass" href="tel:+919705116606"><Phone size={18} />+91 97051 16606</a>
-        <span className="flex min-h-11 items-center gap-2"><MapPin size={18} />Hyderabad, India</span>
-      </div></div>
-    </div><div className="border-t border-border px-4 py-5 text-center text-xs text-muted">© {new Date().getFullYear()} StitchBook. All rights reserved.</div>
-  </footer>;
+  return (
+    <footer className="site-footer border-t border-border text-ink">
+      <div className="mx-auto grid max-w-7xl gap-10 px-4 py-12 sm:px-6 md:grid-cols-[1.4fr_1fr_1fr] lg:px-8">
+        <div>
+          <Logo />
+          <p className="mt-5 max-w-sm text-sm leading-7 text-muted">A calmer way to run a tailoring business — customers, measurements, orders, staff and payments kept in one place.</p>
+          <p className="mt-5 text-xs font-semibold uppercase tracking-[0.16em] text-muted">Made for tailoring businesses</p>
+        </div>
+        <div>
+          <h3 className="text-xs font-bold uppercase tracking-[0.16em] text-muted">Product</h3>
+          <div className="mt-3 grid text-sm font-semibold">
+            <a className="flex min-h-11 items-center gap-2" href="/#features">Features <ArrowUpRight size={14}/></a>
+            <Link className="flex min-h-11 items-center gap-2" to="/billing">Plans <ArrowUpRight size={14}/></Link>
+            <Link className="flex min-h-11 items-center" to="/about">About StitchBook</Link>
+            <Link className="flex min-h-11 items-center" to="/privacy">Privacy</Link>
+            <Link className="flex min-h-11 items-center" to="/terms">Terms & support</Link>
+            <Link className="flex min-h-11 items-center" to="/delete-account">Delete account</Link>
+          </div>
+        </div>
+        <div>
+          <h3 className="text-xs font-bold uppercase tracking-[0.16em] text-muted">Contact</h3>
+          <div className="mt-3 grid text-sm text-muted">
+            <a className="flex min-h-11 items-center gap-2" href="mailto:stitchbook3@gmail.com"><Mail size={17}/>stitchbook3@gmail.com</a>
+            <a className="flex min-h-11 items-center gap-2" href="tel:+919705116606"><Phone size={17}/>+91 97051 16606</a>
+            <span className="flex min-h-11 items-center gap-2"><MapPin size={17}/>Hyderabad, India</span>
+          </div>
+        </div>
+      </div>
+      <div className="border-t border-border px-4 py-5 text-center text-xs text-muted">© {new Date().getFullYear()} StitchBook. Built for better shop days.</div>
+    </footer>
+  );
 }
 export default Footer;
