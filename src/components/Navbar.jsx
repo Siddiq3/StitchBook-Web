@@ -1,4 +1,5 @@
 import { ArrowRight, ChevronDown, LayoutDashboard, LogIn, LogOut, Menu, X } from 'lucide-react';
+import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { getAuthToken, getSavedUser, logout } from '../api/authApi.js';
@@ -13,6 +14,7 @@ function getInitials(user) {
 function Navbar() {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
+  const reduceMotion = useReducedMotion();
   const isLoggedIn = Boolean(getAuthToken());
   const user = getSavedUser();
   const userLabel = user?.name || user?.email || 'Account';
@@ -58,8 +60,16 @@ function Navbar() {
           <button aria-label="Toggle navigation" aria-expanded={open} aria-controls="mobile-navigation" className="grid h-11 w-11 place-items-center rounded-xl border border-border bg-white shadow-sm" onClick={() => setOpen((value) => !value)} type="button">{open ? <X size={20} /> : <Menu size={20} />}</button>
         </div>
       </nav>
-      {open && (
-        <div id="mobile-navigation" className="border-t border-border bg-bone/95 px-4 py-4 backdrop-blur lg:hidden">
+      <AnimatePresence initial={false}>
+        {open && (
+        <motion.div
+          id="mobile-navigation"
+          className="border-t border-border bg-bone/95 px-4 py-4 backdrop-blur lg:hidden"
+          initial={reduceMotion ? false : { opacity: 0, y: -8 }}
+          animate={reduceMotion ? undefined : { opacity: 1, y: 0 }}
+          exit={reduceMotion ? undefined : { opacity: 0, y: -6 }}
+          transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
+        >
           <div className="mx-auto grid max-w-7xl gap-2">
             <a className="flex min-h-11 items-center rounded-xl px-3 font-semibold text-muted hover:bg-white hover:text-ink" href="/#features" onClick={() => setOpen(false)}>Product</a>
             <a className="flex min-h-11 items-center rounded-xl px-3 font-semibold text-muted hover:bg-white hover:text-ink" href="/#plans" onClick={() => setOpen(false)}>Pricing</a>
@@ -74,8 +84,9 @@ function Navbar() {
               ) : <Button className="w-full" onClick={() => setOpen(false)} to="/billing" variant="brass">Choose a plan <ArrowRight size={16} /></Button>}
             </div>
           </div>
-        </div>
+        </motion.div>
       )}
+      </AnimatePresence>
     </header>
   );
 }
