@@ -1,6 +1,6 @@
 import { motion, useReducedMotion } from 'framer-motion';
 import { useState } from 'react';
-import { ArrowDown, ArrowRight, Check, ChevronRight, ClipboardList, IndianRupee, Plus, Ruler, Scissors, ShieldCheck, Smartphone, Users } from 'lucide-react';
+import { ArrowDown, ArrowRight, Check, ChevronRight, ClipboardList, Clock3, IndianRupee, Plus, Ruler, Scissors, ShieldCheck, Smartphone, Users } from 'lucide-react';
 import Button from '../components/Button.jsx';
 import PageShell from '../components/PageShell.jsx';
 import { plans } from '../data/plans.js';
@@ -80,6 +80,107 @@ function ProductPreview() {
     <div className="stitched-orbit" aria-hidden="true" />
   </div>;
 }
+
+function CuttingDivider({ reduceMotion }) {
+  return (
+    <div className="cutting-divider" aria-hidden="true">
+      <motion.div
+        className="cut-thread"
+        initial={reduceMotion ? false : { scaleX: 0 }}
+        whileInView={reduceMotion ? undefined : { scaleX: 1 }}
+        viewport={{ once: false, amount: 0.7 }}
+        transition={{ duration: 1.15, ease: [0.22, 1, 0.36, 1] }}
+      />
+      <motion.div
+        className="cut-scissors"
+        initial={reduceMotion ? false : { left: '2%', rotate: -8, opacity: 0 }}
+        whileInView={reduceMotion ? undefined : { left: '93%', rotate: 8, opacity: 1 }}
+        viewport={{ once: false, amount: 0.72 }}
+        transition={{ duration: 1.35, ease: [0.22, 1, 0.36, 1] }}
+      >
+        <Scissors size={24} strokeWidth={1.7} />
+      </motion.div>
+      <span className="cut-label">CUT THROUGH THE CHAOS</span>
+    </div>
+  );
+}
+
+const shopSignals = [
+  { label: 'Active orders', value: '24', detail: '6 due this week', tone: 'coral', icon: ClipboardList, progress: 78 },
+  { label: 'Ready to deliver', value: '08', detail: '3 ready today', tone: 'teal', icon: Check, progress: 64 },
+  { label: 'Payments collected', value: '₹18.6k', detail: '₹4.2k still due', tone: 'gold', icon: IndianRupee, progress: 82 },
+  { label: 'Saved measurements', value: '126', detail: 'Across 74 customers', tone: 'lilac', icon: Ruler, progress: 71 }
+];
+
+function DataShowcase({ reduceMotion }) {
+  return (
+    <section className="data-showcase landing-container" aria-labelledby="data-showcase-title">
+      <motion.div
+        className="data-showcase-copy"
+        initial={reduceMotion ? false : { opacity: 0, y: 26 }}
+        whileInView={reduceMotion ? undefined : { opacity: 1, y: 0 }}
+        viewport={{ once: false, amount: 0.28 }}
+        transition={{ duration: .55, ease: [0.22, 1, 0.36, 1] }}
+      >
+        <p className="eyebrow">YOUR DAY, AT A GLANCE</p>
+        <h2 id="data-showcase-title">See the shop move.<br /><em>Before something gets missed.</em></h2>
+        <p>StitchBook turns day-to-day tailoring work into a clear operating view—what is moving, what is ready, what is paid, and what still needs attention.</p>
+        <div className="data-legend"><span><span className="live-dot" /> Illustrative live shop data</span><span><Clock3 size={14} /> Updated as work changes</span></div>
+      </motion.div>
+
+      <div className="data-stage">
+        <svg className="thread-map" viewBox="0 0 760 420" preserveAspectRatio="none" aria-hidden="true">
+          <motion.path
+            d="M38 330 C120 330, 115 92, 230 92 S335 310, 430 278 S535 76, 716 112"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2.2"
+            strokeDasharray="7 8"
+            initial={reduceMotion ? false : { pathLength: 0, opacity: 0 }}
+            whileInView={reduceMotion ? undefined : { pathLength: 1, opacity: 1 }}
+            viewport={{ once: false, amount: .32 }}
+            transition={{ duration: 1.6, ease: [0.22, 1, 0.36, 1] }}
+          />
+        </svg>
+        <div className="data-grid">
+          {shopSignals.map((signal, index) => {
+            const Icon = signal.icon;
+            return (
+              <motion.article
+                className={`data-card data-card-${signal.tone}`}
+                key={signal.label}
+                initial={reduceMotion ? false : { opacity: 0, y: 28, scale: .97 }}
+                whileInView={reduceMotion ? undefined : { opacity: 1, y: 0, scale: 1 }}
+                viewport={{ once: false, amount: .35 }}
+                transition={{ duration: .5, delay: index * .07, ease: [0.22, 1, 0.36, 1] }}
+              >
+                <div className="data-card-top"><span className="data-icon"><Icon size={18} /></span><span>0{index + 1}</span></div>
+                <strong>{signal.value}</strong>
+                <h3>{signal.label}</h3>
+                <p>{signal.detail}</p>
+                <div className="data-progress"><motion.span initial={reduceMotion ? false : { width: 0 }} whileInView={{ width: `${signal.progress}%` }} viewport={{ once: false, amount: .5 }} transition={{ duration: .9, delay: .12 + index * .06, ease: [0.22, 1, 0.36, 1] }} /></div>
+              </motion.article>
+            );
+          })}
+        </div>
+        <motion.div
+          className="data-ticket"
+          initial={reduceMotion ? false : { opacity: 0, x: 22, rotate: 3 }}
+          whileInView={reduceMotion ? undefined : { opacity: 1, x: 0, rotate: -1.5 }}
+          viewport={{ once: false, amount: .4 }}
+          transition={{ duration: .58, delay: .18, ease: [0.22, 1, 0.36, 1] }}
+        >
+          <span>ORDER #1042</span>
+          <strong>Ananya Kumar</strong>
+          <small>Stitching · due 06 Oct</small>
+          <div><span>Advance</span><b>₹800</b></div>
+          <div><span>Balance</span><b>₹1,000</b></div>
+        </motion.div>
+      </div>
+    </section>
+  );
+}
+
 const features = [{
   number: '01',
   icon: Users,
@@ -146,6 +247,8 @@ export default function LandingPage() {
             title,
             description
           }) => <motion.article key={number} initial={reduceMotion ? false : { opacity: 0, y: 26, scale: .985 }} whileInView={reduceMotion ? undefined : { opacity: 1, y: 0, scale: 1 }} viewport={{ once: false, amount: 0.28 }} transition={{ duration: .48, delay: Number(number) * .035, ease: [0.22, 1, 0.36, 1] }}><div className="feature-top"><Icon size={24} strokeWidth={1.5} /><span>{number}</span></div><h3>{title}</h3><p>{description}</p></motion.article>)}</div></motion.section>
+    <CuttingDivider reduceMotion={reduceMotion} />
+    <DataShowcase reduceMotion={reduceMotion} />
     <motion.section className="craft-section" id="how-it-works" {...reveal}><motion.div className="craft-photo" {...revealLeft}><img src="/images/tailoring-craft.webp" alt="Tailor guiding ivory linen through a sewing machine in warm workshop light" loading="lazy" width="1536" height="1024" /><span>FOR THE HANDS THAT MAKE IT HAPPEN.</span></motion.div><motion.div className="craft-copy" {...revealRight}><p className="eyebrow">LESS CHASING. MORE MAKING.</p><h2>Your craft stays personal.<br />Your shop stays<br /><em>under control.</em></h2><p>Busy tailoring shops run on hundreds of small details. StitchBook keeps those details visible, so your team can move work forward without depending on memory.</p><ol className="workflow"><li><span>01</span><div><h3>Set up your shop once.</h3><p>Add your business and start with the people and work you already have.</p></div></li><li><span>02</span><div><h3>Keep every order connected.</h3><p>Customer, measurements, due date, progress and payment stay together.</p></div></li><li><span>03</span><div><h3>Know what needs attention.</h3><p>Open the app and see what is pending, in progress, ready or overdue.</p></div></li></ol></motion.div></motion.section>
     <motion.section className="landing-container pricing-section" id="plans" {...reveal}><div className="section-intro"><div><p className="eyebrow">PRICING THAT GROWS WITH YOUR SHOP</p><h2>Start simple.<br /><em>Add your team when you need them.</em></h2></div><p>Choose owner-only access or bring cutters and stitchers into the same workflow as your business grows.</p></div><div className="pricing-columns">{Object.entries(plans).map(([key, plan]) => <motion.article className={`pricing-column ${key === 'team' ? 'featured-plan' : ''}`} key={key} initial={reduceMotion ? false : { opacity: 0, y: 28 }} whileInView={reduceMotion ? undefined : { opacity: 1, y: 0 }} viewport={{ once: false, amount: .25 }} transition={{ duration: .5, ease: [0.22, 1, 0.36, 1] }}><div className="plan-heading"><h3>{plan.label}</h3>{key === 'team' && <span>FOR SMALL TEAMS</span>}</div><p>{plan.description}</p><div className="plan-price">₹{plan.amount}<span>/ month</span></div><div className="plan-access"><Users size={17} />{plan.access}</div><ul>{['Customers & measurements', 'Orders & delivery tracking', 'Payments & invoices', ...(plan.staffLimit ? ['Cutting & stitching assignments'] : ['Your own shop workspace'])].map(feature => <li key={feature}><Check size={15} />{feature}</li>)}</ul><Button className={key === 'team' ? 'landing-primary' : 'plan-button'} to="/billing" variant={key === 'team' ? 'primary' : 'secondary'}>Choose {plan.label}<ArrowRight size={16} /></Button></motion.article>)}</div><p className="pricing-note"><ShieldCheck size={16} /> Secure checkout with Cashfree. Manage your subscription on the web; run your shop in the app.</p></motion.section>
     <motion.section className="faq-section landing-container" {...reveal}><div><p className="eyebrow">BEFORE YOU GET STARTED</p><h2>Clear answers.<br /><em>No fine-print feeling.</em></h2><a className="text-link" href="mailto:stitchbook3@gmail.com">Talk to us <ArrowRight size={16} /></a></div><div className="faq-list">{faqs.map(([question, answer]) => <details key={question}><summary>{question}<Plus size={19} /></summary><p>{answer}</p></details>)}</div></motion.section>
