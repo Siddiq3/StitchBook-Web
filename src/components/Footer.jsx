@@ -1,24 +1,55 @@
-import { Mail, MapPin, Phone } from 'lucide-react';
+import { ArrowUpRight, Mail, MapPin, Phone } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import Logo from './Logo.jsx';
+
 function Footer() {
-  return <footer className="site-footer border-t border-border text-ink">
-    <div className="mx-auto grid max-w-7xl gap-8 px-4 py-10 sm:px-6 md:grid-cols-[1.4fr_1fr_1fr] lg:px-8">
-      <div><Logo /><p className="mt-4 max-w-sm text-sm leading-6 text-muted">A little less admin. A lot more craft. Simple tools for the people who make the perfect fit.</p></div>
-      <div><h3 className="text-sm font-semibold">Explore</h3><div className="mt-3 grid gap-1 text-sm text-muted">
-        <a className="flex min-h-11 items-center hover:text-brass" href="/#features">Product</a>
-        <Link className="flex min-h-11 items-center hover:text-brass" to="/billing">Subscription plans</Link>
-        <Link className="flex min-h-11 items-center hover:text-brass" to="/about">About</Link>
-        <Link className="flex min-h-11 items-center hover:text-brass" to="/terms">Terms and support</Link>
-        <Link className="flex min-h-11 items-center hover:text-brass" to="/privacy">Privacy</Link>
-        <Link className="flex min-h-11 items-center hover:text-brass" to="/delete-account">Delete account</Link>
-      </div></div>
-      <div><h3 className="text-sm font-semibold">Contact</h3><div className="mt-3 grid gap-1 text-sm text-muted">
-        <a className="flex min-h-11 items-center gap-2 hover:text-brass" href="mailto:stitchbook3@gmail.com"><Mail size={18} />stitchbook3@gmail.com</a>
-        <a className="flex min-h-11 items-center gap-2 hover:text-brass" href="tel:+919705116606"><Phone size={18} />+91 97051 16606</a>
-        <span className="flex min-h-11 items-center gap-2"><MapPin size={18} />Hyderabad, India</span>
-      </div></div>
-    </div><div className="border-t border-border px-4 py-5 text-center text-xs text-muted">© {new Date().getFullYear()} StitchBook. All rights reserved.</div>
-  </footer>;
+  return (
+    <footer className="site-footer text-ink">
+      <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+        <div className="footer-panel">
+          <div className="max-w-md">
+            <Logo />
+            <p className="mt-4 text-sm leading-6 text-muted">
+              Customers, measurements, orders and payments — organized for tailoring businesses that would rather spend time on the craft.
+            </p>
+            <p className="mt-4 text-xs font-semibold uppercase tracking-[0.16em] text-taupe">
+              Web for your plan · App for daily shop work
+            </p>
+          </div>
+
+          <div>
+            <h3 className="footer-heading">Explore</h3>
+            <div className="footer-links">
+              <a href="/#features">Product</a>
+              <Link to="/billing">Subscription plans</Link>
+              <Link to="/about">Our story</Link>
+            </div>
+          </div>
+
+          <div>
+            <h3 className="footer-heading">Support</h3>
+            <div className="footer-links">
+              <Link to="/terms">Terms & support</Link>
+              <Link to="/privacy">Privacy</Link>
+              <Link to="/delete-account">Delete account</Link>
+            </div>
+          </div>
+
+          <div>
+            <h3 className="footer-heading">Contact</h3>
+            <div className="footer-links">
+              <a className="gap-2" href="mailto:stitchbook3@gmail.com"><Mail size={16} /> Email us <ArrowUpRight size={14} /></a>
+              <a className="gap-2" href="tel:+919705116606"><Phone size={16} /> +91 97051 16606</a>
+              <span className="flex min-h-10 items-center gap-2"><MapPin size={16} /> Hyderabad, India</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="border-t border-border/80 px-4 py-5 text-center text-xs text-muted">
+        © {new Date().getFullYear()} StitchBook. All rights reserved.
+      </div>
+    </footer>
+  );
 }
+
 export default Footer;

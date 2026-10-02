@@ -1,9 +1,10 @@
 import { useState } from 'react';
-import { ArrowLeft, Eye, EyeOff, KeyRound, MailCheck, ShieldCheck } from 'lucide-react';
+import { ArrowLeft, Check, Eye, EyeOff, KeyRound, MailCheck, ShieldCheck } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { requestPasswordReset, resetPasswordWithOtp } from '../api/authApi.js';
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const steps = ['Email', 'Verify', 'Password'];
 
 function ForgotPasswordPage() {
   const navigate = useNavigate();
@@ -14,6 +15,8 @@ function ForgotPasswordPage() {
   const [error, setError] = useState('');
 
   const cleanEmail = form.email.trim().toLowerCase();
+  const activeStep = step === 'email' ? 0 : step === 'code' ? 1 : 2;
+
   const set = (key) => (event) => {
     const value = key === 'otp'
       ? event.target.value.replace(/\D/g, '').slice(0, 6)
@@ -82,35 +85,47 @@ function ForgotPasswordPage() {
 
   return (
     <main className="brand-soft min-h-screen text-ink">
-      <section className="mx-auto flex min-h-screen max-w-xl items-center px-4 py-8 sm:px-6">
+      <section className="mx-auto flex min-h-screen max-w-2xl items-center px-4 py-8 sm:px-6">
         <div className="w-full">
-          <Link
-            className="mb-5 inline-flex min-h-11 items-center gap-2 rounded-xl px-3 text-sm font-semibold text-muted transition hover:bg-white hover:text-ink"
-            to="/login"
-          >
+          <Link className="mb-5 inline-flex min-h-11 items-center gap-2 rounded-xl px-2 text-sm font-semibold text-muted transition hover:text-ink" to="/login">
             <ArrowLeft size={18} />
             Back to sign in
           </Link>
 
-          <div className="surface-card rounded-3xl bg-white p-6 sm:p-8">
-            <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-linen text-brass">
-              <KeyRound size={26} />
+          <div className="auth-card surface-card">
+            <div className="flex items-start justify-between gap-4">
+              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-mist text-brass">
+                <KeyRound size={23} />
+              </div>
+              <span className="auth-badge"><ShieldCheck size={14} /> Account recovery</span>
             </div>
-            <h1 className="mt-6 text-3xl font-semibold leading-tight">Reset your password</h1>
-            <p className="mt-3 text-sm leading-6 text-muted">
-              {step === 'email' && 'Enter the email address linked to your StitchBook account.'}
-              {step === 'code' && `Enter the 6-digit code sent to ${cleanEmail}.`}
+
+            <h1 className="auth-title">Reset your password.</h1>
+            <p className="auth-subtitle">
+              {step === 'email' && 'Start with the email address linked to your StitchBook account.'}
+              {step === 'code' && 'Enter the 6-digit code we sent to ' + cleanEmail + '.'}
               {step === 'password' && 'Create a new password for your StitchBook account.'}
             </p>
 
+            <div className="mt-6 grid grid-cols-3 gap-2" aria-label="Password reset progress">
+              {steps.map((label, index) => (
+                <div className="flex items-center gap-2" key={label}>
+                  <span className={'flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-xs font-bold ' + (index < activeStep ? 'bg-sage text-white' : index === activeStep ? 'bg-brass text-white' : 'bg-bone text-muted')}>
+                    {index < activeStep ? <Check size={14} /> : index + 1}
+                  </span>
+                  <span className={'hidden text-xs font-semibold sm:block ' + (index <= activeStep ? 'text-ink' : 'text-muted')}>{label}</span>
+                </div>
+              ))}
+            </div>
+
             {step === 'email' ? (
-              <form className="mt-7 space-y-5" onSubmit={sendCode}>
-                <label className="block">
-                  <span className="mb-2 block text-sm font-semibold">Email address</span>
+              <form className="auth-form mt-7" onSubmit={sendCode}>
+                <label className="form-label">
+                  <span>Email address</span>
                   <input
                     autoComplete="email"
                     autoCapitalize="none"
-                    className="w-full rounded-xl border border-ink/15 bg-white px-4 py-3.5 text-base outline-none transition focus:border-brass focus:ring-4 focus:ring-brass/10"
+                    className="form-input"
                     onChange={set('email')}
                     placeholder="you@example.com"
                     type="email"
@@ -120,29 +135,29 @@ function ForgotPasswordPage() {
                 <p className="text-xs leading-5 text-muted">
                   For privacy, StitchBook shows the same confirmation whether or not an account exists.
                 </p>
-                {error ? <div role="alert" className="rounded-xl border border-rosewood/20 bg-rosewood/10 p-4 text-sm font-semibold text-rosewood">{error}</div> : null}
-                <button className="min-h-12 w-full rounded-xl bg-brass px-5 py-3 font-semibold text-white transition hover:brightness-95 disabled:opacity-60" disabled={loading} type="submit">
+                {error ? <div role="alert" className="auth-message auth-message-error">{error}</div> : null}
+                <button className="min-h-12 w-full rounded-xl bg-brass px-5 py-3 font-semibold text-white transition hover:bg-midnight disabled:opacity-60" disabled={loading} type="submit">
                   {loading ? 'Sending…' : 'Send verification code'}
                 </button>
               </form>
             ) : null}
 
             {step === 'code' ? (
-              <form className="mt-7 space-y-5" onSubmit={continueCode}>
-                <div className="rounded-2xl border border-ink/10 bg-linen/60 p-4">
-                  <div className="flex items-center gap-3">
-                    <MailCheck className="text-brass" size={20} />
+              <form className="auth-form mt-7" onSubmit={continueCode}>
+                <div className="rounded-2xl border border-border bg-bone p-4">
+                  <div className="flex items-start gap-3">
+                    <MailCheck className="mt-0.5 shrink-0 text-brass" size={20} />
                     <div>
                       <p className="text-sm font-semibold">Check your email</p>
                       <p className="mt-1 text-xs leading-5 text-muted">The code expires shortly. Check spam if it is not in your inbox.</p>
                     </div>
                   </div>
                 </div>
-                <label className="block">
-                  <span className="mb-2 block text-sm font-semibold">Verification code</span>
+                <label className="form-label">
+                  <span>Verification code</span>
                   <input
                     autoComplete="one-time-code"
-                    className="w-full rounded-xl border border-ink/15 bg-white px-4 py-3.5 text-center text-2xl font-semibold tracking-[0.35em] outline-none transition focus:border-brass focus:ring-4 focus:ring-brass/10"
+                    className="form-input text-center text-2xl font-semibold tracking-[0.3em]"
                     inputMode="numeric"
                     maxLength={6}
                     onChange={set('otp')}
@@ -150,29 +165,30 @@ function ForgotPasswordPage() {
                     value={form.otp}
                   />
                 </label>
-                {error ? <div role="alert" className="rounded-xl border border-rosewood/20 bg-rosewood/10 p-4 text-sm font-semibold text-rosewood">{error}</div> : null}
+                {error ? <div role="alert" className="auth-message auth-message-error">{error}</div> : null}
                 <button className="min-h-12 w-full rounded-xl bg-brass px-5 py-3 font-semibold text-white" type="submit">Continue</button>
-                <button className="min-h-11 w-full rounded-xl px-4 text-sm font-semibold text-brass transition hover:bg-linen disabled:opacity-60" disabled={loading} onClick={sendCode} type="button">
-                  {loading ? 'Sending…' : 'Send code again'}
-                </button>
-                <button className="min-h-11 w-full rounded-xl px-4 text-sm font-semibold text-muted transition hover:bg-bone" onClick={() => { setStep('email'); setForm((prev) => ({ ...prev, otp: '' })); setError(''); }} type="button">
-                  Use a different email
-                </button>
+                <div className="grid gap-2 sm:grid-cols-2">
+                  <button className="min-h-11 rounded-xl px-4 text-sm font-semibold text-brass transition hover:bg-mist disabled:opacity-60" disabled={loading} onClick={sendCode} type="button">
+                    {loading ? 'Sending…' : 'Send code again'}
+                  </button>
+                  <button className="min-h-11 rounded-xl px-4 text-sm font-semibold text-muted transition hover:bg-bone" onClick={() => { setStep('email'); setForm((prev) => ({ ...prev, otp: '' })); setError(''); }} type="button">
+                    Use another email
+                  </button>
+                </div>
               </form>
             ) : null}
 
             {step === 'password' ? (
-              <form className="mt-7 space-y-5" onSubmit={resetPassword}>
-                <div className="flex items-center gap-2 rounded-xl bg-linen px-4 py-3 text-sm font-semibold text-brass">
-                  <ShieldCheck size={18} />
-                  Choose a new secure password
+              <form className="auth-form mt-7" onSubmit={resetPassword}>
+                <div className="rounded-xl bg-mist px-4 py-3 text-sm font-semibold text-brass">
+                  Choose a password with at least 8 characters, one letter and one number.
                 </div>
-                <label className="block">
-                  <span className="mb-2 block text-sm font-semibold">New password</span>
-                  <div className="flex items-center rounded-xl border border-ink/15 bg-white pr-3 focus-within:border-brass focus-within:ring-4 focus-within:ring-brass/10">
+                <label className="form-label">
+                  <span>New password</span>
+                  <div className="form-input-group">
                     <input
                       autoComplete="new-password"
-                      className="min-w-0 flex-1 rounded-xl bg-transparent px-4 py-3.5 text-base outline-none"
+                      className="form-input min-w-0 flex-1"
                       onChange={set('password')}
                       placeholder="At least 8 characters"
                       type={showPassword ? 'text' : 'password'}
@@ -183,20 +199,19 @@ function ForgotPasswordPage() {
                     </button>
                   </div>
                 </label>
-                <label className="block">
-                  <span className="mb-2 block text-sm font-semibold">Confirm new password</span>
+                <label className="form-label">
+                  <span>Confirm new password</span>
                   <input
                     autoComplete="new-password"
-                    className="w-full rounded-xl border border-ink/15 bg-white px-4 py-3.5 text-base outline-none transition focus:border-brass focus:ring-4 focus:ring-brass/10"
+                    className="form-input"
                     onChange={set('confirm')}
                     placeholder="Repeat your password"
                     type={showPassword ? 'text' : 'password'}
                     value={form.confirm}
                   />
                 </label>
-                <p className="text-xs leading-5 text-muted">Use 8–128 characters with at least one letter and one number.</p>
-                {error ? <div role="alert" className="rounded-xl border border-rosewood/20 bg-rosewood/10 p-4 text-sm font-semibold text-rosewood">{error}</div> : null}
-                <button className="min-h-12 w-full rounded-xl bg-brass px-5 py-3 font-semibold text-white transition hover:brightness-95 disabled:opacity-60" disabled={loading} type="submit">
+                {error ? <div role="alert" className="auth-message auth-message-error">{error}</div> : null}
+                <button className="min-h-12 w-full rounded-xl bg-brass px-5 py-3 font-semibold text-white transition hover:bg-midnight disabled:opacity-60" disabled={loading} type="submit">
                   {loading ? 'Resetting…' : 'Reset password'}
                 </button>
                 <button className="min-h-11 w-full rounded-xl px-4 text-sm font-semibold text-muted transition hover:bg-bone" onClick={() => { setStep('code'); setError(''); }} type="button">
