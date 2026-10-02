@@ -15,8 +15,8 @@ export async function getUpgradeSession(sessionId) {
   return response.data?.data || response.data;
 }
 
-export async function createUpgradeCheckout(sessionId) {
-  const response = await apiClient.post(`/subscription/upgrade-session/${sessionId}/checkout`);
+export async function createUpgradeCheckout(sessionId, customerPhone) {
+  const response = await apiClient.post(`/subscription/upgrade-session/${sessionId}/checkout`, { customerPhone });
   return response.data?.data || response.data;
 }
 

@@ -1,10 +1,10 @@
 import { ArrowRight, CheckCircle2, Clock3, CreditCard, Loader2, ShieldCheck, Sparkles } from 'lucide-react';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { createUpgradeCheckout, getUpgradeSession, verifyUpgradeCheckout } from '../api/subscriptionApi.js';
 import Button from '../components/Button.jsx';
 import { LogoMark } from '../components/Logo.jsx';
-import { openRazorpayCheckout } from '../utils/razorpay.js';
+import { openCashfreeCheckout } from '../utils/cashfree.js';
 
 const PLAN_DETAILS = {
   basic: {
@@ -44,6 +44,8 @@ function formatDate(value) {
 
 function UpgradeSessionPage() {
   const { sessionId } = useParams();
+  const [searchParams] = useSearchParams();
+  const [customerPhone, setCustomerPhone] = useState('');
   const navigate = useNavigate();
   const [session, setSession] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -85,6 +87,16 @@ function UpgradeSessionPage() {
     return () => window.clearTimeout(timer);
   }, [navigate, paymentSuccess]);
 
+  useEffect(() => {
+    const orderId = searchParams.get('order_id');
+    if (!orderId || !session) return;
+    setCheckingOut(true);
+    verifyUpgradeCheckout(sessionId, {cashfree_order_id:orderId})
+      .then(() => setPaymentSuccess(true))
+      .catch(err => setCheckoutError(err.response?.data?.error || err.response?.data?.message || err.message))
+      .finally(() => setCheckingOut(false));
+  }, [searchParams, sessionId, session]);
+
   const planDetails = useMemo(() => PLAN_DETAILS[session?.plan] || PLAN_DETAILS.basic, [session?.plan]);
   const planLabel = planDetails.label;
   const planAmount = planDetails.amount;
@@ -95,46 +107,14 @@ function UpgradeSessionPage() {
     setCheckingOut(true);
     setCheckoutError('');
     try {
-      const order = await createUpgradeCheckout(sessionId);
-      if (!order?.orderId || !order?.keyId) {
+      const order = await createUpgradeCheckout(sessionId, customerPhone);
+      if (!order?.orderId || !order?.paymentSessionId) {
         throw new Error('Unable to begin checkout right now.');
       }
 
-      const paymentResponse = await new Promise((resolve, reject) => {
-        openRazorpayCheckout({
-          key: order.keyId,
-          amount: order.amount,
-          currency: order.currency || 'INR',
-          name: 'StitchBook',
-          description: `${planLabel} upgrade`,
-          order_id: order.orderId,
-          prefill: {
-            name: session?.user?.name || '',
-            email: session?.user?.email || '',
-            contact: session?.user?.phone || ''
-          },
-          notes: {
-            stitch_upgrade_session_id: sessionId,
-            stitch_plan: session?.plan
-          },
-          theme: { color: '#085CE8' },
-          handler: resolve,
-          modal: {
-            ondismiss: () => reject(new Error('Payment window was closed before completion.'))
-          }
-        }).then((razorpay) => {
-          razorpay.on('payment.failed', (response) => {
-            const reason = response?.error?.description || 'Payment was not completed. Please try again.';
-            reject(new Error(reason));
-          });
-        }).catch(reject);
-      });
-
-      await verifyUpgradeCheckout(sessionId, {
-        razorpay_order_id: paymentResponse.razorpay_order_id || order.orderId,
-        razorpay_payment_id: paymentResponse.razorpay_payment_id,
-        razorpay_signature: paymentResponse.razorpay_signature
-      });
+      const result = await openCashfreeCheckout({paymentSessionId:order.paymentSessionId,mode:order.mode});
+      if (result?.redirect) return;
+      await verifyUpgradeCheckout(sessionId, {cashfree_order_id:order.orderId});
 
       setPaymentSuccess(true);
     } catch (err) {
@@ -202,6 +182,14 @@ function UpgradeSessionPage() {
                 </div>
               </div>
 
+              {!session?.user?.phone && (
+                <label className="mt-6 block text-sm font-semibold">
+                  Mobile number for payment
+                  <input type="tel" autoComplete="tel" inputMode="tel" value={customerPhone}
+                    onChange={event => setCustomerPhone(event.target.value)} placeholder="10-digit mobile number"
+                    className="mt-2 w-full rounded-xl border border-ink/20 px-4 py-3" />
+                </label>
+              )}
               <Button className="mt-6 w-full" onClick={handleCheckout} disabled={checkingOut} variant="primary">
                 {checkingOut ? <Loader2 className="animate-spin" size={17} /> : <ShieldCheck size={17} />}
                 {checkingOut ? 'Please wait...' : 'Pay now'}

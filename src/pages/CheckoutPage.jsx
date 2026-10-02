@@ -2,10 +2,10 @@ import { AlertCircle, CheckCircle2, CreditCard, Loader2 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
-import { getRazorpayCheckoutSession, verifyRazorpayOrderPayment } from '../api/paymentApi.js';
+import { getCashfreeCheckoutSession, verifyCashfreeOrderPayment } from '../api/paymentApi.js';
 import Button from '../components/Button.jsx';
-import { getPaymentDetails, toPaise } from '../utils/queryParams.js';
-import { openRazorpayCheckout } from '../utils/razorpay.js';
+import { getPaymentDetails } from '../utils/queryParams.js';
+import { openCashfreeCheckout } from '../utils/cashfree.js';
 
 function CheckoutPage() {
   const [searchParams] = useSearchParams();
@@ -17,9 +17,9 @@ function CheckoutPage() {
   const [status, setStatus] = useState('idle');
   const [message, setMessage] = useState('');
   const details = checkoutDetails || requestDetails;
-  const razorpayKeyId = details.keyId;
+  const paymentSessionId = checkoutDetails?.paymentSessionId;
 
-  const canPay = Boolean(requestDetails.checkoutToken && razorpayKeyId && details.orderId && details.amount > 0);
+  const canPay = Boolean(requestDetails.checkoutToken && paymentSessionId && details.orderId && details.amount > 0);
 
   useEffect(() => {
     const loadCheckoutSession = async () => {
@@ -33,17 +33,18 @@ function CheckoutPage() {
       setMessage('Preparing your payment.');
 
       try {
-        const response = await getRazorpayCheckoutSession(requestDetails.checkoutToken);
+        const response = await getCashfreeCheckoutSession(requestDetails.checkoutToken);
         const session = response.data;
 
         setCheckoutDetails({
           checkoutToken: requestDetails.checkoutToken,
           orderId: session.orderId,
           orderNumber: session.orderNumber,
-          razorpayOrderId: session.razorpayOrderId,
+          cashfreeOrderId: session.cashfreeOrderId,
           amount: Number(session.amount || 0),
           currency: session.currency || 'INR',
-          keyId: session.keyId,
+          paymentSessionId: session.paymentSessionId,
+          mode: session.mode,
           name: session.customer?.name || '',
           email: session.customer?.email || '',
           phone: session.customer?.phone || '',
@@ -61,31 +62,24 @@ function CheckoutPage() {
   }, [requestDetails.checkoutToken]);
 
   const handleSuccess = useCallback(
-    async (response) => {
+    async () => {
       setStatus('confirming');
       setMessage('Confirming your payment.');
 
-      const razorpayOrderId = response.razorpay_order_id || details.razorpayOrderId || '';
-      const razorpayPaymentId = response.razorpay_payment_id || '';
-      const razorpaySignature = response.razorpay_signature || '';
-
       try {
-        const paymentResult = await verifyRazorpayOrderPayment({
+        const paymentResult = await verifyCashfreeOrderPayment({
           checkoutToken: details.checkoutToken,
-          razorpay_order_id: razorpayOrderId,
-          razorpay_payment_id: razorpayPaymentId,
-          razorpay_signature: razorpaySignature,
+          cashfree_order_id: details.cashfreeOrderId,
         });
 
         const recordedPaymentId = paymentResult?.data?.payment?.id || '';
-        navigate(`/payment-success?orderId=${encodeURIComponent(details.orderId)}&paymentId=${encodeURIComponent(razorpayPaymentId)}&recordedPaymentId=${encodeURIComponent(recordedPaymentId)}`, {
+        navigate(`/payment-success?orderId=${encodeURIComponent(details.orderId)}&paymentId=${encodeURIComponent(paymentResult?.data?.cashfreePaymentId || "")}&recordedPaymentId=${encodeURIComponent(recordedPaymentId)}`, {
           replace: true,
         });
       } catch (error) {
         const reason = error.response?.data?.message || error.message || 'Payment received, but we could not update the order yet.';
-        navigate(`/payment-failure?orderId=${encodeURIComponent(details.orderId)}&reason=${encodeURIComponent(reason)}`, {
-          replace: true,
-        });
+        setStatus('error');
+        setMessage(reason);
       }
     },
     [details, navigate]
@@ -101,57 +95,23 @@ function CheckoutPage() {
     setStatus('loading');
     setMessage('Opening payment window.');
 
-    const options = {
-      key: razorpayKeyId,
-      amount: toPaise(details.amount),
-      currency: details.currency,
-      name: 'StitchBook',
-      description: details.description,
-      order_id: details.razorpayOrderId || undefined,
-      prefill: {
-        name: details.name,
-        email: details.email,
-        contact: details.phone,
-      },
-      notes: {
-        stitch_order_id: details.orderId,
-      },
-      theme: {
-        color: '#085CE8',
-      },
-      handler: handleSuccess,
-      modal: {
-        ondismiss: () => {
-          setStatus('idle');
-          setMessage('Payment was closed before completion.');
-        },
-      },
-    };
-
     try {
-      const razorpay = await openRazorpayCheckout(options);
-
-      razorpay.on('payment.failed', (response) => {
-        const reason = response.error?.description || 'Payment failed. Please try again.';
-        navigate(`/payment-failure?orderId=${encodeURIComponent(details.orderId)}&reason=${encodeURIComponent(reason)}`, {
-          replace: true,
-        });
-      });
-
-      setStatus('opened');
-      setMessage('Complete the payment in the payment window.');
+      const result = await openCashfreeCheckout({ paymentSessionId, mode: details.mode });
+      if (result?.redirect) return;
+      // Cashfree modal completion is not proof of payment. Always ask the server.
+      await handleSuccess();
     } catch (error) {
       setStatus('error');
       setMessage(error.message);
     }
-  }, [canPay, details, handleSuccess, navigate, razorpayKeyId]);
+  }, [canPay, details.mode, handleSuccess, paymentSessionId]);
 
   useEffect(() => {
-    if (!hasAutoOpened.current && canPay && status === 'idle') {
+    if (!hasAutoOpened.current && checkoutDetails && searchParams.get('order_id') && status === 'idle') {
       hasAutoOpened.current = true;
-      startPayment();
+      handleSuccess();
     }
-  }, [canPay, startPayment, status]);
+  }, [checkoutDetails, searchParams, handleSuccess, status]);
 
   return (
     <main className="min-h-screen bg-bone px-4 py-8 text-ink sm:px-6 sm:py-10">
@@ -183,7 +143,7 @@ function CheckoutPage() {
                   <CheckCircle2 className="mt-0.5 text-sage" size={19} />
                 )}
                 <p className="text-sm leading-6 text-muted">
-                  {message || 'The payment window will open automatically when the order details are correct.'}
+                  {message || 'Select Pay now to open secure Cashfree checkout.'}
                 </p>
               </div>
             </div>
@@ -209,12 +169,15 @@ function CheckoutPage() {
                 </div>
               </div>
 
-              {!razorpayKeyId && (
+              {!paymentSessionId && (
                 <p className="mt-5 rounded-2xl border border-clay/30 bg-clay/15 p-3 text-xs leading-5 text-ink/75">
                   Payment details are incomplete. Please start again.
                 </p>
               )}
 
+              {status === 'error' && checkoutDetails && (
+                <Button className="mt-5 w-full" onClick={handleSuccess} variant="secondary">Check payment status</Button>
+              )}
               <Button className="mt-7 w-full" disabled={!canPay || status === 'loading' || status === 'confirming'} onClick={startPayment} variant="brass">
                 {status === 'loading' || status === 'confirming' ? 'Please wait' : 'Pay now'}
               </Button>

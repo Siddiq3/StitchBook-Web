@@ -17,10 +17,8 @@ export function getPaymentDetails(searchParams, routeState = {}) {
   return {
     checkoutToken: value('checkoutToken', 'checkout_token'),
     orderId: value('orderId', 'order_id', 'id'),
-    razorpayOrderId: value('razorpayOrderId', 'razorpay_order_id', 'rpOrderId'),
     amount,
     currency: value('currency') || 'INR',
-    keyId: value('keyId', 'razorpayKeyId', 'razorpay_key_id'),
     name: value('name', 'customerName', 'customer_name'),
     email: value('email', 'customerEmail', 'customer_email'),
     phone: value('phone', 'contact', 'customerPhone', 'customer_phone'),

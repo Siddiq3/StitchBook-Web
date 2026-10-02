@@ -1,11 +1,11 @@
 import apiClient from './client.js';
 
-export async function getRazorpayCheckoutSession(checkoutToken) {
+export async function getCashfreeCheckoutSession(checkoutToken) {
   const response = await apiClient.get(`/payment/checkout-session/${checkoutToken}`);
   return response.data;
 }
 
-export async function verifyRazorpayOrderPayment(payload) {
-  const response = await apiClient.post('/payment/razorpay/verify-payment', payload);
+export async function verifyCashfreeOrderPayment(payload) {
+  const response = await apiClient.post('/payment/cashfree/verify-payment', payload);
   return response.data;
 }
