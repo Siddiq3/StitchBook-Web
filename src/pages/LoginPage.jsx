@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Eye, EyeOff, LockKeyhole, ShieldCheck } from 'lucide-react';
+import { CheckCircle2, Eye, EyeOff, LockKeyhole, ShieldCheck } from 'lucide-react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { LogoMark } from '../components/Logo.jsx';
 import { getAuthToken, loginWithPassword } from '../api/authApi.js';
@@ -138,7 +138,19 @@ function LoginPage() {
                 </button>
               </div>
             </label>
+            <div className="flex justify-end">
+              <Link className="inline-flex min-h-10 items-center px-1 text-sm font-semibold text-brass hover:underline" to="/forgot-password">
+                Forgot password?
+              </Link>
+            </div>
           </div>
+
+          {searchParams.get('reset') === 'success' ? (
+            <div className="mt-5 flex items-start gap-3 rounded-xl border border-emerald-600/20 bg-emerald-50 p-4 text-sm font-semibold text-emerald-700">
+              <CheckCircle2 className="mt-0.5 shrink-0" size={18} />
+              Password reset successfully. Sign in with your new password.
+            </div>
+          ) : null}
 
           {error ? (
             <div role="alert" className="mt-5 rounded-xl border border-rosewood/20 bg-rosewood/10 p-4 text-sm font-semibold text-rosewood">
