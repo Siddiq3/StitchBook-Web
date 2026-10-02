@@ -77,6 +77,7 @@ apiClient.interceptors.response.use(
     const isLoginRequest =
       requestUrl.includes('/auth/google') ||
       requestUrl.includes('/auth/msg91-widget') ||
+      requestUrl.includes('/auth/register') ||
       requestUrl.includes('/auth/login');
 
     if (status !== 401 || !originalRequest || originalRequest._retry || isRefreshRequest || isLoginRequest) {
