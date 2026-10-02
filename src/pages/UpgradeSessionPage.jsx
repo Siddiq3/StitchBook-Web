@@ -112,14 +112,39 @@ function UpgradeSessionPage() {
         throw new Error('Unable to begin checkout right now.');
       }
 
-      const result = await openCashfreeCheckout({paymentSessionId:order.paymentSessionId,mode:order.mode});
+      const result = await openCashfreeCheckout({
+        paymentSessionId: order.paymentSessionId,
+        mode: order.mode,
+      });
+
+      // With redirectTarget="_self", a successful Cashfree launch normally
+      // navigates away before this line runs. If the SDK resolves in-place,
+      // only verify when it did not report an error.
       if (result?.redirect) return;
-      await verifyUpgradeCheckout(sessionId, {cashfree_order_id:order.orderId});
+
+      await verifyUpgradeCheckout(sessionId, {
+        cashfree_order_id: order.orderId,
+      });
 
       setPaymentSuccess(true);
     } catch (err) {
-      const checkoutMessage = err?.response?.data?.error || err?.response?.data?.message || err?.message;
-      setCheckoutError(checkoutMessage || 'Unable to start payment. Please try again.');
+      const providerCode = err?.code ? ` (${err.code})` : '';
+      const checkoutMessage =
+        err?.response?.data?.error ||
+        err?.response?.data?.message ||
+        err?.message;
+
+      setCheckoutError(
+        `${checkoutMessage || 'Unable to start payment. Please try again.'}${providerCode}`
+      );
+
+      // Keep the provider-side details visible in the browser console for
+      // debugging without exposing API credentials.
+      if (err?.details) {
+        console.error('Cashfree checkout error details:', err.details);
+      } else {
+        console.error('Checkout error:', err);
+      }
     } finally {
       setCheckingOut(false);
     }
