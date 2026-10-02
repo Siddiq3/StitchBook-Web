@@ -1,4 +1,4 @@
-import { ChevronDown, ArrowRight, LayoutDashboard, LogIn, LogOut, Menu, X } from 'lucide-react';
+import { ArrowRight, LayoutDashboard, LogIn, LogOut, Menu, X } from 'lucide-react';
 import { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { getAuthToken, getSavedUser, logout } from '../api/authApi.js';
@@ -22,8 +22,9 @@ function Navbar() {
   const user = getSavedUser();
   const userLabel = user?.name || user?.email || 'Account';
   const initials = getInitials(user);
+
   const navLinkClass = ({ isActive }) =>
-    `text-sm font-semibold transition hover:text-ink ${isActive ? 'text-ink' : 'text-muted'}`;
+    'nav-link ' + (isActive ? 'nav-link-active' : '');
 
   const handleLogout = async () => {
     await logout();
@@ -32,63 +33,60 @@ function Navbar() {
   };
 
   return (
-    <header className="site-header sticky top-0 z-40 border-b border-ink/10 text-ink">
-      <nav className="mx-auto flex max-w-7xl items-center justify-between px-4 py-5 sm:px-6 lg:px-8">
+    <header className="site-header sticky top-0 z-40">
+      <nav className="site-nav">
         <Logo />
 
-        <div className="hidden items-center gap-8 lg:flex">
-          <a className="text-sm font-semibold text-muted transition hover:text-ink" href="/#features">Product</a>
-          <a className="text-sm font-semibold text-muted transition hover:text-ink" href="/#plans">Pricing</a>
+        <div className="hidden items-center gap-1 lg:flex">
+          <a className="nav-link" href="/#features">Product</a>
+          <a className="nav-link" href="/#plans">Pricing</a>
           <NavLink className={navLinkClass} to="/about">Our story</NavLink>
         </div>
 
-        <div className="hidden lg:block">
-          <div className="flex items-center gap-3">
-            {isLoggedIn ? (
-              <>
-                <span className="inline-flex min-h-11 items-center gap-2 rounded-full border border-ink/10 bg-white px-3 py-1.5">
-                  <span className="flex h-7 w-7 items-center justify-center rounded-full bg-ink text-[11px] font-semibold text-bone">
-                    {initials}
-                  </span>
-                  <span className="hidden 2xl:block max-w-36 truncate text-sm font-semibold text-muted">{userLabel}</span>
-                  <ChevronDown size={15} className="text-muted" />
-                </span>
-                <Button to="/dashboard" variant="secondary">
-                  <LayoutDashboard size={17} />
-                  Dashboard
-                </Button>
-                <Button onClick={handleLogout} variant="secondary">
-                  <LogOut size={17} />
-                  Logout
-                </Button>
-              </>
-            ) : (
-              <><Button to="/login" variant="primary">Sign in</Button><Button to="/billing" variant="secondary">Get started <ArrowRight size={16} /></Button></>
-            )}
-          </div>
+        <div className="hidden items-center gap-2 lg:flex">
+          {isLoggedIn ? (
+            <>
+              <div className="account-chip" title={userLabel}>
+                <span className="account-avatar">{initials}</span>
+                <span className="max-w-36 truncate">{userLabel}</span>
+              </div>
+              <Button to="/dashboard" variant="secondary">
+                <LayoutDashboard size={17} />
+                Dashboard
+              </Button>
+              <Button onClick={handleLogout} variant="ghost">
+                <LogOut size={17} />
+                Logout
+              </Button>
+            </>
+          ) : (
+            <>
+              <Button to="/login" variant="ghost">Sign in</Button>
+              <Button to="/billing" variant="primary">
+                Get started
+                <ArrowRight size={16} />
+              </Button>
+            </>
+          )}
         </div>
 
         <div className="flex items-center gap-2 lg:hidden">
-          {isLoggedIn ? (
-            <button
-              aria-label="Open account menu"
-              className="inline-flex h-11 w-11 items-center justify-center rounded-full bg-brass text-xs font-semibold text-white"
-              onClick={() => setOpen((value) => !value)}
-              type="button"
-            >
-              {initials}
-            </button>
-          ) : (
-            <Button className="min-h-11 rounded-full px-4 py-2 text-xs" to="/login" variant="primary">
+          {!isLoggedIn ? (
+            <Button className="rounded-full px-4 text-xs" to="/login" variant="secondary">
               <LogIn size={15} />
-              Login
+              Sign in
+            </Button>
+          ) : (
+            <Button className="rounded-full px-3" to="/dashboard" variant="secondary" aria-label="Open dashboard">
+              <span className="account-avatar h-7 w-7 text-[11px]">{initials}</span>
             </Button>
           )}
+
           <button
             aria-label="Toggle navigation"
             aria-expanded={open}
             aria-controls="mobile-navigation"
-            className="min-h-11 min-w-11 rounded-xl border border-border bg-white p-2"
+            className="nav-menu-button"
             onClick={() => setOpen((value) => !value)}
             type="button"
           >
@@ -97,46 +95,46 @@ function Navbar() {
         </div>
       </nav>
 
-      {open && (
-        <div id="mobile-navigation" className="border-t border-ink/10 bg-bone px-4 py-5 lg:hidden">
-          <div className="mx-auto grid max-w-7xl gap-5">
-            <div className="grid gap-2">
-              <a className="min-h-11 flex items-center rounded-xl px-3 py-2 text-base font-semibold text-muted transition hover:bg-white hover:text-ink" href="/#features" onClick={() => setOpen(false)}>Product</a>
-              <a className="min-h-11 flex items-center rounded-xl px-3 py-2 text-base font-semibold text-muted transition hover:bg-white hover:text-ink" onClick={() => setOpen(false)} href="/#plans">Pricing</a>
-              <NavLink className="min-h-11 flex items-center rounded-xl px-3 py-2 text-base font-semibold text-muted transition hover:bg-white hover:text-ink" onClick={() => setOpen(false)} to="/about">About</NavLink>
+      {open ? (
+        <div id="mobile-navigation" className="mobile-nav lg:hidden">
+          <div className="mx-auto grid max-w-7xl gap-5 px-4 py-5 sm:px-6">
+            <div className="grid gap-1">
+              <a className="mobile-nav-link" href="/#features" onClick={() => setOpen(false)}>Product</a>
+              <a className="mobile-nav-link" href="/#plans" onClick={() => setOpen(false)}>Pricing</a>
+              <NavLink className="mobile-nav-link" onClick={() => setOpen(false)} to="/about">Our story</NavLink>
             </div>
+
             {isLoggedIn ? (
-              <div className="rounded-2xl border border-ink/10 bg-white p-3">
-                <div className="inline-flex min-h-11 w-full items-center gap-2 rounded-full bg-mist px-3 py-1.5">
-                  <span className="flex h-7 w-7 items-center justify-center rounded-full bg-ink text-[11px] font-semibold text-bone">
-                    {initials}
-                  </span>
-                  <span className="truncate text-sm font-semibold text-muted">{userLabel}</span>
-                  <ChevronDown size={15} className="ml-auto text-muted" />
+              <div className="rounded-2xl border border-border bg-white p-3 shadow-soft">
+                <div className="flex min-h-11 items-center gap-3 rounded-xl bg-bone px-3">
+                  <span className="account-avatar">{initials}</span>
+                  <span className="min-w-0 truncate text-sm font-semibold text-ink">{userLabel}</span>
                 </div>
-                <Button className="mt-3 w-full" onClick={() => setOpen(false)} to="/dashboard" variant="primary">
-                  <LayoutDashboard size={17} />
-                  Dashboard
-                </Button>
-                <Button className="mt-2 w-full" onClick={handleLogout} variant="secondary">
-                  <LogOut size={17} />
-                  Logout
-                </Button>
+                <div className="mt-3 grid grid-cols-2 gap-2">
+                  <Button onClick={() => setOpen(false)} to="/dashboard" variant="primary">
+                    <LayoutDashboard size={17} />
+                    Dashboard
+                  </Button>
+                  <Button onClick={handleLogout} variant="secondary">
+                    <LogOut size={17} />
+                    Logout
+                  </Button>
+                </div>
               </div>
             ) : (
-              <div className="rounded-2xl border border-ink/10 bg-white p-3">
-                <p className="px-1 text-sm font-semibold leading-6 text-muted">
-                  Sign in to manage your subscription and download the mobile app.
+              <div className="rounded-2xl border border-border bg-white p-3 shadow-soft">
+                <p className="px-1 text-sm leading-6 text-muted">
+                  Run daily shop work in the StitchBook app and manage your plan on the web.
                 </p>
                 <Button className="mt-3 w-full" onClick={() => setOpen(false)} to="/login" variant="primary">
                   <LogIn size={17} />
-                  Login
+                  Sign in
                 </Button>
               </div>
             )}
           </div>
         </div>
-      )}
+      ) : null}
     </header>
   );
 }
