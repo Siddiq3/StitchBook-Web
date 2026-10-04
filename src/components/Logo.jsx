@@ -7,7 +7,8 @@ function LogoMark({ className = '' }) {
         alt=""
         aria-hidden="true"
         className="h-full w-full object-cover"
-        src="/stitchbook-app-icon.png"
+        src="/stitchbook-app-icon.webp"
+        width="128" height="128" decoding="async"
       />
     </span>
   );

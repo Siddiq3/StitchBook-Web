@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Eye, EyeOff, ShieldCheck } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
-import { LogoMark } from '../components/Logo.jsx';
+import Logo from '../components/Logo.jsx';
 import { registerWithPassword } from '../api/authApi.js';
 
 const validEmail=(value)=>/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(value||'').trim());
@@ -31,7 +31,7 @@ export default function RegisterPage(){
         phone:form.phone.trim(),
         password:form.password,
       },{name:navigator.userAgent});
-      navigate('/dashboard',{replace:true});
+      navigate('/dashboard',{replace:true,state:{accountCreated:true}});
     }catch(err){
       setError(err.response?.data?.message||err.message||'Could not create account');
     }finally{setLoading(false);}
@@ -40,7 +40,7 @@ export default function RegisterPage(){
   return <main className="auth-page auth-register brand-soft min-h-screen text-ink">
     <section className="mx-auto grid min-h-screen max-w-6xl items-center gap-8 px-4 py-8 sm:px-6 lg:grid-cols-[0.9fr_1.1fr] lg:px-8">
       <div className="surface-card order-last rounded-3xl bg-white p-6 sm:p-8 lg:order-first">
-        <div className="flex items-center gap-3"><LogoMark/><div><p className="text-2xl font-semibold">StitchBook</p><p className="text-sm text-muted">Tailoring shop manager</p></div></div>
+        <Logo />
         <h1 className="mt-7 text-4xl font-semibold leading-tight">Create your account</h1>
         <p className="mt-3 text-sm leading-6 text-muted">Use the same email, mobile number and password on StitchBook mobile and web.</p>
 
@@ -70,7 +70,7 @@ export default function RegisterPage(){
         <div className="relative flex min-h-[26rem] flex-col justify-between">
           <span className="inline-flex w-fit items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm font-semibold"><ShieldCheck size={16}/>Secure account setup</span>
           <div><h2 className="text-4xl font-semibold leading-tight">Your business data stays attached to one identity.</h2><p className="mt-5 max-w-xl text-base leading-7 text-white/80">Email and mobile number are both stored on the account, so either can be used to sign in with your password.</p></div>
-          <p className="text-sm font-semibold text-white/80">Phone OTP and email OTP can be added later without changing the core account model.</p>
+          <p className="text-sm font-semibold text-white/80">Keep customers, measurements and orders together as your shop grows.</p>
         </div>
       </div>
     </section>

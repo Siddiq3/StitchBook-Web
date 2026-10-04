@@ -3,7 +3,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { createUpgradeCheckout, getUpgradeSession, verifyUpgradeCheckout } from '../api/subscriptionApi.js';
 import Button from '../components/Button.jsx';
-import { LogoMark } from '../components/Logo.jsx';
+import Logo from '../components/Logo.jsx';
 import { openCashfreeCheckout } from '../utils/cashfree.js';
 
 const PLAN_DETAILS = {
@@ -155,11 +155,7 @@ function UpgradeSessionPage() {
       <div className="mx-auto flex max-w-4xl flex-col gap-6">
         <header className="surface-card flex flex-wrap items-center justify-between gap-4 rounded-2xl border border-ink/10 bg-white p-5">
           <div className="flex items-center gap-3">
-            <LogoMark />
-            <div>
-              <p className="font-sans text-2xl font-semibold leading-none">StitchBook</p>
-              <p className="mt-1 text-sm font-semibold text-muted">Plan checkout</p>
-            </div>
+            <Logo />
           </div>
           <div className="flex items-center gap-2 rounded-full bg-mist px-3 py-1 text-sm font-semibold text-sage">
             <ShieldCheck size={16} />

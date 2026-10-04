@@ -8,6 +8,7 @@ export default function DeleteAccountForm() {
   const [confirmation, setConfirmation] = useState('');
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState('');
+  const [completed, setCompleted] = useState(false);
   const googleButton = useRef(null);
 
   useEffect(() => {
@@ -78,6 +79,7 @@ export default function DeleteAccountForm() {
           sessionStorage.removeItem('stitchbook_deletion_token');
           sessionStorage.removeItem('stitchbook_deletion_user');
           clearAuthSession();
+          setCompleted(true);
           setMessage('Your account and owned shop data have been deleted.');
           return;
         }
@@ -94,6 +96,10 @@ export default function DeleteAccountForm() {
       setBusy(false);
     }
   };
+
+  if (completed) {
+    return <p role="status" className="mt-8 rounded-2xl border border-border bg-bone p-5 text-sm leading-6">{message}</p>;
+  }
 
   if (!getAuthToken() && !sessionStorage.getItem('stitchbook_deletion_token')) {
     return (

@@ -1,3 +1,5 @@
+import RouteMetadata from './components/RouteMetadata.jsx';
+import NotFoundPage from './pages/NotFoundPage.jsx';
 import TermsPage from './pages/TermsPage.jsx';
 import { Route, Routes } from 'react-router-dom';
 import AboutPage from './pages/AboutPage.jsx';
@@ -16,6 +18,8 @@ import ProtectedRoute from './components/ProtectedRoute.jsx';
 
 function App() {
   return (
+    <>
+    <RouteMetadata />
     <Routes>
       <Route path="/" element={<LandingPage />} />
       <Route path="/about" element={<AboutPage />} />
@@ -31,8 +35,9 @@ function App() {
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/payment-success" element={<PaymentResultPage status="success" />} />
       <Route path="/payment-failure" element={<PaymentResultPage status="failure" />} />
-      <Route path="*" element={<LandingPage />} />
+      <Route path="*" element={<NotFoundPage />} />
     </Routes>
+    </>
   );
 }
 

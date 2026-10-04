@@ -2,7 +2,7 @@ import { CheckCircle2, CreditCard, Loader2, RefreshCw, ShieldCheck, XCircle } fr
 import { useCallback, useEffect, useState } from 'react';
 import { clearAuthSession } from '../api/authApi.js';
 import Button from '../components/Button.jsx';
-import { LogoMark } from '../components/Logo.jsx';
+import Logo from '../components/Logo.jsx';
 import { createUpgradeSession, getSubscriptionStatus } from '../api/subscriptionApi.js';
 
 import { plans } from '../data/plans.js';
@@ -94,13 +94,9 @@ function BillingPage() {
       <div className="mx-auto max-w-6xl">
         <header className="flex flex-wrap items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <LogoMark />
-            <div>
-              <p className="font-sans text-3xl font-semibold leading-none">StitchBook</p>
-              <p className="mt-1 text-sm font-semibold text-muted">Subscription status</p>
-            </div>
+            <Logo />
           </div>
-          <Button onClick={loadStatus} variant="secondary">
+          <Button disabled={loading} onClick={loadStatus} variant="secondary">
             {loading ? <Loader2 className="animate-spin" size={17} /> : <RefreshCw size={17} />}
             Refresh Status
           </Button>
