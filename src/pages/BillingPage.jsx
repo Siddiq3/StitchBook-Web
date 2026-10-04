@@ -7,14 +7,13 @@ import { createUpgradeSession, getSubscriptionStatus } from '../api/subscription
 
 import { plans } from '../data/plans.js';
 
-const features = [
-  'Order management',
+const coreFeatures = [
+  'Unlimited customers and orders on every paid plan',
   'Customer measurements',
-  'Staff access on Team/Pro',
-  'Staff and earnings tracking',
-  'Business dashboard',
+  'Order and delivery tracking',
   'Payment tracking',
-  'Bill sharing',
+  'Invoices and WhatsApp sharing',
+  'Business dashboard',
   'Multi-language support',
 ];
 
@@ -148,7 +147,17 @@ function BillingPage() {
                       <span className="rounded-full bg-mist px-3 py-1 text-xs font-semibold text-sage">{plan.badge}</span>
                     ) : null}
                   </div>
-                  <p className="mt-6 font-sans text-2xl font-semibold">{plan.display}</p>
+                  <p className="mt-4 text-xs font-semibold uppercase tracking-wide text-muted">{plan.bestFor}</p>
+                  <p className="mt-4 font-sans text-2xl font-semibold">{plan.display}</p>
+                  <p className="mt-2 text-sm font-semibold text-ink/75">{plan.access}</p>
+                  <div className="mt-5 grid gap-2">
+                    {plan.features.map((feature) => (
+                      <div className="flex items-start gap-2 text-sm text-muted" key={feature}>
+                        <CheckCircle2 className="mt-0.5 shrink-0 text-sage" size={16} />
+                        <span>{feature}</span>
+                      </div>
+                    ))}
+                  </div>
                   <Button
                     className="mt-6 w-full"
                     disabled={Boolean(checkoutPlan)}
@@ -204,7 +213,7 @@ function BillingPage() {
             <div className="surface-card rounded-2xl border border-ink/10 bg-white p-5">
               <p className="text-xs font-semibold uppercase tracking-wide text-brass">App access includes</p>
               <div className="mt-5 grid gap-3">
-                {features.map((feature) => (
+                {coreFeatures.map((feature) => (
                   <div className="flex items-center gap-3 text-sm font-semibold text-muted" key={feature}>
                     <CheckCircle2 className="text-sage" size={17} />
                     {feature}
