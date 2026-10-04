@@ -6,7 +6,7 @@ function LogoMark({ className = '' }) {
       <img
         alt=""
         aria-hidden="true"
-        className="h-full w-full object-cover"
+        className="h-full w-full object-contain"
         src="/stitchbook-app-icon.webp"
         width="128" height="128" decoding="async"
       />

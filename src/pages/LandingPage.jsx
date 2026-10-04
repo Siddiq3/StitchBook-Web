@@ -291,7 +291,7 @@ export default function LandingPage() {
       <div className="hero-copy"><p className="eyebrow"><span className="live-dot" /> BUILT FOR REAL TAILORING SHOPS</p><h1>Manage your tailoring shop<br /><em>without missing any details.</em></h1><p className="hero-description">Keep customer details, measurements, orders, delivery dates and payments in one place. Know what is pending, what is ready and what payment is still due.</p><div className="hero-actions"><Button className="landing-primary" href={downloadUrl}>{appUrl ? 'Get the StitchBook app' : 'Request app access'} <ArrowRight size={18} /></Button><a className="text-link" href="#features">Explore the app <ArrowDown size={16} /></a></div><div className="hero-reassurance"><span><Check size={15} /> Built around tailoring workflows</span><span><Check size={15} /> Owner and staff plans available</span></div>{storeLinks.length > 0 && <div className="store-links">{storeLinks.map(([name, url]) => <a href={url} key={name}><Smartphone size={15} />{name}<ArrowRight size={14} /></a>)}</div>}</div>
       <div className="hero-visual-stack">
         <figure className="hero-editorial-shot" aria-hidden="true">
-          <img src="/images/stitch-hero.webp" alt="" loading="eager" fetchPriority="high" width="960" height="640" />
+          <img src="/images/stitch-hero.webp" alt="" loading="eager" fetchpriority="high" width="960" height="640" />
           <span>CRAFT × CLARITY</span>
         </figure>
         <ProductPreview />

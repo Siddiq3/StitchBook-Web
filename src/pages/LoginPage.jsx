@@ -71,7 +71,7 @@ function LoginPage() {
             </div>
 
             <div className="max-w-xl">
-              <span className="inline-flex items-center gap-2 rounded-full border border-white/18 bg-white/14 px-4 py-2 text-sm font-semibold text-white/88">
+              <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/15 px-4 py-2 text-sm font-semibold text-white/90">
                 <ShieldCheck size={16} />
                 Secure account access
               </span>
@@ -83,7 +83,7 @@ function LoginPage() {
               </p>
             </div>
 
-            <div className="flex items-center gap-3 text-sm font-semibold text-white/82">
+            <div className="flex items-center gap-3 text-sm font-semibold text-white/80">
               <LockKeyhole size={18} />
               Sign in securely to manage your account and subscription.
             </div>

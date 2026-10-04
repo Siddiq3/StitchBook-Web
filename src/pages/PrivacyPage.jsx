@@ -10,7 +10,7 @@ function PrivacyPage() {
           <p className="mt-5 leading-7">StitchBook stores the account, shop, customer, measurement, order, staff, and payment-record information that you enter so the service can provide its features.</p>
 
           <h2 className="mt-9 text-xl font-semibold">Sign-in and account data</h2>
-          <p className="mt-3 leading-7">Google sign-in supplies basic profile information such as your name, email address, and profile image. A mobile number is stored when you provide or verify it. Entering a number alone does not verify it.</p>
+          <p className="mt-3 leading-7">You sign in with an email address and password. We store your name, email address, and a securely hashed password (never the password itself). A mobile number is stored when you provide it. Shop owners can create staff logins; those staff accounts store the same details.</p>
 
           <h2 className="mt-9 text-xl font-semibold">Service providers</h2>
           <p className="mt-3 leading-7">StitchBook uses service providers for hosting, authentication, messaging, data storage, and subscription payments. Payment credentials are handled by the payment provider; StitchBook stores identifiers and status needed to record a subscription.</p>

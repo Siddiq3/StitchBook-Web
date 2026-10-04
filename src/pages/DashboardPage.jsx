@@ -215,12 +215,12 @@ function DashboardPage() {
             <aside className="rounded-2xl border border-ink/10 bg-ink p-5 text-bone sm:p-7">
               <ClipboardList className="text-brass" size={26} />
               <h2 className="mt-5 font-sans text-4xl font-semibold leading-tight">Your shop subscription</h2>
-              <p className="mt-4 text-sm leading-6 text-bone/68">
+              <p className="mt-4 text-sm leading-6 text-bone/70">
                 The full tailoring workflow is inside the StitchBook app. Use this website for plan changes, checkout, and account status.
               </p>
               <div className="mt-6 grid gap-3">
                 {appActions.map((action) => (
-                  <div className="flex items-center gap-3 text-sm font-semibold text-bone/82" key={action}>
+                  <div className="flex items-center gap-3 text-sm font-semibold text-bone/80" key={action}>
                     <CheckCircle2 className="text-sage" size={17} />
                     {action}
                   </div>
