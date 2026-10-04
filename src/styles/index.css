@@ -2368,3 +2368,21 @@ button:active:not(:disabled), a:active { transform: translateY(1px) scale(.992);
     text-align: left;
   }
 }
+
+/* Let content shrink within grids instead of widening the viewport. */
+#root, main, .surface-card, .landing-container { min-width: 0; }
+main .grid > *, main .flex > *, .site-footer > div > *,
+.landing-hero > *, .faq-section > *, .craft-section > * { min-width: 0; }
+img { max-width: 100%; }
+.site-footer a { overflow-wrap: anywhere; }
+.site-footer svg, .brand-lockup, button > svg, a > svg { flex-shrink: 0; }
+.mobile-navigation { max-height: calc(100dvh - 5rem); overflow-y: auto; }
+.landing { overflow-x: clip; }
+@media (max-width: 640px) {
+  input, select, textarea { font-size: 16px; }
+  .auth-login section > .brand-solid { order: 2; }
+  .auth-login section > form { order: 1; }
+  .auth-register section > .surface-card { order: 1; }
+  .auth-register section > .brand-solid { order: 2; }
+  .site-header nav { gap: .5rem; }
+}

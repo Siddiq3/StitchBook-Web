@@ -12,7 +12,7 @@ import {
   ShieldCheck,
 } from 'lucide-react';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { clearAuthSession, getSavedUser, getProfile, logout } from '../api/authApi.js';
 import { createUpgradeSession, getSubscriptionStatus } from '../api/subscriptionApi.js';
 import Button from '../components/Button.jsx';
@@ -72,6 +72,7 @@ function getStatusLabel(subscription) {
 
 function DashboardPage() {
   const navigate = useNavigate();
+  const location = useLocation();
   const [user, setUser] = useState(() => getSavedUser());
   const [subscription, setSubscription] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -118,7 +119,13 @@ function DashboardPage() {
   }, [user]);
 
   const handleLogout = async () => {
-    await logout();
+    try {
+      await logout();
+    } catch {
+      // The local session is cleared even when the server cannot be reached.
+      navigate('/login?logout=local', { replace: true });
+      return;
+    }
     navigate('/login', { replace: true });
   };
 
@@ -142,6 +149,7 @@ function DashboardPage() {
     <PageShell>
       <section className="dashboard-page bg-bone px-4 py-8 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl" aria-busy={loading}>
+          {location.state?.accountCreated && <p role="status" className="mb-5 rounded-xl bg-emerald-50 p-4 text-sage">Your account has been created. Welcome to StitchBook.</p>}
           <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_minmax(0,0.72fr)]">
             <div className="surface-card rounded-2xl border border-ink/10 bg-white p-5 sm:p-7">
               <div className="flex flex-col gap-5 sm:flex-row sm:items-start sm:justify-between">
@@ -167,7 +175,7 @@ function DashboardPage() {
                 </div>
 
                 <div className="flex flex-wrap gap-2">
-                  <Button onClick={loadAccount} variant="secondary">
+                  <Button disabled={loading} onClick={loadAccount} variant="secondary">
                     {loading ? <Loader2 className="animate-spin" size={17} /> : <RefreshCw size={17} />}
                     Refresh
                   </Button>

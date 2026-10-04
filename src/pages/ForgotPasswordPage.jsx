@@ -133,7 +133,7 @@ function ForgotPasswordPage() {
                   <div className="flex items-center gap-3">
                     <MailCheck className="text-brass" size={20} />
                     <div>
-                      <p className="text-sm font-semibold">Check your email</p>
+                      <p role="status" className="text-sm font-semibold">If an account uses this email, a verification code has been sent.</p>
                       <p className="mt-1 text-xs leading-5 text-muted">The code expires shortly. Check spam if it is not in your inbox.</p>
                     </div>
                   </div>
@@ -151,11 +151,11 @@ function ForgotPasswordPage() {
                   />
                 </label>
                 {error ? <div role="alert" className="rounded-xl border border-rosewood/20 bg-rosewood/10 p-4 text-sm font-semibold text-rosewood">{error}</div> : null}
-                <button className="min-h-12 w-full rounded-xl bg-brass px-5 py-3 font-semibold text-white" type="submit">Continue</button>
+                <button className="min-h-12 w-full rounded-xl bg-brass px-5 py-3 font-semibold text-white" disabled={loading} type="submit">Continue</button>
                 <button className="min-h-11 w-full rounded-xl px-4 text-sm font-semibold text-brass transition hover:bg-linen disabled:opacity-60" disabled={loading} onClick={sendCode} type="button">
                   {loading ? 'Sending…' : 'Send code again'}
                 </button>
-                <button className="min-h-11 w-full rounded-xl px-4 text-sm font-semibold text-muted transition hover:bg-bone" onClick={() => { setStep('email'); setForm((prev) => ({ ...prev, otp: '' })); setError(''); }} type="button">
+                <button className="min-h-11 w-full rounded-xl px-4 text-sm font-semibold text-muted transition hover:bg-bone" disabled={loading} onClick={() => { setStep('email'); setForm((prev) => ({ ...prev, otp: '' })); setError(''); }} type="button">
                   Use a different email
                 </button>
               </form>
@@ -199,7 +199,7 @@ function ForgotPasswordPage() {
                 <button className="min-h-12 w-full rounded-xl bg-brass px-5 py-3 font-semibold text-white transition hover:brightness-95 disabled:opacity-60" disabled={loading} type="submit">
                   {loading ? 'Resetting…' : 'Reset password'}
                 </button>
-                <button className="min-h-11 w-full rounded-xl px-4 text-sm font-semibold text-muted transition hover:bg-bone" onClick={() => { setStep('code'); setError(''); }} type="button">
+                <button className="min-h-11 w-full rounded-xl px-4 text-sm font-semibold text-muted transition hover:bg-bone" disabled={loading} onClick={() => { setStep('code'); setError(''); }} type="button">
                   Back to verification code
                 </button>
               </form>

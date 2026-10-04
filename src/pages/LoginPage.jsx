@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { CheckCircle2, Eye, EyeOff, LockKeyhole, ShieldCheck } from 'lucide-react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
-import { LogoMark } from '../components/Logo.jsx';
+import Logo from '../components/Logo.jsx';
 import { getAuthToken, loginWithPassword } from '../api/authApi.js';
 
 function LoginPage() {
@@ -62,16 +62,12 @@ function LoginPage() {
           <img
             alt="Tailoring workspace"
             className="absolute inset-0 h-full w-full object-cover opacity-[0.3]"
-            src="/images/tailoring-craft.webp"
+            src="/images/tailoring-craft.webp" width="1536" height="1024" decoding="async"
           />
           <div className="absolute inset-0 bg-brass/72" />
           <div className="relative flex h-full min-h-[28rem] flex-col justify-between">
             <div className="flex items-center gap-3">
-              <LogoMark />
-              <div>
-                <p className="text-3xl font-semibold leading-none">StitchBook</p>
-                <p className="mt-1 text-sm font-semibold text-white/72">Tailoring shop manager</p>
-              </div>
+              <Logo dark />
             </div>
 
             <div className="max-w-xl">
@@ -89,7 +85,7 @@ function LoginPage() {
 
             <div className="flex items-center gap-3 text-sm font-semibold text-white/82">
               <LockKeyhole size={18} />
-              Password credentials are verified only by the StitchBook backend.
+              Sign in securely to manage your account and subscription.
             </div>
           </div>
         </div>
@@ -103,6 +99,8 @@ function LoginPage() {
           <p className="mt-3 text-sm leading-6 text-muted">
             Use the email address or mobile number connected to your StitchBook account.
           </p>
+
+          {searchParams.get('logout') === 'local' && <p role="status" className="mt-4 rounded-xl bg-linen p-4 text-sm text-muted">You are signed out on this device. We could not reach the server to end the remote session. For security, sign in again when connected and log out to finish.</p>}
 
           <div className="mt-8 space-y-5">
             <label className="block">

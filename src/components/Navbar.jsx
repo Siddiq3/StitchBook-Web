@@ -1,19 +1,40 @@
-import { ArrowRight, ChevronDown, LayoutDashboard, LogIn, LogOut, Menu, X } from 'lucide-react';
+import { ArrowRight, LayoutDashboard, LogIn, LogOut, Menu, X } from 'lucide-react';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
-import { useState } from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { useEffect, useRef, useState } from 'react';
+import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { getAuthToken, getSavedUser, logout } from '../api/authApi.js';
 import Button from './Button.jsx';
 import Logo from './Logo.jsx';
 
 function getInitials(user) {
   const source = user?.name || user?.email || 'Account';
-  return source.split(/[\\s@]+/).filter(Boolean).slice(0, 2).map((part) => part[0]?.toUpperCase()).join('');
+  return source.split(/[\s@]+/).filter(Boolean).slice(0, 2).map((part) => part[0]?.toUpperCase()).join('');
 }
 
 function Navbar() {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
+  const menuButton = useRef(null);
+
+  useEffect(() => { setOpen(false); }, [location.pathname, location.hash]);
+  useEffect(() => {
+    if (!open) return;
+    const closeOnEscape = (event) => {
+      if (event.key === 'Escape') {
+        setOpen(false);
+        menuButton.current?.focus();
+      }
+    };
+    const desktop = window.matchMedia('(min-width: 1024px)');
+    const closeOnDesktop = () => { if (desktop.matches) setOpen(false); };
+    window.addEventListener('keydown', closeOnEscape);
+    desktop.addEventListener('change', closeOnDesktop);
+    return () => {
+      window.removeEventListener('keydown', closeOnEscape);
+      desktop.removeEventListener('change', closeOnDesktop);
+    };
+  }, [open]);
   const reduceMotion = useReducedMotion();
   const isLoggedIn = Boolean(getAuthToken());
   const user = getSavedUser();
@@ -23,7 +44,13 @@ function Navbar() {
     `relative flex min-h-10 items-center rounded-lg px-3 text-sm font-semibold transition ${isActive ? 'bg-white text-ink shadow-sm' : 'text-muted hover:bg-white/70 hover:text-ink'}`;
 
   const handleLogout = async () => {
-    await logout();
+    try {
+      await logout();
+    } catch {
+      // The local session is cleared even when the server cannot be reached.
+      navigate('/login?logout=local', { replace: true });
+      return;
+    }
     setOpen(false);
     navigate('/login', { replace: true });
   };
@@ -43,7 +70,6 @@ function Navbar() {
               <span className="inline-flex min-h-11 items-center gap-2 rounded-xl border border-border bg-white px-3 shadow-sm">
                 <span className="grid h-7 w-7 place-items-center rounded-lg bg-ink text-[11px] font-bold text-white">{initials}</span>
                 <span className="max-w-32 truncate text-sm font-semibold text-muted">{userLabel}</span>
-                <ChevronDown size={14} className="text-muted" />
               </span>
               <Button to="/dashboard" variant="primary"><LayoutDashboard size={17} />Dashboard</Button>
               <Button onClick={handleLogout} variant="ghost"><LogOut size={17} />Logout</Button>
@@ -57,14 +83,14 @@ function Navbar() {
         </div>
         <div className="flex items-center gap-2 lg:hidden">
           {!isLoggedIn && <Button className="px-3 text-xs" to="/login" variant="ghost"><LogIn size={15} />Sign in</Button>}
-          <button aria-label="Toggle navigation" aria-expanded={open} aria-controls="mobile-navigation" className="grid h-11 w-11 place-items-center rounded-xl border border-border bg-white shadow-sm" onClick={() => setOpen((value) => !value)} type="button">{open ? <X size={20} /> : <Menu size={20} />}</button>
+          <button ref={menuButton} aria-label={open ? "Close navigation" : "Open navigation"} aria-expanded={open} aria-controls="mobile-navigation" className="grid h-11 w-11 place-items-center rounded-xl border border-border bg-white shadow-sm" onClick={() => setOpen((value) => !value)} type="button">{open ? <X size={20} /> : <Menu size={20} />}</button>
         </div>
       </nav>
       <AnimatePresence initial={false}>
         {open && (
         <motion.div
           id="mobile-navigation"
-          className="border-t border-border bg-bone/95 px-4 py-4 backdrop-blur lg:hidden"
+          className="mobile-navigation border-t border-border bg-bone/95 px-4 py-4 backdrop-blur lg:hidden"
           initial={reduceMotion ? false : { opacity: 0, y: -8 }}
           animate={reduceMotion ? undefined : { opacity: 1, y: 0 }}
           exit={reduceMotion ? undefined : { opacity: 0, y: -6 }}
