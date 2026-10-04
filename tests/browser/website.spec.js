@@ -10,6 +10,7 @@ async function mockApi(page, signedIn = false) {
   await page.route('**/api/**', async route => {
     const path = new URL(route.request().url()).pathname;
     const headers = { 'access-control-allow-origin': 'http://127.0.0.1:4173', 'access-control-allow-credentials': 'true' };
+    if (path.endsWith('/subscription/plans')) return route.fulfill({ headers, json: { data: ['basic','team','pro'].map((key, index) => ({ key, amount: [249,449,699][index], currency: 'INR', duration: 'month' })) } });
     if (path.endsWith('/auth/profile')) return route.fulfill({ headers, json: { data: user } });
     if (path.endsWith('/subscription/status')) return route.fulfill({ headers, json: { data: { isActive: true, status: 'active', planType: 'team', daysRemaining: 20 } } });
     return route.fulfill({ headers, status: 400, json: { message: 'This test link has expired. Please start again.' } });
@@ -82,4 +83,35 @@ test('sign-in errors and failed logout give useful feedback', async ({ page }) =
   await expect(page.getByRole('alert')).toBeVisible();
   await page.goto('/login?logout=local');
   await expect(page.getByRole('status')).toContainText('signed out on this device');
+});
+
+
+test('current backend prices appear on landing, billing and dashboard', async ({ page }) => {
+  await mockApi(page,true);
+  for (const path of ['/', '/billing', '/dashboard']) {
+    await page.goto(path);
+    await expect(page.getByText('₹249', { exact: path === '/dashboard' }).first()).toBeVisible();
+    await expect(page.getByText('₹449', { exact: path === '/dashboard' }).first()).toBeVisible();
+    await expect(page.getByText('₹699', { exact: path === '/dashboard' }).first()).toBeVisible();
+    await expect(page.getByText('₹299', { exact:true })).toHaveCount(0);
+  }
+});
+
+test('pricing outage has a retry and never shows hardcoded prices', async ({ page }) => {
+  await mockApi(page);
+  await page.route('**/subscription/plans', route => route.fulfill({status:503,json:{message:'Unavailable'}}));
+  await page.goto('/');
+  await expect(page.getByRole('alert')).toContainText('Prices could not be loaded');
+  await expect(page.locator('#plans')).not.toContainText('₹299');
+  await expect(page.locator('#plans [aria-disabled="true"]')).toHaveCount(3);
+});
+
+test('upgrade page uses its quoted amount instead of the current catalog', async ({ page }) => {
+  await mockApi(page);
+  await page.route('**/subscription/upgrade-session/quoted', route => route.fulfill({
+    headers: { 'access-control-allow-origin': 'http://127.0.0.1:4173', 'access-control-allow-credentials': 'true' },
+    json: { data: { sessionId:'quoted', plan:'basic', amount:199.5, currency:'INR', duration:'month', expiresAt:'2030-01-01T00:00:00Z', user } },
+  }));
+  await page.goto('/upgrade/session/quoted');
+  await expect(page.getByText('₹199.5 / month', { exact:true })).toBeVisible();
 });

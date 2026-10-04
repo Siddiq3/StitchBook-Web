@@ -1,5 +1,4 @@
-// Matches the public monthly plans in StitchBook-Backend/src/services/subscription.service.js.
-// Checkout always uses the server's authoritative price.
+// Feature descriptions stay local; prices are loaded from the backend.
 
 const commonIncluded = [
   { label: 'Customers', value: 'Unlimited', included: true },
@@ -14,8 +13,9 @@ export const plans = {
   basic: {
     label: 'Basic',
     planName: 'Basic',
-    amount: 299,
-    display: '₹299 / month',
+    amount: null,
+    price: 'Check price',
+    display: 'Check price',
     description: 'For a solo tailor.',
     bestFor: 'Solo tailor',
     access: '1 owner',
@@ -34,8 +34,9 @@ export const plans = {
   team: {
     label: 'Team',
     planName: 'Team',
-    amount: 399,
-    display: '₹399 / month',
+    amount: null,
+    price: 'Check price',
+    display: 'Check price',
     description: 'For a small tailoring shop.',
     bestFor: 'Small shop',
     access: '1 owner + 2 staff logins',
@@ -54,8 +55,9 @@ export const plans = {
   pro: {
     label: 'Pro',
     planName: 'Pro',
-    amount: 599,
-    display: '₹599 / month',
+    amount: null,
+    price: 'Check price',
+    display: 'Check price',
     description: 'For a growing tailoring business.',
     bestFor: 'Growing shop',
     access: '1 owner + 5 staff logins',

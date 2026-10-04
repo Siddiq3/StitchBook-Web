@@ -1,38 +1,11 @@
+import { formatPrice } from '../utils/planPrices.js';
 import { ArrowRight, CheckCircle2, Clock3, CreditCard, Loader2, ShieldCheck, Sparkles } from 'lucide-react';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { createUpgradeCheckout, getUpgradeSession, verifyUpgradeCheckout } from '../api/subscriptionApi.js';
 import Button from '../components/Button.jsx';
 import Logo from '../components/Logo.jsx';
 import { openCashfreeCheckout } from '../utils/cashfree.js';
-
-const PLAN_DETAILS = {
-  basic: {
-    label: 'Basic',
-    amount: '₹299 / month',
-    description: 'Owner-only access for customers, orders, measurements, payments and bills.'
-  },
-  monthly: {
-    label: 'Basic',
-    amount: '₹299 / month',
-    description: 'Owner-only access for customers, orders, measurements, payments and bills.'
-  },
-  team: {
-    label: 'Team',
-    amount: '₹399 / month',
-    description: 'Owner plus 2 staff users for cutter/stitcher login and work assignment.'
-  },
-  pro: {
-    label: 'Pro',
-    amount: '₹599 / month',
-    description: 'Owner plus 5 staff users with staff earnings and production tracking.'
-  },
-  annual: {
-    label: 'Annual Pro',
-    amount: '₹1,800 / year',
-    description: 'Legacy annual access for active tailoring businesses.'
-  }
-};
 
 function formatDate(value) {
   if (!value) return '-';
@@ -97,12 +70,12 @@ function UpgradeSessionPage() {
       .finally(() => setCheckingOut(false));
   }, [searchParams, sessionId, session]);
 
-  const planDetails = useMemo(() => PLAN_DETAILS[session?.plan] || PLAN_DETAILS.basic, [session?.plan]);
-  const planLabel = planDetails.label;
-  const planAmount = planDetails.amount;
+  const planLabel = { basic: 'Basic', monthly: 'Basic', team: 'Team', pro: 'Pro', annual: 'Annual Pro' }[session?.plan] || 'Subscription';
+  const validPrice = Number.isFinite(session?.amount) && session.amount > 0 && session.currency === 'INR';
+  const planAmount = validPrice ? `${formatPrice(session.amount)} / ${session.duration === 'year' ? 'year' : 'month'}` : 'Price unavailable';
 
   const handleCheckout = async () => {
-    if (!sessionId || checkingOut) return;
+    if (!sessionId || checkingOut || !validPrice) return;
 
     setCheckingOut(true);
     setCheckoutError('');
@@ -112,6 +85,10 @@ function UpgradeSessionPage() {
         throw new Error('Unable to begin checkout right now.');
       }
 
+      if (order.amount !== session.amount || order.currency !== session.currency) {
+        setSession(value => ({ ...value, amount: order.amount, currency: order.currency }));
+        throw new Error('The checkout price has changed. Please review the updated amount and select Pay again.');
+      }
       const result = await openCashfreeCheckout({
         paymentSessionId: order.paymentSessionId,
         mode: order.mode,
@@ -195,7 +172,7 @@ function UpgradeSessionPage() {
                 <div className="flex flex-col sm:flex-row items-start justify-between gap-3">
                   <div>
                     <p className="text-lg font-semibold">{planLabel} plan</p>
-                    <p className="mt-2 text-sm leading-6 text-muted">{planDetails.description}</p>
+                    <p className="mt-2 text-sm leading-6 text-muted">{'Manage your shop with the selected subscription plan.'}</p>
                   </div>
                   <div className="text-right">
                     <p className="font-sans text-2xl font-semibold">{planAmount}</p>
@@ -211,7 +188,7 @@ function UpgradeSessionPage() {
                     className="mt-2 w-full rounded-xl border border-ink/20 px-4 py-3" />
                 </label>
               )}
-              <Button className="mt-6 w-full" onClick={handleCheckout} disabled={checkingOut} variant="primary">
+              <Button className="mt-6 w-full" onClick={handleCheckout} disabled={checkingOut || !validPrice} variant="primary">
                 {checkingOut ? <Loader2 className="animate-spin" size={17} /> : <ShieldCheck size={17} />}
                 {checkingOut ? 'Please wait...' : 'Pay now'}
               </Button>
