@@ -1,4 +1,4 @@
-// Matches the monthly plans in tailor-backend/src/services/subscription.service.js.
+// Matches the public monthly plans in StitchBook-Backend/src/services/subscription.service.js.
 // Checkout always uses the server's authoritative price.
 export const plans = {
   basic: {
@@ -6,19 +6,44 @@ export const plans = {
     planName: 'Basic',
     amount: 299,
     display: '₹299 / month',
-    description: 'For the independent tailor.',
-    access: 'Shop owner',
-    staffLimit: 0
+    description: 'For a solo tailor.',
+    bestFor: 'Solo tailor',
+    access: '1 owner',
+    staffLimit: 0,
+    reports: 'Basic',
+    automation: 'Not included',
+    prioritySupport: false,
+    features: [
+      'Unlimited customers',
+      'Unlimited orders',
+      'Measurements',
+      'Payments',
+      'Invoices & WhatsApp sharing',
+      'Business dashboard',
+      'Basic reports',
+    ],
   },
   team: {
     label: 'Team',
     planName: 'Team',
     amount: 399,
     display: '₹399 / month',
-    description: 'For a shop that works together.',
-    access: 'Owner + 2 staff members',
+    description: 'For a small tailoring shop.',
+    bestFor: 'Small shop',
+    access: '1 owner + 2 staff logins',
     staffLimit: 2,
-    badge: 'Made for small teams'
+    reports: 'Full',
+    automation: 'Limited',
+    prioritySupport: false,
+    badge: 'Most popular',
+    features: [
+      'Everything in Basic',
+      '2 staff logins',
+      'Staff assignments',
+      'Staff work & earnings ledger',
+      'Full reports',
+      'Limited future automation',
+    ],
   },
   pro: {
     label: 'Pro',
@@ -26,8 +51,19 @@ export const plans = {
     amount: 599,
     display: '₹599 / month',
     description: 'For a growing tailoring business.',
-    access: 'Owner + 5 staff members',
+    bestFor: 'Growing shop',
+    access: '1 owner + 5 staff logins',
     staffLimit: 5,
-    badge: 'Room to grow'
-  }
+    reports: 'Advanced',
+    automation: 'Full',
+    prioritySupport: true,
+    badge: 'Room to grow',
+    features: [
+      'Everything in Team',
+      '5 staff logins',
+      'Advanced reports',
+      'Full future automation',
+      'Priority support',
+    ],
+  },
 };
