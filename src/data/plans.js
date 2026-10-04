@@ -1,5 +1,15 @@
 // Matches the public monthly plans in StitchBook-Backend/src/services/subscription.service.js.
 // Checkout always uses the server's authoritative price.
+
+const commonIncluded = [
+  { label: 'Customers', value: 'Unlimited', included: true },
+  { label: 'Orders', value: 'Unlimited', included: true },
+  { label: 'Measurements', value: 'Included', included: true },
+  { label: 'Payments', value: 'Included', included: true },
+  { label: 'Invoices & WhatsApp sharing', value: 'Included', included: true },
+  { label: 'Business dashboard', value: 'Included', included: true },
+];
+
 export const plans = {
   basic: {
     label: 'Basic',
@@ -10,17 +20,15 @@ export const plans = {
     bestFor: 'Solo tailor',
     access: '1 owner',
     staffLimit: 0,
-    reports: 'Basic',
-    automation: 'Not included',
-    prioritySupport: false,
-    features: [
-      'Unlimited customers',
-      'Unlimited orders',
-      'Measurements',
-      'Payments',
-      'Invoices & WhatsApp sharing',
-      'Business dashboard',
-      'Basic reports',
+    badge: null,
+    featureRows: [
+      ...commonIncluded,
+      { label: 'Staff login', value: 'Not included', included: false },
+      { label: 'Staff assignment', value: 'Not included', included: false },
+      { label: 'Staff work & earnings ledger', value: 'Not included', included: false },
+      { label: 'Reports', value: 'Basic', included: true },
+      { label: 'Future automation', value: 'Not included', included: false },
+      { label: 'Priority support', value: 'Not included', included: false },
     ],
   },
   team: {
@@ -32,17 +40,15 @@ export const plans = {
     bestFor: 'Small shop',
     access: '1 owner + 2 staff logins',
     staffLimit: 2,
-    reports: 'Full',
-    automation: 'Limited',
-    prioritySupport: false,
     badge: 'Most popular',
-    features: [
-      'Everything in Basic',
-      '2 staff logins',
-      'Staff assignments',
-      'Staff work & earnings ledger',
-      'Full reports',
-      'Limited future automation',
+    featureRows: [
+      ...commonIncluded,
+      { label: 'Staff login', value: '2 staff', included: true },
+      { label: 'Staff assignment', value: 'Included', included: true },
+      { label: 'Staff work & earnings ledger', value: 'Included', included: true },
+      { label: 'Reports', value: 'Full', included: true },
+      { label: 'Future automation', value: 'Limited when available', included: true, planned: true },
+      { label: 'Priority support', value: 'Not included', included: false },
     ],
   },
   pro: {
@@ -54,16 +60,15 @@ export const plans = {
     bestFor: 'Growing shop',
     access: '1 owner + 5 staff logins',
     staffLimit: 5,
-    reports: 'Advanced',
-    automation: 'Full',
-    prioritySupport: true,
     badge: 'Room to grow',
-    features: [
-      'Everything in Team',
-      '5 staff logins',
-      'Advanced reports',
-      'Full future automation',
-      'Priority support',
+    featureRows: [
+      ...commonIncluded,
+      { label: 'Staff login', value: '5 staff', included: true },
+      { label: 'Staff assignment', value: 'Included', included: true },
+      { label: 'Staff work & earnings ledger', value: 'Included', included: true },
+      { label: 'Reports', value: 'Advanced', included: true },
+      { label: 'Future automation', value: 'Full when available', included: true, planned: true },
+      { label: 'Priority support', value: 'Included', included: true },
     ],
   },
 };
