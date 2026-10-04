@@ -1,4 +1,4 @@
-import { CheckCircle2, CreditCard, Loader2, RefreshCw, ShieldCheck } from 'lucide-react';
+import { CheckCircle2, CreditCard, Loader2, RefreshCw, ShieldCheck, XCircle } from 'lucide-react';
 import { useCallback, useEffect, useState } from 'react';
 import { clearAuthSession } from '../api/authApi.js';
 import Button from '../components/Button.jsx';
@@ -150,11 +150,26 @@ function BillingPage() {
                   <p className="mt-4 text-xs font-semibold uppercase tracking-wide text-muted">{plan.bestFor}</p>
                   <p className="mt-4 font-sans text-2xl font-semibold">{plan.display}</p>
                   <p className="mt-2 text-sm font-semibold text-ink/75">{plan.access}</p>
-                  <div className="mt-5 grid gap-2">
-                    {plan.features.map((feature) => (
-                      <div className="flex items-start gap-2 text-sm text-muted" key={feature}>
-                        <CheckCircle2 className="mt-0.5 shrink-0 text-sage" size={16} />
-                        <span>{feature}</span>
+                  <div className="mt-5 grid gap-2.5">
+                    {plan.featureRows.map((feature) => (
+                      <div
+                        className={`flex items-start gap-2.5 rounded-xl px-2 py-1.5 text-sm ${feature.included ? 'text-ink/80' : 'text-muted/70'}`}
+                        key={feature.label}
+                      >
+                        {feature.included
+                          ? <CheckCircle2 className="mt-0.5 shrink-0 text-sage" size={16} />
+                          : <XCircle className="mt-0.5 shrink-0 text-clay/75" size={16} />}
+                        <div className="min-w-0 flex-1">
+                          <div className="flex items-start justify-between gap-3">
+                            <span>{feature.label}</span>
+                            <strong className={feature.included ? 'text-ink' : 'font-medium text-muted'}>
+                              {feature.value}
+                            </strong>
+                          </div>
+                          {feature.planned ? (
+                            <span className="mt-1 block text-xs font-medium text-muted">Planned feature</span>
+                          ) : null}
+                        </div>
                       </div>
                     ))}
                   </div>
