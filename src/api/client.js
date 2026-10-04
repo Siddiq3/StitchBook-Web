@@ -1,4 +1,4 @@
-import {getToken as getStoredToken,saveTokens,clearSession as clearStoredSession} from './authSession.js';
+import {getToken as getStoredToken,saveTokens,clearSession as clearStoredSession,restoreSavedSession} from './authSession.js';
 import axios from 'axios';
 
 const PRODUCTION_API_BASE_URL = 'https://stitchbook-backend.onrender.com/api';
@@ -138,9 +138,10 @@ export default apiClient;
 async function restoreSession() {
   localStorage.removeItem(AUTH_TOKEN_KEY);
   localStorage.removeItem(REFRESH_TOKEN_KEY);
-  if (getStoredToken()) return;
-  const response = await apiClient.post('/auth/refresh-token', {});
-  if (response.data?.data?.token) saveTokens(response.data.data);
+  return restoreSavedSession(async () => {
+    const response = await apiClient.post('/auth/refresh-token', {});
+    return response.data?.data;
+  });
 }
 
 let restoring;

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { CheckCircle2, Eye, EyeOff, LockKeyhole, Scissors, ShieldCheck } from 'lucide-react';
+import { CheckCircle2, Eye, EyeOff, LockKeyhole, ShieldCheck } from 'lucide-react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { LogoMark } from '../components/Logo.jsx';
 import { getAuthToken, loginWithPassword } from '../api/authApi.js';
@@ -46,76 +46,83 @@ function LoginPage() {
         replace: true,
       });
     } catch (err) {
-      setError(err.response?.data?.message || 'Invalid email/mobile number or password');
+      setError(
+        err.response?.data?.message ||
+        'Invalid email/mobile number or password'
+      );
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <main className="brand-soft min-h-screen text-ink">
-      <section className="auth-layout">
-        <aside className="auth-story brand-solid">
+    <main className="auth-page auth-login brand-soft min-h-screen text-ink">
+      <section className="mx-auto grid min-h-screen max-w-6xl items-center gap-8 px-4 py-8 sm:px-6 lg:grid-cols-[1fr_0.9fr] lg:px-8">
+        <div className="brand-solid relative overflow-hidden rounded-3xl p-7 text-white sm:p-9 lg:min-h-[34rem]">
           <img
             alt="Tailoring workspace"
-            className="absolute inset-0 h-full w-full object-cover opacity-35"
+            className="absolute inset-0 h-full w-full object-cover opacity-[0.3]"
             src="/images/tailoring-craft.webp"
           />
-          <div className="auth-story-content">
+          <div className="absolute inset-0 bg-brass/72" />
+          <div className="relative flex h-full min-h-[28rem] flex-col justify-between">
             <div className="flex items-center gap-3">
               <LogoMark />
               <div>
-                <p className="font-serif text-3xl leading-none">StitchBook</p>
-                <p className="mt-1 text-sm text-white/65">Tailoring shop manager</p>
+                <p className="text-3xl font-semibold leading-none">StitchBook</p>
+                <p className="mt-1 text-sm font-semibold text-white/72">Tailoring shop manager</p>
               </div>
             </div>
 
-            <div className="max-w-lg">
-              <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm font-semibold text-white/90">
-                <Scissors size={16} />
-                Built for tailoring businesses
+            <div className="max-w-xl">
+              <span className="inline-flex items-center gap-2 rounded-full border border-white/18 bg-white/14 px-4 py-2 text-sm font-semibold text-white/88">
+                <ShieldCheck size={16} />
+                Secure account access
               </span>
-              <h1 className="mt-6 text-4xl font-semibold leading-[1.08] tracking-[-0.04em] sm:text-5xl">
-                Pick up exactly where your shop left off.
+              <h1 className="mt-6 text-4xl font-semibold leading-tight">
+                One StitchBook account for mobile and web.
               </h1>
-              <p className="mt-5 max-w-md text-base leading-7 text-white/72">
-                One account connects your StitchBook mobile workspace with subscription and billing on the web.
+              <p className="mt-5 max-w-lg text-base leading-7 text-white/80">
+                Sign in with either your email address or mobile number and your password.
               </p>
             </div>
 
-            <div className="flex items-center gap-3 text-sm font-semibold text-white/72">
+            <div className="flex items-center gap-3 text-sm font-semibold text-white/82">
               <LockKeyhole size={18} />
-              Secure password sign in
+              Password credentials are verified only by the StitchBook backend.
             </div>
           </div>
-        </aside>
+        </div>
 
-        <form onSubmit={submit} className="auth-card surface-card">
-          <p className="auth-badge"><ShieldCheck size={14} /> Secure sign in</p>
-          <h2 className="auth-title">Welcome back.</h2>
-          <p className="auth-subtitle">
-            Sign in with the email address or mobile number connected to your StitchBook account.
+        <form onSubmit={submit} className="surface-card rounded-3xl bg-white p-6 sm:p-8">
+          <p className="inline-flex items-center gap-2 rounded-full bg-linen px-3 py-1 text-xs font-semibold uppercase tracking-wide text-brass">
+            <ShieldCheck size={14} />
+            Secure sign in
+          </p>
+          <h2 className="mt-5 text-4xl font-semibold leading-tight">Welcome back</h2>
+          <p className="mt-3 text-sm leading-6 text-muted">
+            Use the email address or mobile number connected to your StitchBook account.
           </p>
 
-          <div className="auth-form">
-            <label className="form-label">
-              <span>Email or mobile number</span>
+          <div className="mt-8 space-y-5">
+            <label className="block">
+              <span className="mb-2 block text-sm font-semibold">Email or mobile number</span>
               <input
                 autoComplete="username"
                 autoCapitalize="none"
-                className="form-input"
+                className="w-full rounded-xl border border-ink/15 bg-white px-4 py-3.5 text-base outline-none transition focus:border-brass focus:ring-4 focus:ring-brass/10"
                 value={form.identifier}
                 onChange={set('identifier')}
                 placeholder="you@example.com or 98765 43210"
               />
             </label>
 
-            <label className="form-label">
-              <span>Password</span>
-              <div className="form-input-group">
+            <label className="block">
+              <span className="mb-2 block text-sm font-semibold">Password</span>
+              <div className="flex items-center rounded-xl border border-ink/15 bg-white pr-3 focus-within:border-brass focus-within:ring-4 focus-within:ring-brass/10">
                 <input
                   autoComplete="current-password"
-                  className="form-input min-w-0 flex-1"
+                  className="min-w-0 flex-1 rounded-xl bg-transparent px-4 py-3.5 text-base outline-none"
                   type={showPassword ? 'text' : 'password'}
                   value={form.password}
                   onChange={set('password')}
@@ -131,25 +138,28 @@ function LoginPage() {
                 </button>
               </div>
             </label>
-
             <div className="flex justify-end">
-              <Link className="inline-flex min-h-10 items-center text-sm font-semibold text-brass hover:underline" to="/forgot-password">
+              <Link className="inline-flex min-h-10 items-center px-1 text-sm font-semibold text-brass hover:underline" to="/forgot-password">
                 Forgot password?
               </Link>
             </div>
           </div>
 
           {searchParams.get('reset') === 'success' ? (
-            <div className="auth-message auth-message-success mt-5 flex items-start gap-2">
+            <div className="mt-5 flex items-start gap-3 rounded-xl border border-emerald-600/20 bg-emerald-50 p-4 text-sm font-semibold text-emerald-700">
               <CheckCircle2 className="mt-0.5 shrink-0" size={18} />
-              <span>Password reset successfully. Sign in with your new password.</span>
+              Password reset successfully. Sign in with your new password.
             </div>
           ) : null}
 
-          {error ? <div role="alert" className="auth-message auth-message-error mt-5">{error}</div> : null}
+          {error ? (
+            <div role="alert" className="mt-5 rounded-xl border border-rosewood/20 bg-rosewood/10 p-4 text-sm font-semibold text-rosewood">
+              {error}
+            </div>
+          ) : null}
 
           <button
-            className="mt-6 min-h-12 w-full rounded-xl bg-brass px-5 py-3 font-semibold text-white shadow-[0_8px_22px_rgba(47,91,211,.20)] transition hover:bg-midnight disabled:cursor-not-allowed disabled:opacity-60"
+            className="mt-6 min-h-12 w-full rounded-xl bg-brass px-5 py-3 font-semibold text-white transition hover:brightness-95 disabled:cursor-not-allowed disabled:opacity-60"
             disabled={loading}
             type="submit"
           >
