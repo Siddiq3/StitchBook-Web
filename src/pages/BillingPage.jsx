@@ -1,3 +1,5 @@
+import usePlans from '../hooks/usePlans.js';
+import PriceStatus from '../components/PriceStatus.jsx';
 import { CheckCircle2, CreditCard, Loader2, RefreshCw, ShieldCheck, XCircle } from 'lucide-react';
 import { useCallback, useEffect, useState } from 'react';
 import { clearAuthSession } from '../api/authApi.js';
@@ -5,7 +7,7 @@ import Button from '../components/Button.jsx';
 import Logo from '../components/Logo.jsx';
 import { createUpgradeSession, getSubscriptionStatus } from '../api/subscriptionApi.js';
 
-import { plans } from '../data/plans.js';
+
 
 const coreFeatures = [
   'Unlimited customers and orders on every paid plan',
@@ -27,6 +29,8 @@ function formatDate(value) {
 }
 
 function BillingPage() {
+  const pricing = usePlans();
+  const { plans } = pricing;
   const [subscription, setSubscription] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -132,6 +136,7 @@ function BillingPage() {
             </div>
 
             <div className="mt-8 grid gap-4 lg:grid-cols-3">
+              <div className="col-span-full"><PriceStatus {...pricing} /></div>
               {Object.entries(plans).map(([key, plan]) => (
                 <div className="rounded-2xl border border-ink/10 bg-bone p-5" key={key}>
                   <div className="flex items-start justify-between gap-3">
@@ -171,7 +176,7 @@ function BillingPage() {
                   </div>
                   <Button
                     className="mt-6 w-full"
-                    disabled={Boolean(checkoutPlan)}
+                    disabled={Boolean(checkoutPlan) || pricing.loading || Boolean(pricing.error)}
                     onClick={() => startUpgrade(key)}
                     variant={key === 'team' ? 'brass' : 'primary'}
                   >

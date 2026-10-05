@@ -1,3 +1,5 @@
+import usePlans from '../hooks/usePlans.js';
+import PriceStatus from '../components/PriceStatus.jsx';
 import {
   AlertCircle,
   ArrowRight,
@@ -17,34 +19,6 @@ import { clearAuthSession, getSavedUser, getProfile, logout } from '../api/authA
 import { createUpgradeSession, getSubscriptionStatus } from '../api/subscriptionApi.js';
 import Button from '../components/Button.jsx';
 import PageShell from '../components/PageShell.jsx';
-
-const plans = [
-  {
-    key: 'basic',
-    name: 'Basic',
-    price: '₹299',
-    period: '/ month',
-    description: 'Owner-only access for orders, customers, measurements, payments and bills.',
-    note: 'Best for single-owner shops',
-  },
-  {
-    key: 'team',
-    name: 'Team',
-    price: '₹399',
-    period: '/ month',
-    description: 'Owner plus 2 staff users for cutter/stitcher login and assignment.',
-    note: 'Popular for growing shops',
-    highlighted: true,
-  },
-  {
-    key: 'pro',
-    name: 'Pro',
-    price: '₹599',
-    period: '/ month',
-    description: 'Owner plus 5 staff users with staff earnings and production tracking.',
-    note: 'For busy tailoring teams',
-  },
-];
 
 const appActions = [
   'Install the mobile app for daily shop work',
@@ -71,6 +45,8 @@ function getStatusLabel(subscription) {
 }
 
 function DashboardPage() {
+  const pricing = usePlans();
+  const plans = Object.entries(pricing.plans).map(([key, plan]) => ({ ...plan, key, name: plan.label, period: '/ month', highlighted: key === 'team', note: plan.bestFor }));
   const navigate = useNavigate();
   const location = useLocation();
   const [user, setUser] = useState(() => getSavedUser());
@@ -242,6 +218,7 @@ function DashboardPage() {
             </div>
 
             <div className="mt-7 grid gap-4 lg:grid-cols-3">
+              <div className="col-span-full"><PriceStatus {...pricing} /></div>
               {plans.map((plan) => (
                 <article
                   className={`rounded-2xl border p-5 ${
@@ -267,7 +244,7 @@ function DashboardPage() {
                   <p className="mt-3 text-xs font-semibold uppercase tracking-wide text-muted">{plan.note}</p>
                   <Button
                     className="mt-6 w-full"
-                    disabled={Boolean(checkoutPlan)}
+                    disabled={Boolean(checkoutPlan) || pricing.loading || Boolean(pricing.error)}
                     onClick={() => startUpgrade(plan.key)}
                     variant={plan.highlighted ? 'brass' : 'primary'}
                   >
