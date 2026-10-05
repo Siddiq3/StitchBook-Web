@@ -1,5 +1,5 @@
 import { AlertTriangle, Trash2 } from 'lucide-react';
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 import api from '../api/client.js';
 import { clearAuthSession, getAuthToken, getSavedUser } from '../api/authApi.js';
 
@@ -9,55 +9,6 @@ export default function DeleteAccountForm() {
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState('');
   const [completed, setCompleted] = useState(false);
-  const googleButton = useRef(null);
-
-  useEffect(() => {
-    if (!getAuthToken()) return;
-
-    let disposed = false;
-    const initialize = () => {
-      if (disposed || !window.google?.accounts?.id || !googleButton.current) return;
-      const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
-
-      if (!clientId || clientId.startsWith('your-')) {
-        setMessage('Google re-authentication is not configured. Please contact support.');
-        return;
-      }
-
-      window.google.accounts.id.initialize({
-        client_id: clientId,
-        auto_select: false,
-        callback: (result) => {
-          setProof(result.credential);
-          setMessage('Identity confirmed. Type DELETE to continue.');
-        },
-      });
-
-      window.google.accounts.id.renderButton(googleButton.current, {
-        theme: 'outline',
-        size: 'large',
-        text: 'signin_with',
-        width: 280,
-      });
-    };
-
-    if (window.google?.accounts?.id) {
-      initialize();
-    } else {
-      let script = document.querySelector('script[src="https://accounts.google.com/gsi/client"]');
-      if (!script) {
-        script = document.createElement('script');
-        script.src = 'https://accounts.google.com/gsi/client';
-        script.async = true;
-        document.head.appendChild(script);
-      }
-      script.addEventListener('load', initialize, { once: true });
-    }
-
-    return () => {
-      disposed = true;
-    };
-  }, []);
 
   const run = async () => {
     setBusy(true);
@@ -65,7 +16,7 @@ export default function DeleteAccountForm() {
       let token = sessionStorage.getItem('stitchbook_deletion_token');
 
       if (!token) {
-        const result = await api.post('/user/delete-account', { googleIdToken: proof, confirmation });
+        const result = await api.post('/user/delete-account', { password: proof, confirmation });
         token = result.data.data.deletionToken;
         sessionStorage.setItem('stitchbook_deletion_token', token);
         sessionStorage.setItem('stitchbook_deletion_user', String(getSavedUser()?.id));
@@ -118,13 +69,23 @@ export default function DeleteAccountForm() {
         </span>
         <div>
           <h2 className="text-xl font-semibold text-ink">Permanently delete account</h2>
-          <p className="mt-2 leading-7 text-muted">Your profile and owned shop data will be permanently removed. Sign in again to confirm your identity. Staff deletion preserves the shop’s business records.</p>
+          <p className="mt-2 leading-7 text-muted">Your profile and owned shop data will be permanently removed. Confirm with your password. Staff deletion preserves the shop’s business records.</p>
         </div>
       </div>
 
       <div className="mt-5 rounded-2xl border border-border bg-bone p-5">
-        <p className="text-sm font-semibold text-ink">1. Confirm your identity</p>
-        <div className="mt-3" ref={googleButton} />
+        <label className="form-label" htmlFor="deletion-password">
+          <span>1. Enter your password</span>
+          <input
+            className="form-input"
+            id="deletion-password"
+            type="password"
+            value={proof}
+            onChange={(event) => setProof(event.target.value)}
+            autoComplete="current-password"
+            disabled={busy}
+          />
+        </label>
 
         <label className="form-label mt-6" htmlFor="deletion-confirmation">
           <span>2. Type DELETE to confirm</span>
