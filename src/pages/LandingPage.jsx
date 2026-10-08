@@ -3,6 +3,7 @@ import { Check, ChevronRight, MessageCircle, Plus, Ruler, ShieldCheck, Smartphon
 import Button from '../components/Button.jsx';
 import PageShell from '../components/PageShell.jsx';
 import { plans } from '../data/plans.js';
+import { HeroPhones, Stagger, StaggerItem, StatusTrack } from '../components/landingMotion.jsx';
 import '../styles/landing.css';
 
 function validDownloadUrl(value) {
@@ -49,45 +50,43 @@ export default function LandingPage() {
     viewport: { once: true, amount: 0.2 },
     transition: { duration: 0.45, ease: [0.16, 1, 0.3, 1] },
   };
-  const phoneIn = (delay) => reduceMotion ? {} : {
-    initial: { opacity: 0, y: 32 },
-    animate: { opacity: 1, y: 0 },
-    transition: { duration: 0.6, delay, ease: [0.16, 1, 0.3, 1] },
+  const slideIn = (x) => reduceMotion ? {} : {
+    initial: { opacity: 0, x },
+    whileInView: { opacity: 1, x: 0 },
+    viewport: { once: true, amount: 0.3 },
+    transition: { duration: 0.55, ease: [0.16, 1, 0.3, 1] },
   };
+
 
   return (
     <PageShell>
       <div className="lp">
         <section className="lp-hero lp-container">
-          <div className="lp-hero-copy">
-            <h1>Manage your tailoring shop without missing any details.</h1>
-            <p className="lp-lead">Orders, measurements, delivery dates, staff work and payments, together in one app built for Indian tailoring shops.</p>
-            <div className="lp-actions">
+          <Stagger className="lp-hero-copy" onLoad>
+            <StaggerItem as="h1">Manage your tailoring shop without missing any details.</StaggerItem>
+            <StaggerItem as="p" className="lp-lead">Orders, measurements, delivery dates, staff work and payments, together in one app built for Indian tailoring shops.</StaggerItem>
+            <StaggerItem className="lp-actions">
               <Button href={downloadUrl}><Smartphone size={18} />{appCtaLabel}</Button>
               <Button href="#plans" variant="secondary">See plans</Button>
-            </div>
-          </div>
-          <div className="lp-hero-visual">
-            <motion.div className="lp-hero-back" {...phoneIn(0.12)}>
-              <Phone src="/images/app/orders.webp" alt="StitchBook orders list with status, payment and delivery date for each order" eager />
-            </motion.div>
-            <motion.div className="lp-hero-front" {...phoneIn(0)}>
-              <Phone src="/images/app/home.webp" alt="StitchBook home screen showing orders due today, overdue and in progress for Sri Lakshmi Tailors" eager />
-            </motion.div>
-          </div>
+            </StaggerItem>
+          </Stagger>
+          <HeroPhones
+            front={<Phone src="/images/app/home.webp" alt="StitchBook home screen showing orders due today, overdue and in progress for SS Tailors" eager />}
+            back={<Phone src="/images/app/orders.webp" alt="StitchBook orders list with status, payment and delivery date for each order" eager />} />
         </section>
 
         <section className="lp-container lp-split" id="features">
           <motion.div className="lp-split-copy" {...reveal}>
             <h2>Every order, from cutting to delivery.</h2>
             <p>See what is pending, cutting, stitching and ready, with the delivery date and what the customer still owes.</p>
-            <ul className="lp-checks">
-              <li><Check size={18} />Status for every garment, not just the order</li>
-              <li><Check size={18} />Overdue and due-today work on the home screen</li>
-              <li><Check size={18} />Send ready-for-pickup updates on WhatsApp</li>
-            </ul>
+            <StatusTrack />
+            <Stagger as="ul" className="lp-checks">
+              <StaggerItem as="li"><Check size={18} />Status for every garment, not just the order</StaggerItem>
+              <StaggerItem as="li"><Check size={18} />Overdue and due-today work on the home screen</StaggerItem>
+              <StaggerItem as="li"><Check size={18} />Send ready-for-pickup updates on WhatsApp</StaggerItem>
+            </Stagger>
           </motion.div>
-          <motion.div className="lp-split-visual" {...reveal}>
+          <motion.div className="lp-split-visual" {...slideIn(40)}>
             <Phone src="/images/app/orders.webp" alt="Orders list with filters for pending, cutting, stitching and ready" />
           </motion.div>
         </section>
@@ -96,12 +95,12 @@ export default function LandingPage() {
           <motion.div className="lp-split-copy" {...reveal}>
             <h2>Measurements ready for the next visit.</h2>
             <p>Save fit profiles for shirts, kurtas, blouses, lehengas, sherwanis and more, in inches. Reuse them on the next order instead of searching old notebooks.</p>
-            <ul className="lp-checks">
-              <li><Ruler size={18} />Outfit-specific measurement sheets</li>
-              <li><Check size={18} />See which customers still need measuring</li>
-            </ul>
+            <Stagger as="ul" className="lp-checks">
+              <StaggerItem as="li"><Ruler size={18} />Outfit-specific measurement sheets</StaggerItem>
+              <StaggerItem as="li"><Check size={18} />See which customers still need measuring</StaggerItem>
+            </Stagger>
           </motion.div>
-          <motion.div className="lp-split-visual" {...reveal}>
+          <motion.div className="lp-split-visual" {...slideIn(-40)}>
             <Phone src="/images/app/measurements.webp" alt="Saved measurement profiles for each customer with chest, waist and length values" />
           </motion.div>
         </section>
@@ -127,11 +126,11 @@ export default function LandingPage() {
           </motion.figure>
           <motion.div {...reveal}>
             <h2>Up and running in an afternoon.</h2>
-            <ol className="lp-steps">
-              <li><h3>Create your shop</h3><p>Sign up in the app with your name, mobile number and shop details.</p></li>
-              <li><h3>Take orders with measurements</h3><p>Pick the customer, choose the outfit, add measurements, price and delivery date.</p></li>
-              <li><h3>Track work and money</h3><p>Move orders through cutting, stitching and ready, and record advances and balances.</p></li>
-            </ol>
+            <Stagger as="ol" className="lp-steps">
+              <StaggerItem as="li"><h3>Create your shop</h3><p>Sign up in the app with your name, mobile number and shop details.</p></StaggerItem>
+              <StaggerItem as="li"><h3>Take orders with measurements</h3><p>Pick the customer, choose the outfit, add measurements, price and delivery date.</p></StaggerItem>
+              <StaggerItem as="li"><h3>Track work and money</h3><p>Move orders through cutting, stitching and ready, and record advances and balances.</p></StaggerItem>
+            </Stagger>
           </motion.div>
         </section>
 
@@ -140,9 +139,9 @@ export default function LandingPage() {
             <h2>Simple plans. Start free for 10 days.</h2>
             <p>Every plan includes unlimited customers and orders, measurements for every outfit, payments, invoices and WhatsApp sharing, and the business dashboard.</p>
           </motion.div>
-          <div className="lp-plans">
+          <Stagger className="lp-plans">
             {Object.entries(plans).map(([key, plan]) => (
-              <motion.article key={key} className={`lp-plan ${key === 'team' ? 'lp-plan-featured' : ''}`} {...reveal}>
+              <StaggerItem as="article" key={key} className={`lp-plan ${key === 'team' ? 'lp-plan-featured' : ''}`}>
                 <div className="lp-plan-head">
                   <h3>{plan.label}</h3>
                   {key === 'team' && <span>Most popular</span>}
@@ -154,9 +153,9 @@ export default function LandingPage() {
                   {planHighlights[key].map((item) => <li key={item}><Check size={16} />{item}</li>)}
                 </ul>
                 <Button to="/billing" variant={key === 'team' ? 'primary' : 'secondary'}>Choose {plan.label}</Button>
-              </motion.article>
+              </StaggerItem>
             ))}
-          </div>
+          </Stagger>
           <p className="lp-note"><ShieldCheck size={16} />Secure checkout with Cashfree. Plans run for 30 days and never renew automatically.</p>
         </section>
 

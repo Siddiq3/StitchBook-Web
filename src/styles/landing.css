@@ -117,3 +117,37 @@
   .lp-hero-back { right: 8px; width: 160px; }
   .lp-hero-visual { height: 400px; }
 }
+
+/* Order status track (animated in landingMotion.jsx) */
+.lp-track { margin-top: 24px; padding: 16px; border-radius: 16px; background: var(--sb-surface); border: 1px solid var(--sb-border); max-width: 440px; }
+.lp-track-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 28px; }
+.lp-track-garment { display: inline-flex; align-items: center; gap: 8px; font-weight: 700; color: var(--sb-ink); }
+.lp-track-garment svg { color: var(--sb-brand); }
+.lp-track-tag { display: inline-flex; align-items: center; gap: 4px; font-size: 0.8125rem; font-weight: 700; color: #9A5A08; background: #FFF7E8; padding: 4px 10px; border-radius: 999px; white-space: nowrap; }
+.lp-track-tag.is-ready { color: var(--sb-success); background: #EDF8F1; }
+.lp-track-steps { margin-top: 14px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; }
+.lp-track-steps li { position: relative; display: grid; place-items: center; min-height: 36px; border-radius: 10px; background: var(--sb-surface-soft); font-size: 0.8125rem; font-weight: 600; color: var(--sb-muted); transition: color 200ms var(--sb-ease-out); }
+.lp-track-steps li.is-done { color: var(--sb-brand); }
+.lp-track-active { position: absolute; inset: 0; border-radius: 10px; background: var(--sb-brand); }
+.lp-track-steps li:has(.lp-track-active) { color: #fff; }
+.lp-track-label { position: relative; z-index: 1; }
+
+/* Feedback: plan cards and phones respond to hover and keyboard focus */
+.lp-plan { transition: transform 220ms var(--sb-ease-out), box-shadow 220ms var(--sb-ease-out), border-color 220ms var(--sb-ease-out); }
+@media (hover: hover) {
+  .lp-plan:hover { transform: translateY(-4px); box-shadow: var(--sb-shadow-md); }
+  .lp-split-visual .lp-phone { transition: transform 300ms var(--sb-ease-out); }
+  .lp-split-visual:hover .lp-phone { transform: translateY(-6px); }
+}
+.lp-plan:focus-within { border-color: var(--sb-brand); }
+.lp a:focus-visible, .lp button:focus-visible { outline: 2px solid var(--sb-brand); outline-offset: 3px; }
+
+/* FAQ answer fades in when opened */
+.lp-faq-list details[open] p { animation: lp-faq-in 220ms var(--sb-ease-out); }
+@keyframes lp-faq-in { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .lp-plan, .lp-split-visual .lp-phone, .lp-track-steps li { transition: none; }
+  .lp-plan:hover, .lp-split-visual:hover .lp-phone { transform: none; }
+  .lp-faq-list details[open] p { animation: none; }
+}
