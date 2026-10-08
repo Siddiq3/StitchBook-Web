@@ -1,0 +1,119 @@
+/* Landing + About. Tokens come from :root in index.css (--sb-*).
+   One accent (azure), cool slate neutrals, one sans family, no serif, no gradients.
+   Shape rule: controls 12px, cards 16px, phones 28px, chips pill. */
+
+.lp { color: var(--sb-ink); }
+.lp-container { width: min(100% - 32px, 1160px); margin-inline: auto; }
+.lp h1, .lp h2, .lp h3 { color: var(--sb-ink); letter-spacing: -0.02em; }
+.lp h1 { font-size: clamp(2.25rem, 4.6vw, 3.5rem); line-height: 1.06; font-weight: 800; text-wrap: balance; max-width: 15ch; }
+.lp h2 { font-size: clamp(1.75rem, 3vw, 2.5rem); line-height: 1.12; font-weight: 800; text-wrap: balance; }
+.lp h3 { font-size: 1.125rem; line-height: 1.35; font-weight: 700; }
+.lp p { color: var(--sb-muted); line-height: 1.65; }
+.lp-lead { margin-top: 20px; font-size: 1.125rem; max-width: 46ch; }
+
+.lp-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-top: 32px; }
+.lp-actions-center { justify-content: center; }
+.lp-link { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; font-weight: 700; color: var(--sb-brand); text-underline-offset: 4px; }
+.lp-link:hover { text-decoration: underline; }
+
+/* Real app screens in a device frame */
+.lp-phone { margin: 0; aspect-ratio: 9 / 20; border-radius: 28px; padding: 6px; background: #0F172A; box-shadow: 0 24px 48px -16px rgba(29, 59, 102, 0.28), 0 2px 6px rgba(29, 59, 102, 0.12); }
+.lp-phone img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: top; border-radius: 22px; background: var(--sb-canvas); }
+.lp-phone-sm { width: min(100%, 240px); }
+
+/* Hero: copy left, two real screens right */
+.lp-hero { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); align-items: center; gap: 48px; padding-block: 56px 72px; }
+.lp-hero-visual { position: relative; height: 560px; }
+.lp-hero-front, .lp-hero-back { position: absolute; width: 250px; }
+.lp-hero-front { right: 42%; top: 24px; z-index: 2; }
+.lp-hero-back { right: 8%; top: 70px; opacity: 0.96; }
+
+/* Feature rows (two at most in alternation) */
+.lp-split { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: center; gap: 56px; padding-block: 72px; border-top: 1px solid var(--sb-border); }
+.lp-split-reverse .lp-split-copy { order: 2; }
+.lp-split-copy p { margin-top: 16px; max-width: 48ch; }
+.lp-split-visual { display: flex; justify-content: center; }
+.lp-split-visual .lp-phone { width: 270px; }
+.lp-checks { margin-top: 24px; display: grid; gap: 12px; }
+.lp-checks li { display: flex; gap: 10px; align-items: flex-start; font-weight: 600; color: var(--sb-ink); }
+.lp-checks svg { flex: none; margin-top: 3px; color: var(--sb-brand); }
+
+/* Staff + customers: tinted band, two columns */
+.lp-band { background: var(--sb-surface-soft); padding-block: 72px; }
+.lp-duo { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 48px; }
+.lp-duo > div { display: grid; justify-items: start; gap: 12px; }
+.lp-duo .lp-phone { margin-bottom: 12px; }
+.lp-duo p { max-width: 42ch; }
+
+/* How it works */
+.lp-how { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 56px; align-items: center; padding-block: 88px; }
+.lp-how-photo { margin: 0; border-radius: 16px; overflow: hidden; aspect-ratio: 4 / 3; }
+.lp-how-photo img { width: 100%; height: 100%; object-fit: cover; }
+.lp-steps { margin-top: 28px; display: grid; gap: 20px; counter-reset: step; }
+.lp-steps li { counter-increment: step; display: grid; grid-template-columns: 36px 1fr; column-gap: 14px; }
+.lp-steps li::before { content: counter(step); grid-row: span 2; width: 32px; height: 32px; border-radius: 999px; display: grid; place-items: center; font-weight: 800; font-size: 0.875rem; color: var(--sb-brand); background: var(--sb-brand-soft); }
+.lp-steps p { margin-top: 4px; }
+
+/* Pricing */
+.lp-pricing { padding-block: 80px; border-top: 1px solid var(--sb-border); }
+.lp-section-head { max-width: 640px; }
+.lp-section-head p { margin-top: 12px; }
+.lp-plans { margin-top: 36px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.lp-plan { display: flex; flex-direction: column; gap: 12px; padding: 24px; border-radius: 16px; background: var(--sb-surface); border: 1px solid var(--sb-border); }
+.lp-plan-featured { border: 2px solid var(--sb-brand); padding: 23px; }
+.lp-plan-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.lp-plan-head span { font-size: 0.75rem; font-weight: 700; color: var(--sb-brand); background: var(--sb-brand-soft); border-radius: 999px; padding: 4px 10px; }
+.lp-plan-for { margin-top: -6px; }
+.lp-price { font-size: 2.25rem; font-weight: 800; color: var(--sb-ink) !important; letter-spacing: -0.02em; line-height: 1.1 !important; }
+.lp-price span { margin-left: 4px; font-size: 0.9375rem; font-weight: 600; color: var(--sb-muted); }
+.lp-plan-access { display: flex; align-items: center; gap: 8px; font-weight: 600; color: var(--sb-ink) !important; }
+.lp-plan ul { display: grid; align-content: start; gap: 8px; padding-top: 12px; border-top: 1px solid var(--sb-border); flex: 1; }
+.lp-plan li { display: flex; gap: 8px; align-items: flex-start; color: var(--sb-ink); font-size: 0.9375rem; }
+.lp-plan li svg { flex: none; margin-top: 3px; color: var(--sb-success); }
+.lp-note { margin-top: 20px; display: flex; align-items: center; gap: 8px; font-size: 0.875rem; }
+
+/* FAQ */
+.lp-faq { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); gap: 48px; padding-block: 80px; border-top: 1px solid var(--sb-border); }
+.lp-faq .lp-link { margin-top: 12px; }
+.lp-faq-list details { border-bottom: 1px solid var(--sb-border); }
+.lp-faq-list summary { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 60px; padding-block: 14px; font-weight: 700; cursor: pointer; list-style: none; }
+.lp-faq-list summary::-webkit-details-marker { display: none; }
+.lp-faq-list summary svg { flex: none; color: var(--sb-muted); transition: transform 180ms var(--sb-ease-out); }
+.lp-faq-list details[open] summary svg { transform: rotate(45deg); }
+.lp-faq-list details p { padding-bottom: 18px; max-width: 62ch; }
+.lp-faq-list summary:focus-visible { outline: 2px solid var(--sb-brand); outline-offset: 2px; border-radius: 8px; }
+
+/* Final CTA */
+.lp-final { text-align: center; padding-block: 72px 96px; border-top: 1px solid var(--sb-border); }
+.lp-final p { margin-top: 12px; }
+
+/* About page */
+.lp-about-intro { padding-block: 64px 24px; max-width: 760px; }
+.lp-about-intro p { margin-top: 20px; font-size: 1.125rem; }
+.lp-principles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px 48px; padding-block: 48px 88px; }
+.lp-principles svg { color: var(--sb-brand); }
+.lp-principles h3 { margin-top: 12px; }
+.lp-principles p { margin-top: 6px; }
+
+@media (max-width: 900px) {
+  .lp-hero { grid-template-columns: 1fr; gap: 32px; padding-block: 32px 48px; }
+  .lp h1 { max-width: 18ch; }
+  .lp-hero-visual { height: 470px; }
+  .lp-hero-front { right: auto; left: calc(50% - 175px); width: 210px; }
+  .lp-hero-back { right: calc(50% - 175px); width: 190px; top: 56px; }
+  .lp-split, .lp-how, .lp-faq { grid-template-columns: 1fr; gap: 32px; padding-block: 56px; }
+  .lp-split-reverse .lp-split-copy { order: 0; }
+  .lp-split-visual .lp-phone { width: 230px; }
+  .lp-plans { grid-template-columns: 1fr; }
+}
+@media (max-width: 640px) {
+  .lp-duo { grid-template-columns: 1fr; gap: 48px; }
+  .lp-duo > div { justify-items: center; text-align: center; }
+  .lp-principles { grid-template-columns: 1fr; }
+  .lp-actions > * { flex: 1 1 auto; }
+}
+@media (max-width: 380px) {
+  .lp-hero-front { left: 8px; width: 180px; }
+  .lp-hero-back { right: 8px; width: 160px; }
+  .lp-hero-visual { height: 400px; }
+}

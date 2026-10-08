@@ -194,7 +194,7 @@ function ForgotPasswordPage() {
                     value={form.confirm}
                   />
                 </label>
-                <p className="text-xs leading-5 text-muted">Use 8–128 characters with at least one letter and one number.</p>
+                <p className="text-xs leading-5 text-muted">Use 8 to 128 characters with at least one letter and one number.</p>
                 {error ? <div role="alert" className="rounded-xl border border-rosewood/20 bg-rosewood/10 p-4 text-sm font-semibold text-rosewood">{error}</div> : null}
                 <button className="min-h-12 w-full rounded-xl bg-brass px-5 py-3 font-semibold text-white transition hover:brightness-95 disabled:opacity-60" disabled={loading} type="submit">
                   {loading ? 'Resetting…' : 'Reset password'}

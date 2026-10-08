@@ -3,9 +3,10 @@ import { Link } from 'react-router-dom';
 
 const baseClass = 'inline-flex min-h-11 items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-bold tracking-[-0.01em] transition-all duration-150 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brass active:translate-y-px disabled:cursor-not-allowed disabled:opacity-50';
 const variants = {
-  primary: 'bg-ink text-white shadow-sm hover:bg-midnight hover:shadow-soft',
-  secondary: 'border border-border bg-white text-ink shadow-sm hover:border-ink/20 hover:bg-bone',
-  brass: 'bg-brass text-white shadow-sm hover:bg-[#984d31] hover:shadow-soft',
+  primary: 'bg-brand text-white shadow-sm hover:bg-midnight hover:shadow-soft',
+  secondary: 'border border-border bg-white text-ink shadow-sm hover:border-brand/40 hover:bg-bone',
+  // Legacy alias: the brand accent is a single azure everywhere
+  brass: 'bg-brand text-white shadow-sm hover:bg-midnight hover:shadow-soft',
   ghost: 'text-ink hover:bg-linen',
   destructive: 'bg-rosewood text-white hover:brightness-95',
 };

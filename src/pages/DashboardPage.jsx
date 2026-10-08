@@ -107,7 +107,7 @@ function DashboardPage() {
 
   const statusLabel = getStatusLabel(subscription);
   const statusTone = subscription?.isActive ? 'text-sage' : 'text-clay';
-  const planName = subscription?.planType || subscription?.billingCycle || (loading || error ? '—' : 'free');
+  const planName = subscription?.planType || subscription?.billingCycle || (loading || error ? 'Unavailable' : 'free');
   const initials = useMemo(() => {
     const source = user?.name || user?.email || user?.phone || 'SB';
     return source

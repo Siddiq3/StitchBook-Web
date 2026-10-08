@@ -8,8 +8,7 @@ function Footer() {
       <div className="mx-auto grid max-w-7xl gap-10 px-4 py-12 sm:px-6 md:grid-cols-[1.4fr_1fr_1fr] lg:px-8">
         <div>
           <Logo />
-          <p className="mt-5 max-w-sm text-sm leading-7 text-muted">A calmer way to run a tailoring business — customers, measurements, orders, staff and payments kept in one place.</p>
-          <p className="mt-5 text-xs font-semibold uppercase tracking-[0.16em] text-muted">Made for tailoring businesses</p>
+          <p className="mt-5 max-w-sm text-sm leading-7 text-muted">A calmer way to run a tailoring business: customers, measurements, orders, staff and payments kept in one place.</p>
         </div>
         <div>
           <h3 className="text-xs font-bold uppercase tracking-[0.16em] text-muted">Product</h3>

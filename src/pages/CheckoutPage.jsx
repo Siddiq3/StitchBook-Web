@@ -148,21 +148,26 @@ function CheckoutPage() {
               </div>
             </div>
 
+            {details.orderId ? (
             <div className="rounded-2xl border border-ink/10 bg-bone p-5 text-ink">
-              <p className="text-xs font-semibold uppercase tracking-wide text-brass">Order summary</p>
+              <h2 className="text-base font-bold">Order summary</h2>
               <div className="mt-6 grid gap-4 text-sm">
                 <div className="flex items-center justify-between gap-4 border-b border-ink/10 pb-3">
                   <span className="text-muted">Order ID</span>
-                  <span className="min-w-0 break-all text-right font-semibold">{details.orderNumber || details.orderId || 'Missing'}</span>
+                  <span className="min-w-0 break-all text-right font-semibold">{details.orderNumber || details.orderId}</span>
                 </div>
+                {details.name ? (
                 <div className="flex items-center justify-between gap-4 border-b border-ink/10 pb-3">
                   <span className="text-muted">Customer</span>
-                  <span className="text-right font-semibold">{details.name || 'Guest'}</span>
+                  <span className="text-right font-semibold">{details.name}</span>
                 </div>
+                ) : null}
+                {(details.phone || details.email) ? (
                 <div className="flex items-center justify-between gap-4 border-b border-ink/10 pb-3">
                   <span className="text-muted">Contact</span>
-                  <span className="text-right font-semibold">{details.phone || details.email || 'Not provided'}</span>
+                  <span className="text-right font-semibold">{details.phone || details.email}</span>
                 </div>
+                ) : null}
                 <div className="flex items-end justify-between gap-4 pt-2">
                   <span className="text-muted">Payable</span>
                   <span className="font-sans text-3xl font-semibold sm:text-4xl">₹{Number(details.amount || 0).toLocaleString('en-IN')}</span>
@@ -182,6 +187,7 @@ function CheckoutPage() {
                 {status === 'loading' || status === 'confirming' ? 'Please wait' : 'Pay now'}
               </Button>
             </div>
+            ) : null}
           </div>
         </motion.section>
       </div>

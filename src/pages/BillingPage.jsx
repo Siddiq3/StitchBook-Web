@@ -200,7 +200,7 @@ function BillingPage() {
                   <div className="mt-5 grid gap-3 text-sm">
                     <div className="flex justify-between gap-4 border-b border-ink/10 pb-3">
                       <span className="text-muted">Plan</span>
-                      <span className="font-semibold">{subscription?.planType || (error ? '—' : 'free')}</span>
+                      <span className="font-semibold">{subscription?.planType || (error ? 'Unavailable' : 'free')}</span>
                     </div>
                     <div className="flex justify-between gap-4 border-b border-ink/10 pb-3">
                       <span className="text-muted">Valid until</span>
@@ -214,7 +214,7 @@ function BillingPage() {
                     ) : null}
                     <div className="flex justify-between gap-4">
                       <span className="text-muted">Days remaining</span>
-                      <span className="font-semibold">{subscription?.daysRemaining ?? (error ? "—" : 0)}</span>
+                      <span className="font-semibold">{subscription?.daysRemaining ?? (error ? "Unavailable" : 0)}</span>
                     </div>
                   </div>
                 </div>

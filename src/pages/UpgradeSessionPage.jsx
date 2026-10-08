@@ -227,15 +227,15 @@ function UpgradeSessionPage() {
               <div className="mt-5 space-y-4 text-sm">
                 <div className="flex items-start justify-between gap-4 border-b border-ink/10 pb-3">
                   <span className="text-muted">User</span>
-                  <span className="font-semibold text-right">{session?.user?.name || '—'}</span>
+                  <span className="font-semibold text-right">{session?.user?.name || 'Not provided'}</span>
                 </div>
                 <div className="flex items-start justify-between gap-4 border-b border-ink/10 pb-3">
                   <span className="text-muted">Email</span>
-                  <span className="font-semibold text-right">{session?.user?.email || '—'}</span>
+                  <span className="font-semibold text-right">{session?.user?.email || 'Not provided'}</span>
                 </div>
                 <div className="flex items-start justify-between gap-4 border-b border-ink/10 pb-3">
                   <span className="text-muted">Phone</span>
-                  <span className="font-semibold text-right">{session?.user?.phone || '—'}</span>
+                  <span className="font-semibold text-right">{session?.user?.phone || 'Not provided'}</span>
                 </div>
                 <div className="flex items-start justify-between gap-4 border-b border-ink/10 pb-3">
                   <span className="text-muted">Link valid until</span>
