@@ -4,8 +4,7 @@ import { ChevronLeft, ChevronRight, Pause, Play } from 'lucide-react';
 
 const labels = { orders: 'Orders made simple', neworder: 'Take orders quickly', measure: 'The right fit, saved', staff: 'Keep your team together' };
 
-// One recording drives the slide progress. The second phone previews the next
-// feature without fetching another video. Off-screen playback remains paused.
+// One recording drives the slide progress. Off-screen playback remains paused.
 export default function DemoStory({ steps }) {
   const reduce = useReducedMotion();
   const ref = useRef(null);
@@ -33,7 +32,6 @@ export default function DemoStory({ steps }) {
     setIndex((next + steps.length) % steps.length);
   };
   const step = steps[index];
-  const next = steps[(index + 1) % steps.length];
   const transition = { duration: reduce ? 0 : 0.3 };
 
   return (
@@ -53,10 +51,6 @@ export default function DemoStory({ steps }) {
                     onEnded={() => go(index + 1)} onError={() => { setFailed(true); setPlaying(false); }} />
                 ) : <img src={step.poster} alt={step.alt} loading="lazy" />}
               </div>
-            </figure>
-            <figure className="lp-phone ds-phone ds-next-phone">
-              <img src={next.poster} alt={`Next feature: ${next.alt}`} loading="lazy" />
-              <figcaption>Up next</figcaption>
             </figure>
           </div>
           <div className="ds-copy" id="demo-slide-content" aria-live={playing ? 'off' : 'polite'} aria-atomic="true">
