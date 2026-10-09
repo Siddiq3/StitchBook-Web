@@ -85,7 +85,10 @@
   .lp-hero-visual { height: 470px; }
   .lp-hero-front { right: auto; left: calc(50% - 175px); width: 210px; }
   .lp-hero-back { right: calc(50% - 175px); width: 190px; top: 56px; }
-  .lp-plans { grid-template-columns: 1fr; }
+  .lp-how, .lp-faq { grid-template-columns: 1fr; gap: 32px; padding-block: 56px; }
+  /* One plan per row, kept to a readable width on tablets */
+  .lp-plans { grid-template-columns: 1fr; max-width: 520px; }
+  .lp-how-photo { max-height: 360px; }
 }
 @media (max-width: 640px) {
   .lp-principles { grid-template-columns: 1fr; }

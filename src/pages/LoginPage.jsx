@@ -58,7 +58,7 @@ function LoginPage() {
   return (
     <main className="auth-page auth-login brand-soft min-h-screen text-ink">
       <section className="mx-auto grid min-h-screen max-w-6xl items-center gap-8 px-4 py-8 sm:px-6 lg:grid-cols-[1fr_0.9fr] lg:px-8">
-        <div className="brand-solid relative overflow-hidden rounded-3xl p-7 text-white sm:p-9 lg:min-h-[34rem]">
+        <div className="brand-solid relative hidden overflow-hidden rounded-3xl p-7 text-white sm:p-9 lg:block lg:min-h-[34rem]">
           <img
             alt="Tailoring workspace"
             className="absolute inset-0 h-full w-full object-cover opacity-[0.3]"
@@ -90,8 +90,8 @@ function LoginPage() {
           </div>
         </div>
 
-        <form onSubmit={submit} className="surface-card rounded-3xl bg-white p-6 sm:p-8">
-          <p className="inline-flex items-center gap-2 rounded-full bg-linen px-3 py-1 text-xs font-semibold uppercase tracking-wide text-brass">
+        <form onSubmit={submit} className="surface-card mx-auto w-full max-w-md rounded-3xl bg-white p-6 sm:p-8 lg:max-w-none">
+          <p className="inline-flex items-center gap-2 rounded-full bg-brand-50 px-3 py-1 text-xs font-semibold text-brand">
             <ShieldCheck size={14} />
             Secure sign in
           </p>
@@ -108,7 +108,7 @@ function LoginPage() {
               <input
                 autoComplete="username"
                 autoCapitalize="none"
-                className="w-full rounded-xl border border-ink/15 bg-white px-4 py-3.5 text-base outline-none transition focus:border-brass focus:ring-4 focus:ring-brass/10"
+                className="w-full rounded-xl border border-ink/15 bg-white px-4 py-3.5 text-base outline-none transition focus:border-brand focus:ring-4 focus:ring-brand/10"
                 value={form.identifier}
                 onChange={set('identifier')}
                 placeholder="you@example.com or 98765 43210"
@@ -117,7 +117,7 @@ function LoginPage() {
 
             <label className="block">
               <span className="mb-2 block text-sm font-semibold">Password</span>
-              <div className="flex items-center rounded-xl border border-ink/15 bg-white pr-3 focus-within:border-brass focus-within:ring-4 focus-within:ring-brass/10">
+              <div className="flex items-center rounded-xl border border-ink/15 bg-white pr-3 focus-within:border-brand focus-within:ring-4 focus-within:ring-brand/10">
                 <input
                   autoComplete="current-password"
                   className="min-w-0 flex-1 rounded-xl bg-transparent px-4 py-3.5 text-base outline-none"

@@ -110,7 +110,7 @@ function ForgotPasswordPage() {
                   <input
                     autoComplete="email"
                     autoCapitalize="none"
-                    className="w-full rounded-xl border border-ink/15 bg-white px-4 py-3.5 text-base outline-none transition focus:border-brass focus:ring-4 focus:ring-brass/10"
+                    className="w-full rounded-xl border border-ink/15 bg-white px-4 py-3.5 text-base outline-none transition focus:border-brand focus:ring-4 focus:ring-brand/10"
                     onChange={set('email')}
                     placeholder="you@example.com"
                     type="email"
@@ -142,7 +142,7 @@ function ForgotPasswordPage() {
                   <span className="mb-2 block text-sm font-semibold">Verification code</span>
                   <input
                     autoComplete="one-time-code"
-                    className="w-full rounded-xl border border-ink/15 bg-white px-4 py-3.5 text-center text-2xl font-semibold tracking-[0.35em] outline-none transition focus:border-brass focus:ring-4 focus:ring-brass/10"
+                    className="w-full rounded-xl border border-ink/15 bg-white px-4 py-3.5 text-center text-2xl font-semibold tracking-[0.35em] outline-none transition focus:border-brand focus:ring-4 focus:ring-brand/10"
                     inputMode="numeric"
                     maxLength={6}
                     onChange={set('otp')}
@@ -169,7 +169,7 @@ function ForgotPasswordPage() {
                 </div>
                 <label className="block">
                   <span className="mb-2 block text-sm font-semibold">New password</span>
-                  <div className="flex items-center rounded-xl border border-ink/15 bg-white pr-3 focus-within:border-brass focus-within:ring-4 focus-within:ring-brass/10">
+                  <div className="flex items-center rounded-xl border border-ink/15 bg-white pr-3 focus-within:border-brand focus-within:ring-4 focus-within:ring-brand/10">
                     <input
                       autoComplete="new-password"
                       className="min-w-0 flex-1 rounded-xl bg-transparent px-4 py-3.5 text-base outline-none"
@@ -187,7 +187,7 @@ function ForgotPasswordPage() {
                   <span className="mb-2 block text-sm font-semibold">Confirm new password</span>
                   <input
                     autoComplete="new-password"
-                    className="w-full rounded-xl border border-ink/15 bg-white px-4 py-3.5 text-base outline-none transition focus:border-brass focus:ring-4 focus:ring-brass/10"
+                    className="w-full rounded-xl border border-ink/15 bg-white px-4 py-3.5 text-base outline-none transition focus:border-brand focus:ring-4 focus:ring-brand/10"
                     onChange={set('confirm')}
                     placeholder="Repeat your password"
                     type={showPassword ? 'text' : 'password'}
