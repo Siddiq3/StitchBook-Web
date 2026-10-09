@@ -192,15 +192,15 @@
 .lp-hero-copy h1 { max-width: 22ch; margin-inline: auto; }
 .lp-hero-copy .lp-lead { max-width: 62ch; margin-inline: auto; }
 .lp-hero-copy .lp-actions { justify-content: center; }
-.ms { margin-top: 52px; }
-.ms-track { display: flex; align-items: center; justify-content: center; padding: 48px 24px 44px; }
-.ms-card { position: relative; flex: 0 0 clamp(180px, 21vw, 260px); min-width: 0; margin-inline: -12px; transform: translateY(var(--lift)) rotate(var(--tilt)); transition: transform 250ms var(--sb-ease-out); }
+.ms { margin-top: 28px; }
+.ms-track { display: flex; align-items: center; justify-content: center; padding: 32px 24px 28px; }
+.ms-card { position: relative; flex: 0 0 clamp(128px, 12vw, 144px); min-width: 0; margin-inline: -4px; transform: translateY(var(--lift)) rotate(var(--tilt)); transition: transform 250ms var(--sb-ease-out); }
 .ms-card:nth-child(1) { --tilt: -7deg; --lift: 18px; --label: #3e7185; }
 .ms-card:nth-child(2) { --tilt: -3deg; --lift: -10px; --label: #0072e5; z-index: 2; }
 .ms-card:nth-child(3) { --tilt: 3deg; --lift: -10px; --label: #6c56a0; z-index: 2; }
 .ms-card:nth-child(4) { --tilt: 7deg; --lift: 18px; --label: #946440; }
 .ms-label { display: table; margin: 0 auto 16px; padding: 9px 16px; border-radius: 999px; background: var(--label); color: #fff; font-size: .8125rem; font-weight: 700; white-space: nowrap; }
-.ms-screen { display: block; aspect-ratio: 9 / 20; overflow: hidden; border: 6px solid var(--sb-surface); border-radius: 24px; background: var(--sb-surface); box-shadow: 0 20px 40px -12px rgba(29,59,102,.24); }
+.ms-screen { display: block; aspect-ratio: 9 / 20; overflow: hidden; border: 4px solid var(--sb-surface); border-radius: 20px; background: var(--sb-surface); box-shadow: 0 20px 40px -12px rgba(29,59,102,.24); }
 .ms-screen img, .ms-screen video { display: block; width: 100%; height: 100%; object-fit: contain; background: var(--sb-canvas); border-radius: 18px; }
 .ms-card:focus-visible { outline-offset: 8px !important; border-radius: 24px; }
 @media (hover: hover) { .ms-card:hover { transform: translateY(-20px) rotate(0deg); z-index: 3; } }
@@ -212,21 +212,22 @@
 .ds { gap: 24px; align-items: stretch; }
 .ds-copy { padding: clamp(20px, 4vw, 48px); border-radius: 32px; background: var(--sb-surface); display: flex; flex-direction: column; justify-content: center; }
 .ds-stage { padding: 32px; border-radius: 32px; background: var(--sb-surface); align-items: center; }
-.ds-phone { width: min(280px, 100%); }
+.ds-phone { width: min(180px, 100%); }
 .ds-media video, .ds-media img { object-fit: contain; }
 .ds-controls { padding-left: 0; }
 @media (max-width: 900px) {
   .lp-hero { padding-top: 40px; }
   .ms { margin-top: 24px; }
-  .ms-track { justify-content: flex-start; gap: 18px; overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; padding: 24px 16px 32px; scrollbar-width: thin; scrollbar-color: var(--sb-border) transparent; }
-  .ms-card { flex-basis: clamp(180px, 40vw, 240px); margin: 0; transform: none; scroll-snap-align: center; }
+  .ms-track { justify-content: flex-start; gap: 16px; overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; padding: 24px 16px 32px; scrollbar-width: thin; scrollbar-color: var(--sb-border) transparent; }
+  .ms-card { flex-basis: 136px; margin: 0; transform: none; scroll-snap-align: center; }
   .ms-swipe { display: block; text-align: center; font-size: .8125rem; margin-top: 12px; }
   .ms-caption { margin-top: 12px; }
   .ds-stage { order: -1; padding: 24px; }
 }
 @media (max-width: 560px) {
-  .ms-card { flex-basis: 64vw; max-width: 240px; }
-  .ms-label { margin-bottom: 12px; }
+  .ms-card { flex-basis: clamp(112px, 32vw, 128px); max-width: 128px; }
+  .ms-label { margin-bottom: 12px; padding: 8px 10px; font-size: .75rem; }
+  .ds-phone { width: min(144px, 100%); }
   .ds-copy, .ds-stage { border-radius: 24px; padding: 20px; }
 }
 @media (prefers-reduced-motion: reduce) {
