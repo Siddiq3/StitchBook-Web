@@ -3,8 +3,9 @@ import { BarChart3, Check, ChevronRight, FileText, Languages, MessageCircle, Plu
 import Button from '../components/Button.jsx';
 import PageShell from '../components/PageShell.jsx';
 import { plans } from '../data/plans.js';
-import { HeroPhones, Stagger, StaggerItem } from '../components/landingMotion.jsx';
+import { Stagger, StaggerItem } from '../components/landingMotion.jsx';
 import DemoStory from '../components/DemoStory.jsx';
+import MediaShowcase from '../components/MediaShowcase.jsx';
 import '../styles/landing.css';
 
 function validDownloadUrl(value) {
@@ -18,15 +19,6 @@ function validDownloadUrl(value) {
 const appUrl = validDownloadUrl(import.meta.env.VITE_APP_DOWNLOAD_URL) || validDownloadUrl(import.meta.env.VITE_GOOGLE_PLAY_URL) || validDownloadUrl(import.meta.env.VITE_APP_STORE_URL);
 const downloadUrl = appUrl || 'mailto:stitchbook3@gmail.com?subject=StitchBook%20app%20download';
 const appCtaLabel = appUrl ? 'Get the app' : 'Request app access';
-
-// Real screens from the app, captured from a demo shop (not mock-ups)
-function Phone({ src, alt, className = '', eager = false }) {
-  return (
-    <figure className={`lp-phone ${className}`}>
-      <img src={src} alt={alt} width="720" height="1600" loading={eager ? 'eager' : 'lazy'} decoding="async" />
-    </figure>
-  );
-}
 
 // Demo tour: real recordings from the app (public/media), poster = a frame from the clip
 const tour = [
@@ -81,9 +73,7 @@ export default function LandingPage() {
               <Button href="#plans" variant="secondary">See plans</Button>
             </StaggerItem>
           </Stagger>
-          <HeroPhones
-            front={<Phone src="/images/app/home.webp" alt="StitchBook home screen showing orders due today, overdue and in progress for SS Tailors" eager />}
-            back={<Phone src="/images/app/orders.webp" alt="StitchBook orders list with status, payment and delivery date for each order" eager />} />
+          <MediaShowcase steps={tour.map((step, i) => ({ ...step, label: ['Orders', 'New orders', 'Measurements', 'Staff work'][i] }))} />
         </section>
 
         <section className="lp-tour" id="features">
