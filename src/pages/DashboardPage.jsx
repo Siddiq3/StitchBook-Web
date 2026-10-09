@@ -2,16 +2,15 @@ import { motion, useReducedMotion } from 'framer-motion';
 import {
   AlertCircle,
   ArrowRight,
-  CalendarClock,
   CheckCircle2,
-  ClipboardList,
   CreditCard,
-  Crown,
   Loader2,
   LogOut,
   RefreshCw,
   ShieldCheck,
   Smartphone,
+  Check,
+  X,
 } from 'lucide-react';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -19,41 +18,8 @@ import { clearAuthSession, getSavedUser, getProfile, logout } from '../api/authA
 import { createUpgradeSession, getSubscriptionStatus } from '../api/subscriptionApi.js';
 import Button from '../components/Button.jsx';
 import PageShell from '../components/PageShell.jsx';
-
-const plans = [
-  {
-    key: 'basic',
-    name: 'Basic',
-    price: '₹299',
-    period: '/ month',
-    description: 'Owner-only access for orders, customers, measurements, payments and bills.',
-    note: 'Best for single-owner shops',
-  },
-  {
-    key: 'team',
-    name: 'Team',
-    price: '₹399',
-    period: '/ month',
-    description: 'Owner plus 2 staff users for cutter/stitcher login and assignment.',
-    note: 'Popular for growing shops',
-    highlighted: true,
-  },
-  {
-    key: 'pro',
-    name: 'Pro',
-    price: '₹599',
-    period: '/ month',
-    description: 'Owner plus 5 staff users with staff earnings and production tracking.',
-    note: 'For busy tailoring teams',
-  },
-];
-
-const appActions = [
-  'Install the mobile app for daily shop work',
-  'Use this website to buy or renew plans',
-  'Open the app for orders, measurements, and staff work',
-  'Check account and subscription status here',
-];
+import { plans } from '../data/plans.js';
+import '../styles/dashboard.css';
 
 function formatDate(value) {
   if (!value) return '-';
@@ -117,7 +83,7 @@ function DashboardPage() {
   }, [loadAccount]);
 
   const statusLabel = getStatusLabel(subscription);
-  const statusTone = subscription?.isActive ? 'text-sage' : 'text-clay';
+  const statusTone = subscription?.isActive ? 'is-active' : 'is-inactive';
   const planName = subscription?.planType || subscription?.billingCycle || (loading || error ? 'Unavailable' : 'free');
   const initials = useMemo(() => {
     const source = user?.name || user?.email || user?.phone || 'SB';
@@ -158,151 +124,89 @@ function DashboardPage() {
 
   return (
     <PageShell>
-      <section className="dashboard-page bg-bone px-4 py-8 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-7xl" aria-busy={loading}>
+      <section className="dashboard-page db">
+        <div className="db-container" aria-busy={loading}>
           {location.state?.accountCreated && (
-            <motion.div
-              role="status"
-              className="mb-6 rounded-2xl border border-brand/30 bg-white p-5 sm:flex sm:items-center sm:gap-5"
-              initial={reduceMotion ? false : { opacity: 0, y: -8 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-            >
-              <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-success/10 text-success"><CheckCircle2 size={22} /></span>
-              <div className="mt-3 flex-1 sm:mt-0">
-                <p className="font-bold text-ink">Your account is ready.</p>
-                <p className="mt-1 text-sm text-muted">Next, get the StitchBook app, sign in with the same email or mobile number, and set up your shop. It takes about a minute.</p>
-              </div>
-              <a className="mt-4 inline-flex min-h-11 items-center justify-center gap-2 rounded-xl bg-brand px-4 text-sm font-bold text-white hover:bg-midnight sm:mt-0" href={appDownloadUrl}><Smartphone size={17} />Get the app</a>
+            <motion.div role="status" className="db-notice"
+              initial={reduceMotion ? false : { opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.35 }}>
+              <CheckCircle2 size={22} aria-hidden="true" />
+              <div><strong>Your account is ready.</strong><p>Get the StitchBook app and sign in with the same email or mobile number to set up your shop.</p></div>
+              <Button href={appDownloadUrl}><Smartphone size={17} />Get the app</Button>
             </motion.div>
           )}
-          <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_minmax(0,0.72fr)]">
-            <div className="surface-card rounded-2xl border border-ink/10 bg-white p-5 sm:p-7">
-              <div className="flex flex-col gap-5 sm:flex-row sm:items-start sm:justify-between">
-                <div className="flex items-start gap-4">
-                  <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-ink text-xl font-semibold text-bone">
-                    {initials}
-                  </div>
-                  <div>
-                    <p className="text-xs font-semibold uppercase tracking-wide text-brass">Account</p>
-                    <h1 className="mt-2 font-sans text-4xl font-semibold leading-tight sm:text-3xl">
-                      Welcome, {user?.name || 'StitchBook user'}
-                    </h1>
-                    <div className="mt-4 flex flex-wrap gap-2 text-sm font-semibold text-muted">
-                      {user?.email ? (
-                        <span className="rounded-full border border-ink/10 bg-bone px-3 py-1">{user.email}</span>
-                      ) : null}
-                      {user?.phone ? (
-                        <span className="rounded-full border border-ink/10 bg-bone px-3 py-1">{user.phone}</span>
-                      ) : null}
-                      <span className="rounded-full border border-ink/10 bg-bone px-3 py-1 capitalize">{user?.role || 'owner'}</span>
-                    </div>
-                  </div>
-                </div>
 
-                <div className="flex flex-wrap gap-2">
-                  <Button disabled={loading} onClick={loadAccount} variant="secondary">
-                    {loading ? <Loader2 className="animate-spin" size={17} /> : <RefreshCw size={17} />}
-                    Refresh
-                  </Button>
-                  <Button onClick={handleLogout} variant="secondary">
-                    <LogOut size={17} />
-                    Logout
-                  </Button>
-                </div>
-              </div>
-
-              {error ? (
-                <div role="alert" className="mt-6 flex items-start gap-3 rounded-2xl border border-clay/25 bg-clay/10 p-4 text-sm font-semibold text-ink/75">
-                  <AlertCircle className="mt-0.5 text-clay" size={18} />
-                  {error}
-                </div>
-              ) : null}
-
-              <div className="mt-7 grid gap-4 md:grid-cols-3">
-                <div className="rounded-2xl border border-ink/10 bg-bone p-4">
-                  <CalendarClock className="text-brass" size={22} />
-                  <p className="mt-4 text-xs font-semibold uppercase tracking-wide text-muted">Status</p>
-                  <p className={`mt-2 text-xl font-extrabold ${statusTone}`}>{statusLabel}</p>
-                </div>
-                <div className="rounded-2xl border border-ink/10 bg-bone p-4">
-                  <Crown className="text-brass" size={22} />
-                  <p className="mt-4 text-xs font-semibold uppercase tracking-wide text-muted">Current Plan</p>
-                  <p className="mt-2 text-xl font-semibold capitalize">{planName}</p>
-                </div>
-                <div className="rounded-2xl border border-ink/10 bg-bone p-4">
-                  <ShieldCheck className="text-brass" size={22} />
-                  <p className="mt-4 text-xs font-semibold uppercase tracking-wide text-muted">Valid Until</p>
-                  <p className="mt-2 text-xl font-semibold">{formatDate(subscription?.endDate || subscription?.trialEndDate)}</p>
-                </div>
-              </div>
+          <header className="db-header">
+            <div className="db-identity">
+              <span className="db-avatar" aria-hidden="true">{initials}</span>
+              <div><p className="db-eyebrow">Your account</p><h1>Welcome, {user?.name || 'StitchBook user'}</h1><p>Manage your plan. Keep your shop moving.</p></div>
             </div>
+            <div className="db-toolbar">
+              <Button disabled={loading} onClick={loadAccount} variant="secondary">
+                {loading ? <Loader2 className="animate-spin" size={17} /> : <RefreshCw size={17} />}Refresh
+              </Button>
+              <Button onClick={handleLogout} variant="ghost"><LogOut size={17} />Sign out</Button>
+            </div>
+          </header>
 
-            <aside className="rounded-2xl border border-ink/10 bg-ink p-5 text-bone sm:p-7">
-              <ClipboardList className="text-brass" size={26} />
-              <h2 className="mt-5 font-sans text-4xl font-semibold leading-tight">Your shop subscription</h2>
-              <p className="mt-4 text-sm leading-6 text-bone/70">
-                The full tailoring workflow is inside the StitchBook app. Use this website for plan changes, checkout, and account status.
-              </p>
-              <div className="mt-6 grid gap-3">
-                {appActions.map((action) => (
-                  <div className="flex items-center gap-3 text-sm font-semibold text-bone/80" key={action}>
-                    <CheckCircle2 className="text-sage" size={17} />
-                    {action}
-                  </div>
-                ))}
+          {error && <div role="alert" className="db-error"><AlertCircle size={20} aria-hidden="true" /><p>{error}</p><button type="button" disabled={loading} onClick={loadAccount}>Try again</button></div>}
+
+          <div className="db-overview">
+            <section className="db-card db-subscription" aria-labelledby="subscription-heading">
+              <div className="db-card-heading"><h2 id="subscription-heading">Your subscription</h2>
+                <span className={`db-status ${loading || (!subscription && error) ? 'is-loading' : statusTone}`}>
+                  {loading ? 'Updating…' : !subscription && error ? 'Unavailable' : statusLabel}
+                </span>
               </div>
+              <p className="db-description">Your current plan and account details, in one place.</p>
+              <dl className="db-stats">
+                <div><dt>Current plan</dt><dd className="db-capitalize">{loading ? 'Loading…' : planName}</dd></div>
+                <div><dt>Valid until</dt><dd>{loading ? 'Loading…' : formatDate(subscription?.endDate || subscription?.trialEndDate)}</dd></div>
+              </dl>
+              <dl className="db-account-details">
+                {user?.email && <div><dt>Email</dt><dd>{user.email}</dd></div>}
+                {user?.phone && <div><dt>Mobile</dt><dd>{user.phone}</dd></div>}
+                <div><dt>Account role</dt><dd className="db-capitalize">{user?.role || 'owner'}</dd></div>
+              </dl>
+              <div className="db-card-footer"><Button to="/billing" variant="secondary">Billing details<ArrowRight size={16} /></Button><a href="#dashboard-plans">View plans</a></div>
+            </section>
+
+            <aside className="db-card db-app" aria-labelledby="app-heading">
+              <span className="db-app-icon"><Smartphone size={23} aria-hidden="true" /></span>
+              <h2 id="app-heading">Your shop goes with you.</h2>
+              <p>Orders, measurements, payments and staff work are together in the StitchBook app.</p>
+              <ul><li><Check size={16} aria-hidden="true" />Use your same account to sign in</li><li><Check size={16} aria-hidden="true" />Buy or renew your plan on this website</li></ul>
+              <Button href={appDownloadUrl}><Smartphone size={17} />{appDownloadUrl.startsWith('mailto:') ? 'Request app access' : 'Get the app'}<ArrowRight size={16} /></Button>
+              <a className="db-help" href="mailto:stitchbook3@gmail.com">Need help getting started?</a>
             </aside>
           </div>
 
-          <section className="surface-card mt-8 rounded-2xl border border-ink/10 bg-white p-5 sm:p-7">
-            <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-              <div>
-                <p className="text-xs font-semibold uppercase tracking-wide text-brass">Subscription</p>
-                <h2 className="mt-2 font-sans text-4xl font-semibold">Choose the plan for your app access</h2>
-              </div>
-              <Button to="/billing" variant="secondary">
-                Billing details
-                <ArrowRight size={17} />
-              </Button>
-            </div>
-
-            <div className="mt-7 grid gap-4 lg:grid-cols-3">
-              {plans.map((plan) => (
-                <article
-                  className={`rounded-2xl border p-5 ${
-                    plan.highlighted
-                      ? 'border-brass/40 bg-mist'
-                      : 'border-ink/10 bg-bone'
-                  }`}
-                  key={plan.key}
-                >
-                  <div className="flex items-start justify-between gap-3">
-                    <div>
-                      <p className="text-xl font-semibold">{plan.name}</p>
-                      <p className="mt-2 text-sm leading-6 text-muted">{plan.description}</p>
-                    </div>
-                    {plan.highlighted ? (
-                      <span className="rounded-full bg-brass px-3 py-1 text-xs font-semibold text-white">Popular</span>
-                    ) : null}
-                  </div>
-                  <div className="mt-6 flex items-end gap-1">
-                    <span className="font-sans text-3xl font-semibold leading-none">{plan.price}</span>
-                    <span className="pb-1 text-sm font-semibold text-muted">{plan.period}</span>
-                  </div>
-                  <p className="mt-3 text-xs font-semibold uppercase tracking-wide text-muted">{plan.note}</p>
-                  <Button
-                    className="mt-6 w-full"
-                    disabled={Boolean(checkoutPlan)}
-                    onClick={() => startUpgrade(plan.key)}
-                    variant={plan.highlighted ? 'brass' : 'primary'}
-                  >
-                    {checkoutPlan === plan.key ? <Loader2 className="animate-spin" size={17} /> : <CreditCard size={17} />}
-                    {checkoutPlan === plan.key ? 'Creating checkout' : 'Buy Now'}
+          <section className="db-pricing" id="dashboard-plans" aria-labelledby="plans-heading">
+            <div className="db-pricing-heading"><div><p className="db-eyebrow">Plans for your shop</p><h2 id="plans-heading">A plan for every stage.</h2><p>Choose the access your shop needs. Payments are handled securely with Cashfree.</p></div><span className="db-secure"><ShieldCheck size={16} aria-hidden="true" />Secure checkout</span></div>
+            <div className="db-plans">
+              {Object.entries(plans).map(([key, plan]) => (
+                <article className={`db-card db-plan ${key === 'team' ? 'db-plan-featured' : ''}`} key={key}>
+                  <div className="db-plan-heading"><h3>{plan.label}</h3>{key === 'team' && <span className="db-plan-badge">Most popular</span>}</div>
+                  <p className="db-plan-description">{plan.description}</p>
+                  <p className="db-price">₹{plan.amount}<span>/month</span></p>
+                  <p className="db-plan-access">{plan.access}</p>
+                  <ul className="db-features" aria-label={`${plan.label} plan features`}>
+                    {plan.featureRows.map(feature => (
+                      <li key={feature.label} className={feature.included ? 'is-included' : 'is-excluded'}>
+                        {feature.included ? <Check size={16} aria-hidden="true" /> : <X size={16} aria-hidden="true" />}
+                        <span className="db-feature-label">{feature.label}{feature.planned && <small>Planned feature</small>}</span>
+                        <span className="db-feature-value">{feature.value}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  <Button className="db-buy" disabled={Boolean(checkoutPlan)} onClick={() => startUpgrade(key)} variant={key === 'team' ? 'primary' : 'secondary'}>
+                    {checkoutPlan === key ? <Loader2 className="animate-spin" size={17} /> : <CreditCard size={17} />}
+                    {checkoutPlan === key ? 'Creating checkout' : `Choose ${plan.label}`}
                   </Button>
                 </article>
               ))}
             </div>
+            <p className="db-billing-note">Plans run for 30 days and never renew automatically.</p>
           </section>
         </div>
       </section>
