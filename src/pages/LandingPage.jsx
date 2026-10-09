@@ -1,5 +1,5 @@
 import { motion, useReducedMotion } from 'framer-motion';
-import { BarChart3, Check, ChevronRight, FileText, Languages, MessageCircle, Plus, ShieldCheck, Smartphone, Users, Wallet } from 'lucide-react';
+import { BarChart3, Check, ChevronRight, FileText, Languages, MessageCircle, Plus, ShieldCheck, Smartphone, Users, Wallet, X } from 'lucide-react';
 import Button from '../components/Button.jsx';
 import PageShell from '../components/PageShell.jsx';
 import { plans } from '../data/plans.js';
@@ -35,12 +35,6 @@ const also = [
   { icon: BarChart3, text: 'Reports by day, week, month or year' },
   { icon: Languages, text: 'English, Telugu and Hindi' },
 ];
-
-const planHighlights = {
-  basic: ['Owner only', 'Basic reports'],
-  team: ['2 staff logins', 'Assign cutting and stitching', 'Staff work and earnings ledger', 'Full reports'],
-  pro: ['5 staff logins', 'Everything in Team', 'Advanced reports', 'Priority support'],
-};
 
 const faqs = [
   ['What can I do with StitchBook?', 'The mobile app keeps customers, outfit measurements, orders, delivery dates, payments, invoices and staff assignments together. This website is where you sign in and manage your plan.'],
@@ -120,8 +114,14 @@ export default function LandingPage() {
                 <p className="lp-plan-for">{plan.description}</p>
                 <p className="lp-price">₹{plan.amount}<span>/month</span></p>
                 <p className="lp-plan-access"><Users size={16} />{plan.access}</p>
-                <ul>
-                  {planHighlights[key].map((item) => <li key={item}><Check size={16} />{item}</li>)}
+                <ul className="lp-plan-features" aria-label={`${plan.label} plan features`}>
+                  {plan.featureRows.map((feature) => (
+                    <li key={feature.label} className={feature.included ? 'is-included' : 'is-excluded'}>
+                      {feature.included ? <Check size={16} aria-hidden="true" /> : <X size={16} aria-hidden="true" />}
+                      <span className="lp-feature-label">{feature.label}{feature.planned && <small>Planned feature</small>}</span>
+                      <span className="lp-feature-value">{feature.value}</span>
+                    </li>
+                  ))}
                 </ul>
                 <Button to="/billing" variant={key === 'team' ? 'primary' : 'secondary'}>Choose {plan.label}</Button>
               </StaggerItem>

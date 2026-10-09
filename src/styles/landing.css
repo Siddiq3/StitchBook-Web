@@ -266,3 +266,14 @@
   .ds-dot.is-active { width: 36px; }
   .ds-dot.is-active .ds-dot-track { width: 28px; }
 }
+
+/* Full feature lists make plan inclusions and exclusions explicit. */
+.lp-plan .lp-plan-features { gap: 0; }
+.lp-plan-features li { padding-block: 10px; border-bottom: 1px solid var(--sb-border); }
+.lp-plan-features li:last-child { border-bottom: 0; }
+.lp-feature-label { flex: 1; min-width: 0; }
+.lp-feature-label small { display: block; margin-top: 4px; font-size: .75rem; color: var(--sb-muted); }
+.lp-feature-value { flex: 0 1 42%; text-align: right; font-weight: 600; font-size: .8125rem; }
+.lp-plan-features .is-excluded { color: var(--sb-muted); }
+.lp-plan-features .is-excluded svg { color: var(--sb-muted); }
+.lp-plan-features .is-excluded .lp-feature-value { font-weight: 400; }
