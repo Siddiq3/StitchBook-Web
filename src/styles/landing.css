@@ -151,3 +151,39 @@
   .lp-plan:hover, .lp-split-visual:hover .lp-phone { transform: none; }
   .lp-faq-list details[open] p { animation: none; }
 }
+
+/* Sign-up: one question per screen (RegisterPage.jsx) */
+.su-page { background: var(--sb-canvas); }
+.su-back { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 999px; background: var(--sb-surface); border: 1px solid var(--sb-border); color: var(--sb-ink); }
+.su-back:hover { border-color: var(--sb-brand); }
+.su-seam { position: relative; display: flex; justify-content: space-between; align-items: center; height: 18px; }
+.su-stitch { width: 10px; height: 2px; border-radius: 2px; background: #CFE3FA; }
+.su-needle { position: absolute; top: 1px; color: var(--sb-ink); }
+.su-input { display: flex; align-items: center; border-radius: 12px; border: 1px solid #D0D7E2; background: var(--sb-surface); transition: border-color 160ms, box-shadow 160ms; }
+.su-input:focus-within { border-color: var(--sb-brand); box-shadow: 0 0 0 4px rgba(0,127,255,.12); }
+.su-input.has-error { border-color: var(--sb-danger); }
+.su-prefix { padding-left: 16px; font-weight: 600; color: var(--sb-muted); }
+.su-primary { width: 100%; min-height: 52px; border-radius: 12px; background: var(--sb-brand); color: #fff; font-weight: 700; transition: background-color 160ms, transform 120ms; }
+.su-primary:hover { background: var(--sb-brand-dark); }
+.su-primary:active { transform: scale(.985); }
+.su-primary:disabled { opacity: .6; }
+.su-primary:focus-visible, .su-back:focus-visible { outline: 2px solid var(--sb-brand); outline-offset: 3px; }
+.su-card { padding: 20px; border-radius: 16px; background: var(--sb-surface); border: 1px solid var(--sb-border); box-shadow: var(--sb-shadow-md); display: grid; gap: 6px; }
+.su-card-head { display: flex; align-items: center; gap: 8px; padding-bottom: 10px; margin-bottom: 4px; border-bottom: 1px solid var(--sb-border); font-size: .875rem; font-weight: 600; color: var(--sb-muted); }
+.su-card-icon { display: grid; place-items: center; width: 26px; height: 26px; border-radius: 8px; background: var(--sb-brand); color: #fff; }
+.su-row { display: flex; align-items: center; gap: 10px; min-height: 40px; padding: 0 10px; border-radius: 10px; color: var(--sb-muted); transition: background-color 200ms; }
+.su-row.is-active { background: var(--sb-brand-soft); color: var(--sb-brand); }
+.su-value { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 600; color: var(--sb-ink); }
+.su-value.is-big { font-size: 1.125rem; font-weight: 800; }
+.su-placeholder { flex: 1; font-weight: 600; }
+.su-bar { flex: 1; max-width: 55%; height: 8px; border-radius: 4px; background: var(--sb-surface-soft); }
+.su-bar.is-big { height: 12px; max-width: 70%; }
+.su-tick { color: var(--sb-success); }
+.su-next { margin-top: 28px; display: grid; gap: 12px; }
+.su-next li { display: flex; align-items: center; gap: 12px; font-weight: 600; color: var(--sb-muted); }
+.su-next li span { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 999px; background: var(--sb-surface-soft); font-size: .8125rem; }
+.su-next li.is-now { color: var(--sb-ink); }
+.su-next li.is-now span { background: var(--sb-brand); color: #fff; }
+@media (prefers-reduced-motion: reduce) { .su-input, .su-primary, .su-row { transition: none; } }
+/* The field container carries the focus ring; the input itself draws none */
+.su-input input:focus, .su-input input:focus-visible { outline: none; box-shadow: none; }

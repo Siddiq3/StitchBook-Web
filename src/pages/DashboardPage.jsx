@@ -1,3 +1,4 @@
+import { motion, useReducedMotion } from 'framer-motion';
 import {
   AlertCircle,
   ArrowRight,
@@ -10,6 +11,7 @@ import {
   LogOut,
   RefreshCw,
   ShieldCheck,
+  Smartphone,
 } from 'lucide-react';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -70,7 +72,16 @@ function getStatusLabel(subscription) {
   return 'No active plan';
 }
 
+// Same app link the landing page uses; falls back to emailing for access
+const appDownloadUrl = (() => {
+  for (const value of [import.meta.env.VITE_APP_DOWNLOAD_URL, import.meta.env.VITE_GOOGLE_PLAY_URL]) {
+    try { const url = new URL(value); if (url.protocol === 'https:' && url.hostname !== 'example.com') return url.href; } catch { /* not set */ }
+  }
+  return 'mailto:stitchbook3@gmail.com?subject=StitchBook%20app%20download';
+})();
+
 function DashboardPage() {
+  const reduceMotion = useReducedMotion();
   const navigate = useNavigate();
   const location = useLocation();
   const [user, setUser] = useState(() => getSavedUser());
@@ -149,7 +160,22 @@ function DashboardPage() {
     <PageShell>
       <section className="dashboard-page bg-bone px-4 py-8 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl" aria-busy={loading}>
-          {location.state?.accountCreated && <p role="status" className="mb-5 rounded-xl bg-emerald-50 p-4 text-sage">Your account has been created. Welcome to StitchBook.</p>}
+          {location.state?.accountCreated && (
+            <motion.div
+              role="status"
+              className="mb-6 rounded-2xl border border-brand/30 bg-white p-5 sm:flex sm:items-center sm:gap-5"
+              initial={reduceMotion ? false : { opacity: 0, y: -8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+            >
+              <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-success/10 text-success"><CheckCircle2 size={22} /></span>
+              <div className="mt-3 flex-1 sm:mt-0">
+                <p className="font-bold text-ink">Your account is ready.</p>
+                <p className="mt-1 text-sm text-muted">Next, get the StitchBook app, sign in with the same email or mobile number, and set up your shop. It takes about a minute.</p>
+              </div>
+              <a className="mt-4 inline-flex min-h-11 items-center justify-center gap-2 rounded-xl bg-brand px-4 text-sm font-bold text-white hover:bg-midnight sm:mt-0" href={appDownloadUrl}><Smartphone size={17} />Get the app</a>
+            </motion.div>
+          )}
           <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_minmax(0,0.72fr)]">
             <div className="surface-card rounded-2xl border border-ink/10 bg-white p-5 sm:p-7">
               <div className="flex flex-col gap-5 sm:flex-row sm:items-start sm:justify-between">

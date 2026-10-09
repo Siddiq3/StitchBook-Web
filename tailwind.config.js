@@ -17,6 +17,8 @@ export default {
         // 'brass' is the legacy name of the brand accent; it is azure now, matching the app
         brass: '#007FFF',
         brand: '#007FFF',
+        danger: '#B4233B',
+        success: '#147A48',
         saffron: '#B7791F',
         sage: '#147A48',
         mist: '#EAF4FF',

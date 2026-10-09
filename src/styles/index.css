@@ -8,11 +8,11 @@ html { scroll-behavior: smooth; scroll-padding-top: 6rem; }
 body { margin: 0; min-width: 320px; min-height: 100vh; }
 button, a { -webkit-tap-highlight-color: transparent; }
 button:disabled { cursor: not-allowed; opacity: .5; }
-:focus-visible { outline: 2px solid #B55E3A; outline-offset: 4px; }
+:focus-visible { outline: 2px solid #007FFF; outline-offset: 4px; }
 main { overflow-wrap: anywhere; }
 h1, h2, h3 { text-wrap: balance; }
 .text-balance { text-wrap: balance; }
-.brand-solid { background: #B55E3A; }
+.brand-solid { background: #007FFF; }
 .brand-soft { background: #EAF4FF; }
 .surface-card { background: #fff; border: 1px solid #E4E0D8; }
 @media (prefers-reduced-motion: reduce) {
@@ -33,7 +33,7 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; }
 }
 
 /* Shared section label used by headings and legal/utility pages */
-.section-eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 1.8px; text-transform: uppercase; color: #B55E3A; }
+.section-eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 1.8px; text-transform: uppercase; color: #007FFF; }
 
 /* Legal pages: Privacy, Terms, Delete account */
 .legal-page { max-width: 1280px; margin-inline: auto; padding: 56px 32px 80px; }
@@ -48,7 +48,7 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; }
 /* Form controls used by the delete-account form */
 .form-label { display: block; font-size: 14px; font-weight: 600; color: #17212B; margin-bottom: 8px; }
 .form-input { width: 100%; min-height: 48px; padding: 0 14px; border: 1px solid #E4E0D8; border-radius: .75rem; background: #fff; color: #17212B; font-size: 15px; }
-.form-input:focus { outline: none; border-color: #B55E3A; box-shadow: 0 0 0 3px rgba(181, 94, 58, .18); }
+.form-input:focus { outline: none; border-color: #007FFF; box-shadow: 0 0 0 3px rgba(0, 127, 255, .18); }
 
 /* About page: same canvas as the landing page */
 .site-header { background: rgba(250,251,254,.96); backdrop-filter: blur(16px); }
@@ -78,6 +78,7 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; }
   --sb-ink: #101828;
   --sb-muted: #475467;
   --sb-brand: #007FFF;
+  --sb-brand-dark: #0066CC;
   --sb-brand-soft: #EAF4FF;
   --sb-success: #147A48;
   --sb-danger: #B4233B;
