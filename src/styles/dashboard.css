@@ -1,0 +1,99 @@
+/* Account dashboard shares the public site's typography and surface tokens. */
+.db.dashboard-page { padding: 44px 0 80px; color: var(--sb-ink); background: var(--sb-canvas); }
+.db-container { width: min(100% - 32px, 1160px); margin-inline: auto; }
+.db p { color: var(--sb-muted); line-height: 1.6; }
+.db.dashboard-page h1, .db.dashboard-page h2, .db.dashboard-page h3 { font-weight: 700; letter-spacing: -.025em; line-height: 1.2; }
+.db.dashboard-page h1 { font-size: clamp(1.5rem, 2.8vw, 2.125rem); margin: 6px 0 8px; }
+.db.dashboard-page h2 { font-size: clamp(1.375rem, 2.2vw, 1.75rem); }
+.db.dashboard-page h3 { font-size: 1.125rem; }
+.db-header { display: flex; justify-content: space-between; align-items: center; gap: 24px; margin-bottom: 32px; }
+.db-identity { display: flex; align-items: center; gap: 18px; min-width: 0; }
+.db-identity > div { min-width: 0; }
+.db-avatar { width: 52px; height: 52px; flex: none; display: grid; place-items: center; border-radius: 16px; color: var(--sb-brand-dark); background: var(--sb-brand-soft); font-size: 1.0625rem; font-weight: 800; }
+.db .db-eyebrow { font-size: .75rem; font-weight: 700; color: var(--sb-brand-dark); }
+.db-toolbar { display: flex; gap: 8px; flex: none; }
+.db-overview { display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr); gap: 24px; }
+.db-card { min-width: 0; padding: 28px; border: 1px solid var(--sb-border); border-radius: 16px; background: var(--sb-surface); }
+.db-card-heading { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+.db .db-description { margin-top: 10px; font-size: .9375rem; }
+.db-status { display: inline-flex; padding: 6px 10px; border-radius: 999px; font-size: .75rem; font-weight: 700; }
+.db-status.is-active { background: #eaf7ef; color: var(--sb-success); }
+.db-status.is-inactive { background: #fff1f3; color: var(--sb-danger); }
+.db-status.is-loading { background: var(--sb-surface-soft); color: var(--sb-muted); }
+.db-stats { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; padding-block: 24px; margin-top: 6px; border-bottom: 1px solid var(--sb-border); }
+.db dt { color: var(--sb-muted); font-size: .8125rem; }
+.db-stats dd { margin-top: 8px; font-size: clamp(1.125rem, 2vw, 1.5rem); font-weight: 700; letter-spacing: -.02em; }
+.db-capitalize { text-transform: capitalize; }
+.db-account-details { display: grid; gap: 12px; padding-block: 20px; }
+.db-account-details > div { display: grid; grid-template-columns: 96px minmax(0, 1fr); gap: 12px; align-items: baseline; }
+.db-account-details dd { font-size: .875rem; font-weight: 500; overflow-wrap: anywhere; }
+.db-card-footer { border-top: 1px solid var(--sb-border); padding-top: 18px; display: flex; align-items: center; flex-wrap: wrap; gap: 18px; }
+.db-card-footer > a:last-child, .db-help { color: var(--sb-brand-dark); font-size: .875rem; font-weight: 600; text-underline-offset: 4px; }
+.db-card-footer > a:last-child:hover, .db-help:hover { text-decoration: underline; }
+.db .db-app { background: var(--sb-brand-soft); display: flex; flex-direction: column; align-items: flex-start; }
+.db-app-icon { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 12px; color: var(--sb-brand-dark); background: var(--sb-surface); margin-bottom: 20px; }
+.db-app p { margin-top: 12px; font-size: .9375rem; max-width: 38ch; }
+.db-app ul { display: grid; gap: 12px; margin: 22px 0 26px; font-size: .875rem; }
+.db-app li { display: flex; align-items: flex-start; gap: 8px; }
+.db-app li svg { color: var(--sb-brand-dark); flex: none; margin-top: 2px; }
+.db-app > a:not(.db-help) { margin-top: auto; }
+.db-help { margin-top: 14px; display: inline-flex; align-items: center; min-height: 32px; }
+.db-pricing { margin-top: 44px; }
+.db-pricing-heading { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; margin-bottom: 24px; }
+.db-pricing-heading h2 { margin-top: 8px; }
+.db-pricing-heading p:last-child { margin-top: 10px; font-size: .9375rem; max-width: 62ch; }
+.db-secure { display: flex; align-items: center; gap: 6px; color: var(--sb-muted); font-size: .8125rem; white-space: nowrap; }
+.db-plans { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.db-plan { padding: 24px; display: flex; flex-direction: column; }
+.db-plan-featured { border: 2px solid var(--sb-brand); padding: 23px; }
+.db-plan-heading { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.db-plan-badge { font-size: .6875rem; font-weight: 700; padding: 5px 9px; border-radius: 999px; color: var(--sb-brand-dark); background: var(--sb-brand-soft); }
+.db-plan-description { margin-top: 8px; font-size: .875rem; }
+.db .db-price { color: var(--sb-ink); margin-top: 24px; font-size: 2.25rem; font-weight: 800; letter-spacing: -.03em; line-height: 1.1; }
+.db-price span { font-size: .875rem; color: var(--sb-muted); font-weight: 500; letter-spacing: 0; margin-left: 5px; }
+.db-plan-access { font-size: .875rem; margin-top: 12px; }
+.db-features { border-top: 1px solid var(--sb-border); margin: 20px 0; flex: 1; }
+.db-features li { display: flex; gap: 8px; padding-block: 10px; border-bottom: 1px solid var(--sb-border); font-size: .8125rem; line-height: 1.5; }
+.db-features li:last-child { border-bottom: 0; }
+.db-features svg { flex: none; color: var(--sb-success); margin-top: 2px; }
+.db-feature-label { flex: 1; min-width: 0; }
+.db-feature-label small { display: block; color: var(--sb-muted); font-size: .6875rem; margin-top: 3px; }
+.db-feature-value { flex: 0 1 40%; text-align: right; font-weight: 600; }
+.db-features .is-excluded { color: var(--sb-muted); }
+.db-features .is-excluded svg { color: var(--sb-muted); }
+.db-features .is-excluded .db-feature-value { font-weight: 400; }
+.db-buy { width: 100%; }
+.db .db-billing-note { text-align: center; font-size: .8125rem; margin-top: 20px; }
+.db-notice, .db-error { display: flex; align-items: flex-start; gap: 14px; padding: 20px; border-radius: 16px; margin-bottom: 28px; }
+.db-notice { background: var(--sb-surface); border: 1px solid var(--sb-brand); }
+.db-notice > svg { flex: none; color: var(--sb-success); margin-top: 2px; }
+.db-notice > div { flex: 1; min-width: 0; }
+.db-notice p { margin-top: 6px; font-size: .875rem; }
+.db-notice > a { flex: none; }
+.db-error { background: #fff1f3; border: 1px solid #f3c4ce; color: var(--sb-danger); }
+.db-error svg { flex: none; }
+.db-error p { flex: 1; min-width: 0; font-size: .875rem; color: var(--sb-danger); }
+.db-error button { font-size: .875rem; font-weight: 700; min-height: 44px; flex: none; text-decoration: underline; text-underline-offset: 4px; }
+@media (max-width: 1000px) {
+  .db-header { align-items: flex-start; flex-direction: column; }
+  .db-overview { grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 16px; }
+  .db-card { padding: 22px; }
+  .db-plans { grid-template-columns: 1fr; }
+  .db-plan-featured { padding: 21px; }
+  .db-pricing-heading { align-items: flex-start; flex-direction: column; gap: 12px; }
+}
+@media (max-width: 700px) {
+  .db.dashboard-page { padding-top: 28px; }
+  .db-overview { grid-template-columns: 1fr; }
+  .db-identity { gap: 12px; align-items: flex-start; }
+  .db-avatar { width: 44px; height: 44px; border-radius: 12px; }
+  .db-stats { gap: 16px; }
+  .db-notice { flex-wrap: wrap; }
+  .db-notice > div { flex-basis: calc(100% - 40px); }
+  .db-error { flex-wrap: wrap; }
+  .db-account-details > div { grid-template-columns: 72px minmax(0, 1fr); }
+  .db-pricing { margin-top: 32px; }
+  .db-toolbar { flex-wrap: wrap; }
+}
+
+.db .db-plan-featured:hover { border-color: var(--sb-brand); }
