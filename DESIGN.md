@@ -81,6 +81,7 @@ Controls 12px, cards 16px, phone frames 28px, chips pill.
 ## Do's and Don'ts
 
 - Do use real app screenshots from `public/images/app/` (720px WebP).
+- Do show the product moving with real screen recordings (`public/media/*.mp4`, 540x1200, recorded on the emulator from the demo shop) in the DemoStory tour: lazy-loaded, muted, pausable, poster frame for reduced motion. Never record the keyboard (its suggestion bar can show clipboard text).
 - Don't add eyebrow labels, section numbers, em-dashes, watermarks, or invented metrics.
 - Don't duplicate CTA intents: one app CTA label, one sign-in link.
 - Known: Plus Jakarta Sans is flagged by the Impeccable detector as an overused face; it is the incumbent brand face, kept until a brand decision.

@@ -19,7 +19,6 @@
 /* Real app screens in a device frame */
 .lp-phone { margin: 0; aspect-ratio: 9 / 20; border-radius: 28px; padding: 6px; background: #0F172A; box-shadow: 0 24px 48px -16px rgba(29, 59, 102, 0.28), 0 2px 6px rgba(29, 59, 102, 0.12); }
 .lp-phone img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: top; border-radius: 22px; background: var(--sb-canvas); }
-.lp-phone-sm { width: min(100%, 240px); }
 
 /* Hero: copy left, two real screens right */
 .lp-hero { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); align-items: center; gap: 48px; padding-block: 56px 72px; }
@@ -28,22 +27,7 @@
 .lp-hero-front { right: 42%; top: 24px; z-index: 2; }
 .lp-hero-back { right: 8%; top: 70px; opacity: 0.96; }
 
-/* Feature rows (two at most in alternation) */
-.lp-split { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: center; gap: 56px; padding-block: 72px; border-top: 1px solid var(--sb-border); }
-.lp-split-reverse .lp-split-copy { order: 2; }
-.lp-split-copy p { margin-top: 16px; max-width: 48ch; }
-.lp-split-visual { display: flex; justify-content: center; }
-.lp-split-visual .lp-phone { width: 270px; }
-.lp-checks { margin-top: 24px; display: grid; gap: 12px; }
-.lp-checks li { display: flex; gap: 10px; align-items: flex-start; font-weight: 600; color: var(--sb-ink); }
-.lp-checks svg { flex: none; margin-top: 3px; color: var(--sb-brand); }
 
-/* Staff + customers: tinted band, two columns */
-.lp-band { background: var(--sb-surface-soft); padding-block: 72px; }
-.lp-duo { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 48px; }
-.lp-duo > div { display: grid; justify-items: start; gap: 12px; }
-.lp-duo .lp-phone { margin-bottom: 12px; }
-.lp-duo p { max-width: 42ch; }
 
 /* How it works */
 .lp-how { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 56px; align-items: center; padding-block: 88px; }
@@ -101,14 +85,9 @@
   .lp-hero-visual { height: 470px; }
   .lp-hero-front { right: auto; left: calc(50% - 175px); width: 210px; }
   .lp-hero-back { right: calc(50% - 175px); width: 190px; top: 56px; }
-  .lp-split, .lp-how, .lp-faq { grid-template-columns: 1fr; gap: 32px; padding-block: 56px; }
-  .lp-split-reverse .lp-split-copy { order: 0; }
-  .lp-split-visual .lp-phone { width: 230px; }
   .lp-plans { grid-template-columns: 1fr; }
 }
 @media (max-width: 640px) {
-  .lp-duo { grid-template-columns: 1fr; gap: 48px; }
-  .lp-duo > div { justify-items: center; text-align: center; }
   .lp-principles { grid-template-columns: 1fr; }
   .lp-actions > * { flex: 1 1 auto; }
 }
@@ -118,26 +97,10 @@
   .lp-hero-visual { height: 400px; }
 }
 
-/* Order status track (animated in landingMotion.jsx) */
-.lp-track { margin-top: 24px; padding: 16px; border-radius: 16px; background: var(--sb-surface); border: 1px solid var(--sb-border); max-width: 440px; }
-.lp-track-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 28px; }
-.lp-track-garment { display: inline-flex; align-items: center; gap: 8px; font-weight: 700; color: var(--sb-ink); }
-.lp-track-garment svg { color: var(--sb-brand); }
-.lp-track-tag { display: inline-flex; align-items: center; gap: 4px; font-size: 0.8125rem; font-weight: 700; color: #9A5A08; background: #FFF7E8; padding: 4px 10px; border-radius: 999px; white-space: nowrap; }
-.lp-track-tag.is-ready { color: var(--sb-success); background: #EDF8F1; }
-.lp-track-steps { margin-top: 14px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; }
-.lp-track-steps li { position: relative; display: grid; place-items: center; min-height: 36px; border-radius: 10px; background: var(--sb-surface-soft); font-size: 0.8125rem; font-weight: 600; color: var(--sb-muted); transition: color 200ms var(--sb-ease-out); }
-.lp-track-steps li.is-done { color: var(--sb-brand); }
-.lp-track-active { position: absolute; inset: 0; border-radius: 10px; background: var(--sb-brand); }
-.lp-track-steps li:has(.lp-track-active) { color: #fff; }
-.lp-track-label { position: relative; z-index: 1; }
-
 /* Feedback: plan cards and phones respond to hover and keyboard focus */
 .lp-plan { transition: transform 220ms var(--sb-ease-out), box-shadow 220ms var(--sb-ease-out), border-color 220ms var(--sb-ease-out); }
 @media (hover: hover) {
   .lp-plan:hover { transform: translateY(-4px); box-shadow: var(--sb-shadow-md); }
-  .lp-split-visual .lp-phone { transition: transform 300ms var(--sb-ease-out); }
-  .lp-split-visual:hover .lp-phone { transform: translateY(-6px); }
 }
 .lp-plan:focus-within { border-color: var(--sb-brand); }
 .lp a:focus-visible, .lp button:focus-visible { outline: 2px solid var(--sb-brand); outline-offset: 3px; }
@@ -147,8 +110,8 @@
 @keyframes lp-faq-in { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
 
 @media (prefers-reduced-motion: reduce) {
-  .lp-plan, .lp-split-visual .lp-phone, .lp-track-steps li { transition: none; }
-  .lp-plan:hover, .lp-split-visual:hover .lp-phone { transform: none; }
+  .lp-plan { transition: none; }
+  .lp-plan:hover { transform: none; }
   .lp-faq-list details[open] p { animation: none; }
 }
 
@@ -187,3 +150,35 @@
 @media (prefers-reduced-motion: reduce) { .su-input, .su-primary, .su-row { transition: none; } }
 /* The field container carries the focus ring; the input itself draws none */
 .su-input input:focus, .su-input input:focus-visible { outline: none; box-shadow: none; }
+
+/* Demo tour (DemoStory.jsx): steps on the left, a phone playing the real clip on the right */
+.lp-tour { padding-block: 80px; background: var(--sb-brand-soft); }
+.ds { margin-top: 36px; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 0.9fr); gap: 48px; align-items: center; }
+.ds-steps { display: grid; gap: 4px; }
+.ds-step { width: 100%; text-align: left; display: grid; gap: 6px; padding: 16px 18px; border-radius: 16px; color: var(--sb-muted); transition: background-color 200ms var(--sb-ease-out); }
+.ds-step:hover { background: rgba(255,255,255,.55); }
+.ds-step.is-active { background: var(--sb-surface); color: var(--sb-ink); box-shadow: var(--sb-shadow-sm); }
+.ds-step-title { font-size: 1.125rem; font-weight: 700; }
+.ds-step-body { display: block; overflow: hidden; color: var(--sb-muted); line-height: 1.6; }
+.ds-bar { display: block; height: 3px; border-radius: 2px; background: rgba(0,127,255,.14); overflow: hidden; }
+.ds-bar-fill { display: block; height: 100%; background: var(--sb-brand); transform-origin: left center; transition: transform 250ms linear; }
+.ds-step:focus-visible, .ds-icon:focus-visible, .ds-play:focus-visible { outline: 2px solid var(--sb-brand); outline-offset: 3px; }
+.ds-controls { margin-top: 16px; display: flex; gap: 8px; padding-left: 18px; }
+.ds-icon { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 999px; background: var(--sb-surface); border: 1px solid var(--sb-border); color: var(--sb-ink); }
+.ds-icon:hover { border-color: var(--sb-brand); color: var(--sb-brand); }
+.ds-stage { position: relative; display: flex; justify-content: center; }
+.ds-phone { width: min(300px, 78vw); }
+.ds-media { width: 100%; height: 100%; }
+.ds-media video, .ds-media img { display: block; width: 100%; height: 100%; object-fit: cover; border-radius: 22px; background: var(--sb-canvas); }
+.ds-play { position: absolute; top: 50%; left: 50%; translate: -50% -50%; display: grid; place-items: center; width: 64px; height: 64px; border-radius: 999px; background: var(--sb-brand); color: #fff; box-shadow: var(--sb-shadow-md); }
+.lp-also { margin-top: 48px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px 32px; }
+.lp-also li { display: flex; gap: 10px; align-items: flex-start; font-weight: 600; color: var(--sb-ink); }
+.lp-also svg { flex: none; margin-top: 2px; color: var(--sb-brand); }
+@media (max-width: 900px) {
+  .lp-tour { padding-block: 56px; }
+  .ds { grid-template-columns: 1fr; gap: 28px; }
+  .ds-stage { order: -1; }
+  .lp-also { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 560px) { .lp-also { grid-template-columns: 1fr; } }
+@media (prefers-reduced-motion: reduce) { .ds-step, .ds-bar-fill { transition: none; } }

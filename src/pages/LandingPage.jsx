@@ -1,9 +1,10 @@
 import { motion, useReducedMotion } from 'framer-motion';
-import { Check, ChevronRight, MessageCircle, Plus, Ruler, ShieldCheck, Smartphone, Users } from 'lucide-react';
+import { BarChart3, Check, ChevronRight, FileText, Languages, MessageCircle, Plus, ShieldCheck, Smartphone, Users, Wallet } from 'lucide-react';
 import Button from '../components/Button.jsx';
 import PageShell from '../components/PageShell.jsx';
 import { plans } from '../data/plans.js';
-import { HeroPhones, Stagger, StaggerItem, StatusTrack } from '../components/landingMotion.jsx';
+import { HeroPhones, Stagger, StaggerItem } from '../components/landingMotion.jsx';
+import DemoStory from '../components/DemoStory.jsx';
 import '../styles/landing.css';
 
 function validDownloadUrl(value) {
@@ -26,6 +27,22 @@ function Phone({ src, alt, className = '', eager = false }) {
     </figure>
   );
 }
+
+// Demo tour: real recordings from the app (public/media), poster = a frame from the clip
+const tour = [
+  { key: 'orders', title: 'Move every order forward', body: 'Open an order, mark it ready, and the customer can be told on WhatsApp.', video: '/media/orders.mp4', poster: '/media/orders.webp', alt: 'An order for Rahul Verma moves from Stitching to Ready after confirming' },
+  { key: 'neworder', title: 'Take an order in seconds', body: 'Pick the customer and outfit. Their saved measurements are already there.', video: '/media/neworder.mp4', poster: '/media/neworder.webp', alt: 'A new shirt order reuses the customer\'s saved shirt measurements' },
+  { key: 'measure', title: 'Measurements that stay saved', body: 'Every customer\'s fit profile, shown on a body diagram, in inches.', video: '/media/measure.mp4', poster: '/media/measure.webp', alt: 'Measurement profiles list and a body diagram with neck, chest, shoulder and sleeve sizes' },
+  { key: 'staff', title: 'Each tailor sees their work', body: 'Cutters and stitchers get their own view of what is assigned to them.', video: '/media/staff.mp4', poster: '/media/staff.webp', alt: 'Staff list with the cutter app view and stitcher app view of assigned orders' },
+];
+const also = [
+  { icon: MessageCircle, text: 'WhatsApp updates for ready, delivery and payment' },
+  { icon: Wallet, text: 'Advances, balances and payment history' },
+  { icon: FileText, text: 'Job sheets and bills to share' },
+  { icon: Users, text: 'Staff pay and work ledger' },
+  { icon: BarChart3, text: 'Reports by day, week, month or year' },
+  { icon: Languages, text: 'English, Telugu and Hindi' },
+];
 
 const planHighlights = {
   basic: ['Owner only', 'Basic reports'],
@@ -50,12 +67,6 @@ export default function LandingPage() {
     viewport: { once: true, amount: 0.2 },
     transition: { duration: 0.45, ease: [0.16, 1, 0.3, 1] },
   };
-  const slideIn = (x) => reduceMotion ? {} : {
-    initial: { opacity: 0, x },
-    whileInView: { opacity: 1, x: 0 },
-    viewport: { once: true, amount: 0.3 },
-    transition: { duration: 0.55, ease: [0.16, 1, 0.3, 1] },
-  };
 
 
   return (
@@ -75,50 +86,20 @@ export default function LandingPage() {
             back={<Phone src="/images/app/orders.webp" alt="StitchBook orders list with status, payment and delivery date for each order" eager />} />
         </section>
 
-        <section className="lp-container lp-split" id="features">
-          <motion.div className="lp-split-copy" {...reveal}>
-            <h2>Every order, from cutting to delivery.</h2>
-            <p>See what is pending, cutting, stitching and ready, with the delivery date and what the customer still owes.</p>
-            <StatusTrack />
-            <Stagger as="ul" className="lp-checks">
-              <StaggerItem as="li"><Check size={18} />Status for every garment, not just the order</StaggerItem>
-              <StaggerItem as="li"><Check size={18} />Overdue and due-today work on the home screen</StaggerItem>
-              <StaggerItem as="li"><Check size={18} />Send ready-for-pickup updates on WhatsApp</StaggerItem>
+        <section className="lp-tour" id="features">
+          <div className="lp-container">
+            <motion.div className="lp-section-head" {...reveal}>
+              <h2>See a day at the counter.</h2>
+              <p>Real screens from the app, recorded in a demo shop. Tap a step to jump to it.</p>
+            </motion.div>
+            <motion.div {...reveal}>
+              <DemoStory steps={tour} />
+            </motion.div>
+            <Stagger as="ul" className="lp-also">
+              {also.map(({ icon: Icon, text }) => <StaggerItem as="li" key={text}><Icon size={18} aria-hidden="true" />{text}</StaggerItem>)}
             </Stagger>
-          </motion.div>
-          <motion.div className="lp-split-visual" {...slideIn(40)}>
-            <Phone src="/images/app/orders.webp" alt="Orders list with filters for pending, cutting, stitching and ready" />
-          </motion.div>
-        </section>
-
-        <section className="lp-container lp-split lp-split-reverse">
-          <motion.div className="lp-split-copy" {...reveal}>
-            <h2>Measurements ready for the next visit.</h2>
-            <p>Save fit profiles for shirts, kurtas, blouses, lehengas, sherwanis and more, in inches. Reuse them on the next order instead of searching old notebooks.</p>
-            <Stagger as="ul" className="lp-checks">
-              <StaggerItem as="li"><Ruler size={18} />Outfit-specific measurement sheets</StaggerItem>
-              <StaggerItem as="li"><Check size={18} />See which customers still need measuring</StaggerItem>
-            </Stagger>
-          </motion.div>
-          <motion.div className="lp-split-visual" {...slideIn(-40)}>
-            <Phone src="/images/app/measurements.webp" alt="Saved measurement profiles for each customer with chest, waist and length values" />
-          </motion.div>
-        </section>
-
-        <motion.section className="lp-band" {...reveal}>
-          <div className="lp-container lp-duo">
-            <div>
-              <Phone src="/images/app/staff.webp" alt="Staff list with each tailor's role, pay and work this month" className="lp-phone-sm" />
-              <h3>Staff work and pay</h3>
-              <p>Assign cutting and stitching to each tailor. Staff log in to see only their work, and you see what each one earned this month.</p>
-            </div>
-            <div>
-              <Phone src="/images/app/customer.webp" alt="Customer profile with saved shirt measurements, call and WhatsApp buttons and order history" className="lp-phone-sm" />
-              <h3>Customers in one place</h3>
-              <p>Phone, WhatsApp, measurements and every order for a customer, one tap from the counter.</p>
-            </div>
           </div>
-        </motion.section>
+        </section>
 
         <section className="lp-container lp-how" id="how-it-works">
           <motion.figure className="lp-how-photo" {...reveal}>

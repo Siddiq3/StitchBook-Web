@@ -1,9 +1,8 @@
-import { useEffect, useRef, useState } from 'react';
-import { AnimatePresence, motion, useInView, useReducedMotion, useScroll, useTransform } from 'framer-motion';
-import { Check, Scissors } from 'lucide-react';
+import { useRef } from 'react';
+import { motion, useReducedMotion, useScroll, useTransform } from 'framer-motion';
 
-// Motion for the landing page. One authored moment (the hero phones and the
-// order-status track); everything else is quiet entrance or feedback.
+// Motion for the landing page. One authored moment (the hero phones); the demo
+// tour carries the product story; everything else is quiet entrance or feedback.
 // Every component renders its final state when the visitor prefers reduced motion.
 
 export const EASE = [0.16, 1, 0.3, 1];
@@ -45,54 +44,6 @@ export function HeroPhones({ front, back }) {
       <motion.div className="lp-hero-front" style={reduce ? undefined : { y: frontY }}>
         <motion.div {...spring(0)}>{front}</motion.div>
       </motion.div>
-    </div>
-  );
-}
-
-// A garment moving through the shop's real stages; the highlight slides between
-// steps (shared layoutId). Runs only while on screen; reduced motion shows Ready.
-const STAGES = ['Pending', 'Cutting', 'Stitching', 'Ready'];
-
-export function StatusTrack() {
-  const reduce = useReducedMotion();
-  const ref = useRef(null);
-  const inView = useInView(ref, { amount: 0.6 });
-  const [stage, setStage] = useState(reduce ? STAGES.length - 1 : 0);
-
-  useEffect(() => {
-    if (reduce || !inView) return undefined;
-    const timer = setInterval(() => setStage((s) => (s + 1) % STAGES.length), 1500);
-    return () => clearInterval(timer);
-  }, [reduce, inView]);
-
-  const ready = stage === STAGES.length - 1;
-  return (
-    <div ref={ref} className="lp-track" role="img" aria-label="An order moves from pending to cutting, stitching and ready">
-      <div className="lp-track-head">
-        <span className="lp-track-garment"><Scissors size={16} />Shirt × 2 · Rahul</span>
-        <AnimatePresence mode="wait" initial={false}>
-          <motion.span
-            key={ready ? 'ready' : 'due'}
-            className={`lp-track-tag ${ready ? 'is-ready' : ''}`}
-            initial={reduce ? false : { opacity: 0, y: 6 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -6 }}
-            transition={{ duration: 0.2 }}
-          >
-            {ready ? <><Check size={14} />Ready for pickup</> : 'Due Friday'}
-          </motion.span>
-        </AnimatePresence>
-      </div>
-      <ol className="lp-track-steps">
-        {STAGES.map((name, index) => (
-          <li key={name} className={index <= stage ? 'is-done' : ''}>
-            {index === stage && (
-              <motion.span layoutId="lp-track-active" className="lp-track-active" transition={{ type: 'spring', stiffness: 380, damping: 32 }} />
-            )}
-            <span className="lp-track-label">{name}</span>
-          </li>
-        ))}
-      </ol>
     </div>
   );
 }
