@@ -80,7 +80,7 @@ export default function LandingPage() {
           <div className="lp-container">
             <motion.div className="lp-section-head" {...reveal}>
               <h2>See a day at the counter.</h2>
-              <p>Real screens from the app, recorded in a demo shop. Tap a step to jump to it.</p>
+              <p>Real screens from the app, recorded in a demo shop. Watch the tour or use the arrows to explore.</p>
             </motion.div>
             <motion.div {...reveal}>
               <DemoStory steps={tour} />

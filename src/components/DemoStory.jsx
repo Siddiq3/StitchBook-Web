@@ -2,28 +2,24 @@ import { useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion, useInView, useReducedMotion } from 'framer-motion';
 import { ChevronLeft, ChevronRight, Pause, Play } from 'lucide-react';
 
-// Real screen recordings from the StitchBook app (SS Tailors demo shop), played
-// one after another like a short tour. Each step's bar fills with its clip; the
-// tour advances when a clip ends. Videos load only when the tour scrolls into
-// view, pause when it leaves, and never autoplay for reduced-motion visitors
-// (they get the poster and a Play button). Pause/Play is always available.
+const labels = { orders: 'Orders made simple', neworder: 'Take orders quickly', measure: 'The right fit, saved', staff: 'Keep your team together' };
+
+// One recording drives the slide progress. The second phone previews the next
+// feature without fetching another video. Off-screen playback remains paused.
 export default function DemoStory({ steps }) {
   const reduce = useReducedMotion();
   const ref = useRef(null);
   const video = useRef(null);
-  const inView = useInView(ref, { amount: 0.35 });
+  const inView = useInView(ref, { amount: 0.2 });
   const [index, setIndex] = useState(0);
   const [playing, setPlaying] = useState(!reduce);
   const [progress, setProgress] = useState(0);
   const [loaded, setLoaded] = useState(false);
-
-  useEffect(() => { if (inView) setLoaded(true); }, [inView]);
-  // Read by the video's own ready event, so a clip that mounts after the
-  // crossfade still starts when it should
+  const [failed, setFailed] = useState(false);
   const shouldPlay = useRef(false);
   shouldPlay.current = playing && inView;
 
-  // Play only while visible and not paused
+  useEffect(() => { if (inView) setLoaded(true); }, [inView]);
   useEffect(() => {
     const v = video.current;
     if (!v || !loaded) return;
@@ -31,80 +27,65 @@ export default function DemoStory({ steps }) {
     else v.pause();
   }, [playing, inView, index, loaded]);
 
-  const go = (next) => { setProgress(0); setIndex((next + steps.length) % steps.length); };
+  const go = next => {
+    setProgress(0);
+    setFailed(false);
+    setIndex((next + steps.length) % steps.length);
+  };
   const step = steps[index];
+  const next = steps[(index + 1) % steps.length];
+  const transition = { duration: reduce ? 0 : 0.3 };
 
   return (
-    <div ref={ref} className="ds">
-      <div className="ds-copy">
-        <ol className="ds-steps">
-          {steps.map((s, i) => (
-            <li key={s.key}>
-              <button type="button" className={`ds-step ${i === index ? 'is-active' : ''}`} onClick={() => go(i)} aria-current={i === index ? 'step' : undefined}>
-                <span className="ds-step-title">{s.title}</span>
-                <AnimatePresence initial={false}>
-                  {i === index && (
-                    <motion.span
-                      className="ds-step-body"
-                      initial={reduce ? false : { opacity: 0, height: 0 }}
-                      animate={{ opacity: 1, height: 'auto' }}
-                      exit={{ opacity: 0, height: 0 }}
-                      transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
-                    >
-                      {s.body}
-                    </motion.span>
-                  )}
-                </AnimatePresence>
-                <span className="ds-bar" aria-hidden="true">
-                  <span className="ds-bar-fill" style={{ transform: `scaleX(${i < index ? 1 : i === index ? progress : 0})` }} />
-                </span>
+    <section ref={ref} className="ds ds-showcase" aria-label="StitchBook feature tour" aria-roledescription="carousel">
+      <AnimatePresence mode="wait" initial={false}>
+        <motion.div key={step.key} className="ds-slide"
+          initial={reduce ? false : { opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
+          exit={reduce ? { opacity: 0 } : { opacity: 0, y: -8 }} transition={transition}>
+          <div className="ds-stage">
+            <figure className="lp-phone ds-phone">
+              <div className="ds-media">
+                {loaded && !failed ? (
+                  <video ref={video} src={step.video} poster={step.poster} muted playsInline preload="metadata"
+                    aria-label={step.alt}
+                    onLoadedMetadata={e => { if (shouldPlay.current) e.currentTarget.play().catch(() => setPlaying(false)); }}
+                    onTimeUpdate={e => setProgress(e.currentTarget.duration ? e.currentTarget.currentTime / e.currentTarget.duration : 0)}
+                    onEnded={() => go(index + 1)} onError={() => { setFailed(true); setPlaying(false); }} />
+                ) : <img src={step.poster} alt={step.alt} loading="lazy" />}
+              </div>
+            </figure>
+            <figure className="lp-phone ds-phone ds-next-phone">
+              <img src={next.poster} alt={`Next feature: ${next.alt}`} loading="lazy" />
+              <figcaption>Up next</figcaption>
+            </figure>
+          </div>
+          <div className="ds-copy" id="demo-slide-content" aria-live={playing ? 'off' : 'polite'} aria-atomic="true">
+            <span className="ds-badge">{labels[step.key] || 'Made for your shop'}</span>
+            <h3>{step.title}</h3>
+            <p>{step.body}</p>
+            {failed && <p role="status">The video could not load. You can still explore the other steps.</p>}
+          </div>
+        </motion.div>
+      </AnimatePresence>
+      <div className="ds-controls">
+        <div className="ds-progress-group">
+          <div className="ds-dots" aria-label="Choose a demo step">
+            {steps.map((s, i) => (
+              <button key={s.key} type="button" className={`ds-dot ${i === index ? 'is-active' : ''}`}
+                onClick={() => go(i)} aria-label={`Show ${s.title}`} aria-current={i === index ? 'step' : undefined}
+                aria-controls="demo-slide-content">
+                <span className="ds-dot-track" aria-hidden="true"><span style={{ transform: `scaleX(${i === index ? progress : 0})` }} /></span>
               </button>
-            </li>
-          ))}
-        </ol>
-        <div className="ds-controls">
-          <button type="button" className="ds-icon" onClick={() => go(index - 1)} aria-label="Previous clip"><ChevronLeft size={18} /></button>
-          <button type="button" className="ds-icon" onClick={() => setPlaying((p) => !p)} aria-label={playing ? 'Pause demo' : 'Play demo'}>
-            {playing ? <Pause size={16} /> : <Play size={16} />}
-          </button>
-          <button type="button" className="ds-icon" onClick={() => go(index + 1)} aria-label="Next clip"><ChevronRight size={18} /></button>
+            ))}
+          </div>
+          <button type="button" className="ds-icon" onClick={() => { if (failed) setFailed(false); setPlaying(p => !p); }}
+            aria-label={playing ? 'Pause demo' : 'Play demo'}>{playing ? <Pause size={18} /> : <Play size={18} />}</button>
+        </div>
+        <div className="ds-arrows">
+          <button type="button" className="ds-icon" onClick={() => go(index - 1)} aria-label="Previous clip"><ChevronLeft size={20} /></button>
+          <button type="button" className="ds-icon" onClick={() => go(index + 1)} aria-label="Next clip"><ChevronRight size={20} /></button>
         </div>
       </div>
-
-      <div className="ds-stage">
-        <figure className="lp-phone ds-phone">
-          <AnimatePresence mode="wait" initial={false}>
-            <motion.div
-              key={step.key}
-              className="ds-media"
-              initial={reduce ? false : { opacity: 0, scale: 0.985 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.25 }}
-            >
-              {loaded ? (
-                <video
-                  ref={video}
-                  src={step.video}
-                  poster={step.poster}
-                  muted
-                  playsInline
-                  preload="auto"
-                  aria-label={step.alt}
-                  onLoadedMetadata={(e) => { if (shouldPlay.current) e.currentTarget.play().catch(() => setPlaying(false)); }}
-                  onTimeUpdate={(e) => setProgress(e.currentTarget.duration ? e.currentTarget.currentTime / e.currentTarget.duration : 0)}
-                  onEnded={() => go(index + 1)}
-                />
-              ) : (
-                <img src={step.poster} alt={step.alt} loading="lazy" />
-              )}
-            </motion.div>
-          </AnimatePresence>
-        </figure>
-        {!playing && (
-          <button type="button" className="ds-play" onClick={() => setPlaying(true)} aria-label="Play demo"><Play size={22} /></button>
-        )}
-      </div>
-    </div>
+    </section>
   );
 }

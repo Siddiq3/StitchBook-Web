@@ -24,3 +24,16 @@ Implementation checklist:
 Comparison history: no rendered iteration could be completed.
 
 final result: blocked
+
+
+## Stacked carousel revision
+
+Source: user-provided Xpress mobile screenshot (688 × 1536 image pixels, includes phone/browser chrome). Selected layout: colored rounded panel, two phone previews above, inset white text card below, progress and playback/navigation controls in that card.
+
+Implementation: DemoStory now follows the vertical composition across desktop and mobile, with a compact active recording and a clearly labeled next-feature poster. Slide content crossfades as clips end or a step is selected.
+
+Source image is visible in the conversation. Implementation capture and comparison remain unavailable due to the local preview access block; the earlier Vercel branch preview also required sign-in. No typography, spacing, colors, asset or copy fidelity pass is claimed without rendered evidence.
+
+Validation: production build, all 10 existing unit tests, and whitespace check passed. Browser checks for playback, dots/arrows, overflow, off-screen pause, reduced motion, media fallback and console errors remain pending.
+
+final result: blocked
