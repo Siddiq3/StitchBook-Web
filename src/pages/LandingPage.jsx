@@ -5,7 +5,7 @@ import PageShell from '../components/PageShell.jsx';
 import { plans } from '../data/plans.js';
 import { Stagger, StaggerItem } from '../components/landingMotion.jsx';
 import DemoStory from '../components/DemoStory.jsx';
-import MediaShowcase from '../components/MediaShowcase.jsx';
+import TailoringHero from '../components/TailoringHero.jsx';
 import '../styles/landing.css';
 
 function validDownloadUrl(value) {
@@ -58,17 +58,7 @@ export default function LandingPage() {
   return (
     <PageShell>
       <div className="lp">
-        <section className="lp-hero lp-container">
-          <Stagger className="lp-hero-copy" onLoad>
-            <StaggerItem as="h1">Manage your tailoring shop without missing any details.</StaggerItem>
-            <StaggerItem as="p" className="lp-lead">Orders, measurements, delivery dates, staff work and payments, together in one app built for Indian tailoring shops.</StaggerItem>
-            <StaggerItem className="lp-actions">
-              <Button href={downloadUrl}><Smartphone size={18} />{appCtaLabel}</Button>
-              <Button href="#plans" variant="secondary">See plans</Button>
-            </StaggerItem>
-          </Stagger>
-          <MediaShowcase steps={tour.map((step, i) => ({ ...step, label: ['Orders', 'New orders', 'Measurements', 'Staff work'][i] }))} />
-        </section>
+        <TailoringHero downloadUrl={downloadUrl} appCtaLabel={appCtaLabel} />
 
         <section className="lp-tour" id="features">
           <div className="lp-container">
