@@ -16,13 +16,27 @@ function ShopIllustration({ index }) {
   </svg>;
 }
 
-function ShopSkyline() {
-  return <svg className="th-skyline" viewBox="0 0 1440 400" preserveAspectRatio="xMidYMax slice" aria-hidden="true" focusable="false">
-    {[100,180,125,230,160,290,210,340,170].map((height, i) => <g key={i}>
-      <rect x={i * 160 + 12} y={400 - height} width="130" height={height} rx="5" fill="#93c5fd" />
-      <path d={`M${i * 160 + 24} ${400 - height}v-12h106v12`} fill="#bfdbfe" />
-      {Array.from({ length: Math.floor((height - 30) / 32) }, (_, row) => [0,1,2].map(col =>
-        <rect key={`${row}-${col}`} x={i * 160 + 28 + col * 34} y={420 - height + row * 32} width="22" height="15" rx="2" fill="#f8fbff" />))}
+function TailoringBackdrop() {
+  return <svg className="th-tailoring-backdrop" viewBox="0 0 1440 400" preserveAspectRatio="xMidYMax slice" aria-hidden="true" focusable="false">
+    <path d="M0 340Q180 210 360 320T720 300T1080 280T1440 330" fill="none" stroke="#60a5fa" strokeWidth="3" strokeDasharray="8 10" />
+    {[0,360,720,1080].map(x => <g key={x} transform={`translate(${x} 0)`} stroke="#60a5fa" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round">
+      <g transform="translate(45 210) rotate(-18)">
+        <circle cx="0" cy="35" r="18" fill="#eaf3ff" />
+        <circle cx="45" cy="35" r="18" fill="#eaf3ff" />
+        <path d="M12 22 68-70M33 22-24-70" fill="none" />
+        <circle cx="23" cy="4" r="4" fill="#60a5fa" />
+      </g>
+      <g transform="translate(150 255) rotate(12)">
+        <rect width="66" height="76" rx="8" fill="#bfdbfe" />
+        <path d="M-5 0h76M-5 76h76M6 15h54M6 27h54M6 39h54M6 51h54M6 63h54" fill="none" />
+        <path d="M66 60q40 0 42-32" fill="none" strokeWidth="2" />
+      </g>
+      <g transform="translate(265 135) rotate(18)">
+        <path d="M0 0h38v154q0 30-38 30h-32v-32H0Z" fill="#dbeafe" />
+        <path d="M12 12h14M12 32h8M12 52h14M12 72h8M12 92h14M12 112h8M12 132h14" fill="none" strokeWidth="3" />
+      </g>
+      <path d="m155 145 45-80-35 86Z" fill="#bfdbfe" strokeWidth="2" />
+      <path d="M196 74q-45-36-80 10" fill="none" strokeWidth="2" />
     </g>)}
   </svg>;
 }
@@ -31,7 +45,7 @@ export default function TailoringHero({ downloadUrl, appCtaLabel }) {
   const [selected, setSelected] = useState(SHOPS[0]);
   return <section className="th-hero" aria-labelledby="tailoring-hero-title">
     <div className="lp-container th-grid">
-      <ShopSkyline />
+      <TailoringBackdrop />
       <div className="th-copy">
         <div className="th-heading">
           <p className="th-eyebrow">Made for Indian tailoring businesses</p>
