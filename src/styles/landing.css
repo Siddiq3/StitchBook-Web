@@ -5,7 +5,7 @@
 /* PG Manager hero composition, using StitchBook content and azure tokens. */
 .th-hero { background: var(--sb-brand-soft); }
 .th-grid { position: relative; isolation: isolate; display: grid; grid-template-columns: minmax(0,1.2fr) minmax(0,1fr); gap: 44px; align-items: center; padding-block: 58px 48px; }
-.th-skyline { position: absolute; inset-inline: 0; bottom: 0; width: 100%; height: clamp(180px,30vw,360px); opacity: .22; pointer-events: none; z-index: -1; }
+.th-tailoring-backdrop { position: absolute; inset-inline: 0; bottom: 0; width: 100%; height: clamp(180px,30vw,360px); opacity: .18; pointer-events: none; z-index: -1; }
 .th-copy,.th-heading,.th-selection { min-width: 0; }
 .th-heading .th-eyebrow { color: var(--sb-brand-dark); font-size: .75rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; margin-bottom: 14px; }
 .lp .th-heading h1 { font-size: clamp(2.2rem,4vw,3.5rem); line-height: 1.12; max-width: 19ch; }
