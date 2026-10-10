@@ -54,7 +54,6 @@ export default function TailoringHero({ downloadUrl, appCtaLabel }) {
             <span className="th-rotator" aria-hidden="true">{SHOPS.map((shop, i) =>
               <span key={shop} className="th-word" style={{ '--word-delay': `${i === 0 ? 0 : (i - SHOPS.length) * 3}s` }}>{shop}.</span>)}</span>
           </h1>
-          <p className="th-intro">Orders, measurements, staff work and payments. One app.</p>
           <p className="th-benefit">Less notebook work. More time for your customers.</p>
         </div>
         <div className="th-selection">
