@@ -37,7 +37,6 @@ const also = [
 ];
 
 const faqs = [
-  ['What can I do with StitchBook?', 'The mobile app keeps customers, outfit measurements, orders, delivery dates, payments, invoices and staff assignments together. This website is where you sign in and manage your plan.'],
   ['How do I get started?', 'Get the StitchBook app and create your shop. New shops get a 10-day free trial. When you are ready, sign in here to choose and pay for a plan.'],
   ['Can my staff use StitchBook?', 'Yes. Team includes 2 staff logins and Pro includes 5. Staff see only the cutting and stitching assigned to them, and what they earned. Basic is owner-only.'],
   ['Which languages does the app support?', 'English, Telugu and Hindi. Each person can pick their language on their own phone.'],
@@ -64,7 +63,7 @@ export default function LandingPage() {
           <div className="lp-container">
             <motion.div className="lp-section-head" {...reveal}>
               <h2>See a day at the counter.</h2>
-              <p>Real screens from the app, recorded in a demo shop. Watch the tour or use the arrows to explore.</p>
+              <p>Real screens from the app, recorded in a demo shop.</p>
             </motion.div>
             <motion.div {...reveal}>
               <DemoStory steps={tour} />
@@ -92,14 +91,13 @@ export default function LandingPage() {
         <section className="lp-container lp-pricing" id="plans">
           <motion.div className="lp-section-head" {...reveal}>
             <h2>Simple plans. Start free for 10 days.</h2>
-            <p>Every plan includes unlimited customers and orders, measurements for every outfit, payments, invoices and WhatsApp sharing, and the business dashboard.</p>
           </motion.div>
           <Stagger className="lp-plans">
             {Object.entries(plans).map(([key, plan]) => (
               <StaggerItem as="article" key={key} className={`lp-plan ${key === 'team' ? 'lp-plan-featured' : ''}`}>
                 <div className="lp-plan-head">
                   <h3>{plan.label}</h3>
-                  {key === 'team' && <span>Most popular</span>}
+                  {key === 'team' && <span>Recommended</span>}
                 </div>
                 <p className="lp-plan-for">{plan.description}</p>
                 <p className="lp-price">₹{plan.amount}<span>/month</span></p>
@@ -137,7 +135,6 @@ export default function LandingPage() {
 
         <motion.section className="lp-container lp-final" {...reveal}>
           <h2>Leave the order notebook behind.</h2>
-          <p>Start with your customers and today's orders. The rest follows.</p>
           <div className="lp-actions lp-actions-center">
             <Button href={downloadUrl}><Smartphone size={18} />{appCtaLabel}</Button>
             <a className="lp-link" href="/login">Already use StitchBook? Sign in <ChevronRight size={15} /></a>

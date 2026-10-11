@@ -21,15 +21,14 @@ export default function AboutPage() {
   return <PageShell><div className="lp">
     <section className="lp-container lp-about-intro">
       <h1>Made for the people who make the perfect fit.</h1>
-      <p>Tailoring is personal. Your tools should feel that way, too. StitchBook helps independent tailors, boutique owners and fashion designers bring a little clarity to a busy shop.</p>
+      <p>StitchBook helps independent tailors, boutique owners and fashion designers run a busy shop.</p>
     </section>
 
     <section className="lp-container lp-how">
       <figure className="lp-how-photo"><img src="/images/tailoring-craft.webp" alt="A tailor carefully sewing ivory linen" width="1536" height="1024" loading="lazy" /></figure>
       <div>
         <h2>Less searching. More making.</h2>
-        <p style={{ marginTop: 16 }}>Customer details in one place. Measurements ready for the next visit. Orders with clear progress and delivery dates. Payments you can follow.</p>
-        <p style={{ marginTop: 12 }}>Run your shop in the mobile app, and manage your plan here on the website.</p>
+        <p className="lp-about-body">Customer details, saved measurements, order progress and payments in one place. Run your shop in the mobile app; manage your plan here.</p>
         <div className="lp-actions"><Button to="/billing">Find your plan</Button></div>
       </div>
     </section>
@@ -42,8 +41,8 @@ export default function AboutPage() {
         <Mail size={24} strokeWidth={1.75} />
         <h3>Talk to us</h3>
         <p><a className="lp-link" href="mailto:stitchbook3@gmail.com">stitchbook3@gmail.com</a></p>
-        <p><a className="lp-link" href="tel:+919705116606"><Phone size={16} />+91 97051 16606</a></p>
-        <p style={{ display: 'flex', gap: 6, alignItems: 'center' }}><MapPin size={16} />Hyderabad, India</p>
+        <p><a className="lp-link" href="tel:+919705116606"><Phone size={16} aria-hidden="true" />+91 97051 16606</a></p>
+        <p className="lp-about-place"><MapPin size={16} aria-hidden="true" />Hyderabad, India</p>
       </article>
     </section>
   </div></PageShell>;

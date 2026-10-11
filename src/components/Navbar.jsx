@@ -77,7 +77,7 @@ function Navbar() {
           ) : (
             <>
               <Button to="/login" variant="ghost">Sign in</Button>
-              <Button to="/billing" variant="brass">Get started <ArrowRight size={16} /></Button>
+              <Button to="/billing" variant="brass">Choose a plan <ArrowRight size={16} /></Button>
             </>
           )}
         </div>

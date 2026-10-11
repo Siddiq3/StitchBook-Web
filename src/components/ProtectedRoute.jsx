@@ -27,9 +27,8 @@ function ProtectedRoute({ children }) {
           <div className="mx-auto mb-6 grid h-16 w-16 place-items-center rounded-2xl bg-linen text-brass">
             {status === 'loading' ? <Loader2 className="animate-spin" size={28} /> : <WifiOff size={28} />}
           </div>
-          <p className="eyebrow">YOUR STITCHBOOK ACCOUNT</p>
-          <h1 className="mt-4 text-3xl font-semibold">{status === 'loading' ? 'Welcome back' : 'Let’s reconnect'}</h1>
-          <p className="mt-4 text-sm leading-7 text-muted">{status === 'loading' ? 'We’re securely restoring your session. This will only take a moment.' : 'We couldn’t reach your account. Check your connection and try again, or sign in to continue.'}</p>
+          <h1 className="text-3xl font-semibold">{status === 'loading' ? 'Welcome back' : 'Let’s reconnect'}</h1>
+          <p className="mt-4 text-sm leading-7 text-muted">{status === 'loading' ? 'Restoring your session.' : 'We couldn’t reach your account. Check your connection and try again, or sign in.'}</p>
           {status === 'error' && <div className="mt-8 flex flex-wrap justify-center gap-3">
             <Button onClick={() => { setStatus('loading'); setAttempt(value => value + 1); }}>Try again</Button>
             <Button to={loginUrl} variant="secondary">Sign in</Button>

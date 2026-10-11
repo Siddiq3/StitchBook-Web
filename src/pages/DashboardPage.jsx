@@ -139,7 +139,7 @@ function DashboardPage() {
           <header className="db-header">
             <div className="db-identity">
               <span className="db-avatar" aria-hidden="true">{initials}</span>
-              <div><p className="db-eyebrow">Your account</p><h1>Welcome, {user?.name || 'StitchBook user'}</h1><p>Manage your plan. Keep your shop moving.</p></div>
+              <div><h1>Welcome, {user?.name || 'StitchBook user'}</h1></div>
             </div>
             <div className="db-toolbar">
               <Button disabled={loading} onClick={loadAccount} variant="secondary">
@@ -158,7 +158,6 @@ function DashboardPage() {
                   {loading ? 'Updating…' : !subscription && error ? 'Unavailable' : statusLabel}
                 </span>
               </div>
-              <p className="db-description">Your current plan and account details, in one place.</p>
               <dl className="db-stats">
                 <div><dt>Current plan</dt><dd className="db-capitalize">{loading ? 'Loading…' : planName}</dd></div>
                 <div><dt>Valid until</dt><dd>{loading ? 'Loading…' : formatDate(subscription?.endDate || subscription?.trialEndDate)}</dd></div>
@@ -174,19 +173,18 @@ function DashboardPage() {
             <aside className="db-card db-app" aria-labelledby="app-heading">
               <span className="db-app-icon"><Smartphone size={23} aria-hidden="true" /></span>
               <h2 id="app-heading">Your shop goes with you.</h2>
-              <p>Orders, measurements, payments and staff work are together in the StitchBook app.</p>
-              <ul><li><Check size={16} aria-hidden="true" />Use your same account to sign in</li><li><Check size={16} aria-hidden="true" />Buy or renew your plan on this website</li></ul>
+              <p>Run orders, measurements, payments and staff in the app. Sign in with this same account.</p>
               <Button href={appDownloadUrl}><Smartphone size={17} />{appDownloadUrl.startsWith('mailto:') ? 'Request app access' : 'Get the app'}<ArrowRight size={16} /></Button>
               <a className="db-help" href="mailto:stitchbook3@gmail.com">Need help getting started?</a>
             </aside>
           </div>
 
           <section className="db-pricing" id="dashboard-plans" aria-labelledby="plans-heading">
-            <div className="db-pricing-heading"><div><p className="db-eyebrow">Plans for your shop</p><h2 id="plans-heading">A plan for every stage.</h2><p>Choose the access your shop needs. Payments are handled securely with Cashfree.</p></div><span className="db-secure"><ShieldCheck size={16} aria-hidden="true" />Secure checkout</span></div>
+            <div className="db-pricing-heading"><h2 id="plans-heading">Plans</h2><span className="db-secure"><ShieldCheck size={16} aria-hidden="true" />Secure checkout with Cashfree</span></div>
             <div className="db-plans">
               {Object.entries(plans).map(([key, plan]) => (
                 <article className={`db-card db-plan ${key === 'team' ? 'db-plan-featured' : ''}`} key={key}>
-                  <div className="db-plan-heading"><h3>{plan.label}</h3>{key === 'team' && <span className="db-plan-badge">Most popular</span>}</div>
+                  <div className="db-plan-heading"><h3>{plan.label}</h3>{key === 'team' && <span className="db-plan-badge">Recommended</span>}</div>
                   <p className="db-plan-description">{plan.description}</p>
                   <p className="db-price">₹{plan.amount}<span>/month</span></p>
                   <p className="db-plan-access">{plan.access}</p>

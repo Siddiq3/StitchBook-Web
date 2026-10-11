@@ -16,8 +16,7 @@ export default function TermsPage() {
     <PageShell>
       <section className="legal-page">
         <article className="legal-card">
-          <p className="section-eyebrow">Service information</p>
-          <h1 className="mt-3 font-semibold">Terms of service</h1>
+          <h1 className="font-semibold">Terms of service</h1>
           <p className="mt-3 text-sm text-muted">Effective {EFFECTIVE_DATE}</p>
           <p className="mt-5 leading-7">
             These terms apply when you use StitchBook, the shop management app and website for tailoring businesses.

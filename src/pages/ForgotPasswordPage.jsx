@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ArrowLeft, Eye, EyeOff, KeyRound, MailCheck, ShieldCheck } from 'lucide-react';
+import { ArrowLeft, Eye, EyeOff, KeyRound, MailCheck } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { requestPasswordReset, resetPasswordWithOtp } from '../api/authApi.js';
 
@@ -112,7 +112,7 @@ function ForgotPasswordPage() {
                     autoCapitalize="none"
                     className="w-full rounded-xl border border-ink/15 bg-white px-4 py-3.5 text-base outline-none transition focus:border-brand focus:ring-4 focus:ring-brand/10"
                     onChange={set('email')}
-                    placeholder="you@example.com"
+                    placeholder="Enter your email"
                     type="email"
                     value={form.email}
                   />
@@ -146,13 +146,13 @@ function ForgotPasswordPage() {
                     inputMode="numeric"
                     maxLength={6}
                     onChange={set('otp')}
-                    placeholder="123456"
+                    placeholder="Enter the 6-digit code"
                     value={form.otp}
                   />
                 </label>
                 {error ? <div role="alert" className="rounded-xl border border-rosewood/20 bg-rosewood/10 p-4 text-sm font-semibold text-rosewood">{error}</div> : null}
                 <button className="min-h-12 w-full rounded-xl bg-brass px-5 py-3 font-semibold text-white" disabled={loading} type="submit">Continue</button>
-                <button className="min-h-11 w-full rounded-xl px-4 text-sm font-semibold text-brass transition hover:bg-linen disabled:opacity-60" disabled={loading} onClick={sendCode} type="button">
+                <button className="min-h-11 w-full rounded-xl px-4 text-sm font-semibold text-midnight transition hover:bg-linen disabled:opacity-60" disabled={loading} onClick={sendCode} type="button">
                   {loading ? 'Sending…' : 'Send code again'}
                 </button>
                 <button className="min-h-11 w-full rounded-xl px-4 text-sm font-semibold text-muted transition hover:bg-bone" disabled={loading} onClick={() => { setStep('email'); setForm((prev) => ({ ...prev, otp: '' })); setError(''); }} type="button">
@@ -163,10 +163,6 @@ function ForgotPasswordPage() {
 
             {step === 'password' ? (
               <form className="mt-7 space-y-5" onSubmit={resetPassword}>
-                <div className="flex items-center gap-2 rounded-xl bg-linen px-4 py-3 text-sm font-semibold text-brass">
-                  <ShieldCheck size={18} />
-                  Choose a new secure password
-                </div>
                 <label className="block">
                   <span className="mb-2 block text-sm font-semibold">New password</span>
                   <div className="flex items-center rounded-xl border border-ink/15 bg-white pr-3 focus-within:border-brand focus-within:ring-4 focus-within:ring-brand/10">

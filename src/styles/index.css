@@ -32,9 +32,6 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; }
   .brand-wordmark { font-size: 1.2rem; }
 }
 
-/* Shared section label used by headings and legal/utility pages */
-.section-eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 1.8px; text-transform: uppercase; color: #007FFF; }
-
 /* Legal pages: Privacy, Terms, Delete account */
 .legal-page { max-width: 1280px; margin-inline: auto; padding: 56px 32px 80px; }
 .legal-card { max-width: 760px; margin-inline: auto; padding: 40px; background: #fff; border: 1px solid #E4E0D8; border-radius: 1.5rem; color: #344252; }
@@ -50,20 +47,11 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; }
 .form-input { width: 100%; min-height: 48px; padding: 0 14px; border: 1px solid #E4E0D8; border-radius: .75rem; background: #fff; color: #17212B; font-size: 15px; }
 .form-input:focus { outline: none; border-color: #007FFF; box-shadow: 0 0 0 3px rgba(0, 127, 255, .18); }
 
-/* About page: same canvas as the landing page */
+/* Header and footer */
 .site-header { background: rgba(250,251,254,.96); backdrop-filter: blur(16px); }
 .site-footer { background: var(--sb-surface-soft); }
 .site-header nav, .site-footer > div { max-width: 1280px; }
 .site-header nav > a > span:last-child, .site-footer a > span:last-child { font-size: 23px; letter-spacing: -1px; font-weight: 700; }
-.eyebrow { display: flex; align-items: center; gap: 9px; font-size: 10px; font-weight: 700; letter-spacing: 1.8px; line-height: 1.6; }
-.workflow { margin-top: 32px; }
-.workflow li { display: flex; gap: 20px; border-top: 1px solid #ffffff20; padding: 16px 0; }
-.workflow li > span { font-size: 10px; color: #99b1d7; padding-top: 3px; font-family: monospace; }
-.workflow h3 { font-size: 13px; font-weight: 500; }
-.workflow p { font-size: 11px; line-height: 1.7; margin-top: 5px; color: #aebfda; }
-@media (max-width: 520px) {
-  .eyebrow { font-size: 8px; letter-spacing: 1.4px; }
-}
 @media (max-width: 360px) {
   .site-header nav > a { gap: 8px; }
   .site-header nav > a > span:first-child { width: 32px; height: 32px; }
@@ -71,7 +59,6 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; }
   .site-header nav > div:last-child > a { padding-inline: 11px; gap: 5px; }
   .site-header nav > div:last-child > a svg { display: none; }
 }
-
 
 /* Premium StitchBook SaaS foundation */
 :root {
@@ -129,7 +116,6 @@ button:not(:disabled):active, a[role="button"]:active { transform: translateY(1p
 @media (hover:hover) {
   .surface-card:hover { box-shadow: var(--sb-shadow-md); }
 }
-
 
 /* Product surface polish */
 .dashboard-page { padding-block: clamp(2rem, 5vw, 4.5rem); }
@@ -202,7 +188,6 @@ button:not(:disabled):active, a[role="button"]:active { transform: translateY(1p
   .auth-page form.surface-card, .auth-recovery .surface-card { border-radius: 1.25rem; }
   .billing-page, .checkout-page, .upgrade-page { padding-top: 1.5rem; }
 }
-
 
 /* Typography + motion refinement */
 :root {
@@ -290,55 +275,6 @@ button:active:not(:disabled), a:active { transform: translateY(1px) scale(.992);
   }
 }
 
-
-/* Richer landing composition */
-.workflow li {
-  padding: 1.15rem 0;
-}
-.workflow h3 {
-  font-size: 1rem;
-  font-weight: 650;
-}
-.workflow p {
-  font-size: .88rem;
-  line-height: 1.65;
-}
-
-
-/* Scroll-reactive color & depth pass */
-.workflow li > span { color:#D9B57A; }
-
-
-/* Atelier × SaaS art direction */
-
-
-/* Signature tailoring motion */
-
-
-/* Full-screen scroll-driven tailoring cut */
-
-/* Section-specific palettes: editorial, not one repeated theme */
-
-
-/* 2026 palette refresh — sharper, cleaner, more distinct */
-.workflow li > span { color:#FFD166; }
-
-
-/* Editorial StitchBook watermark system */
-
-/* Feature: top-right editorial mark */
-
-/* Data: large lower-right mark on dark section */
-
-/* Pricing: centered oversized, almost architectural */
-
-/* CTA: left-side oversized finish */
-
-/* Keep actual section content above watermark */
-
-
-/* Plan inclusion / exclusion clarity */
-
 /* Let content shrink within grids instead of widening the viewport. */
 #root, main, .surface-card { min-width: 0; }
 main .grid > *, main .flex > *, .site-footer > div > * { min-width: 0; }
@@ -354,5 +290,3 @@ img { max-width: 100%; }
   .auth-register section > .brand-solid { order: 2; }
   .site-header nav { gap: .5rem; }
 }
-
-/* Step numbers ("01") wrapped onto two lines in the narrow column */

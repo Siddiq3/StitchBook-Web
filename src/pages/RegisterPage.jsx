@@ -13,7 +13,7 @@ const checks = (value) => ({ length: value.length >= 8, letter: /[A-Za-z]/.test(
 // One question per screen, the same flow as the app: email, name, mobile, password.
 const STEPS = [
   { key: 'email', title: "What's your email?", sub: "You'll use it to sign in and to reset your password." },
-  { key: 'name', title: 'What should we call you?', sub: "The shop owner's name, as staff and customers know you." },
+  { key: 'name', title: 'What should we call you?', sub: 'The name your staff and customers know.' },
   { key: 'phone', title: 'Your mobile number', sub: 'You can also sign in with this number.' },
   { key: 'password', title: 'Create a password', sub: "It keeps your shop's orders and payments safe." },
 ];
@@ -182,13 +182,13 @@ export default function RegisterPage() {
           </div>
           <div className="mt-5"><StitchProgress step={step} total={STEPS.length} /></div>
 
-          <form onSubmit={submit} noValidate className="mt-10 flex flex-1 flex-col">
+          <form onSubmit={submit} noValidate className="mt-8 flex flex-1 flex-col">
             <AnimatePresence mode="wait" initial={false}>
               <motion.div key={step} {...slide}>
                 <h1 className="text-3xl font-extrabold tracking-tight sm:text-4xl">{current.title}</h1>
                 <p className="mt-2 text-muted">{current.sub}</p>
                 <div className="mt-8 space-y-4">
-                  {step === 0 && <Field label="Email address" error={errors.email}><input ref={inputRef} className={inputClass} type="email" autoComplete="email" value={form.email} onChange={set('email')} placeholder="you@example.com" /></Field>}
+                  {step === 0 && <Field label="Email address" error={errors.email}><input ref={inputRef} className={inputClass} type="email" autoComplete="email" value={form.email} onChange={set('email')} placeholder="Enter your email" /></Field>}
                   {step === 1 && <Field label="Your name" error={errors.name}><input ref={inputRef} className={inputClass} autoComplete="name" value={form.name} onChange={set('name')} placeholder="Enter your name" /></Field>}
                   {step === 2 && <Field label="Mobile number" error={errors.phone} prefix="+91"><input ref={inputRef} className={inputClass} inputMode="numeric" autoComplete="tel-national" value={form.phone} onChange={set('phone')} placeholder="10-digit mobile number" /></Field>}
                   {step === 3 && <>
@@ -212,12 +212,12 @@ export default function RegisterPage() {
               </motion.div>
             </AnimatePresence>
 
-            <div className="mt-auto pt-10">
+            <div className="mt-auto pt-8">
               <button className="su-primary" disabled={loading} type="submit">
                 {loading ? 'Creating account…' : step === STEPS.length - 1 ? 'Create account' : 'Continue'}
               </button>
-              <p className="mt-4 text-center text-sm text-muted">Already have an account? <Link className="font-semibold text-brand hover:underline" to="/login">Sign in</Link></p>
-              {step === STEPS.length - 1 && <p className="mt-3 text-center text-xs text-muted">By creating an account, you agree to the <a className="font-semibold text-brand underline" href="/terms">Terms of service</a> and <a className="font-semibold text-brand underline" href="/privacy">Privacy policy</a>.</p>}
+              <p className="mt-4 text-center text-sm text-muted">Already have an account? <Link className="font-semibold text-midnight hover:underline" to="/login">Sign in</Link></p>
+              {step === STEPS.length - 1 && <p className="mt-3 text-center text-xs text-muted">By creating an account, you agree to the <a className="font-semibold text-midnight underline" href="/terms">Terms of service</a> and <a className="font-semibold text-midnight underline" href="/privacy">Privacy policy</a>.</p>}
             </div>
           </form>
         </section>

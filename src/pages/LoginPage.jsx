@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { CheckCircle2, Eye, EyeOff, LockKeyhole, ShieldCheck } from 'lucide-react';
+import { CheckCircle2, Eye, EyeOff } from 'lucide-react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import Logo from '../components/Logo.jsx';
 import { getAuthToken, loginWithPassword } from '../api/authApi.js';
@@ -71,38 +71,19 @@ function LoginPage() {
             </div>
 
             <div className="max-w-xl">
-              <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/15 px-4 py-2 text-sm font-semibold text-white/90">
-                <ShieldCheck size={16} />
-                Secure account access
-              </span>
-              <h1 className="mt-6 text-4xl font-semibold leading-tight">
+              <h1 className="text-4xl font-semibold leading-tight">
                 One StitchBook account for mobile and web.
               </h1>
-              <p className="mt-5 max-w-lg text-base leading-7 text-white/80">
-                Sign in with either your email address or mobile number and your password.
-              </p>
-            </div>
-
-            <div className="flex items-center gap-3 text-sm font-semibold text-white/80">
-              <LockKeyhole size={18} />
-              Sign in securely to manage your account and subscription.
             </div>
           </div>
         </div>
 
         <form onSubmit={submit} className="surface-card mx-auto w-full max-w-md rounded-3xl bg-white p-6 sm:p-8 lg:max-w-none">
-          <p className="inline-flex items-center gap-2 rounded-full bg-brand-50 px-3 py-1 text-xs font-semibold text-brand">
-            <ShieldCheck size={14} />
-            Secure sign in
-          </p>
-          <h2 className="mt-5 text-4xl font-semibold leading-tight">Welcome back</h2>
-          <p className="mt-3 text-sm leading-6 text-muted">
-            Use the email address or mobile number connected to your StitchBook account.
-          </p>
+          <h2 className="text-4xl font-semibold leading-tight">Welcome back</h2>
 
-          {searchParams.get('logout') === 'local' && <p role="status" className="mt-4 rounded-xl bg-linen p-4 text-sm text-muted">You are signed out on this device. We could not reach the server to end the remote session. For security, sign in again when connected and log out to finish.</p>}
+          {searchParams.get('logout') === 'local' && <p role="status" className="mt-4 rounded-xl bg-linen p-4 text-sm text-muted">You are signed out on this device, but we couldn’t reach the server. When you’re online, sign in and sign out again to finish.</p>}
 
-          <div className="mt-8 space-y-5">
+          <div className="mt-6 space-y-5">
             <label className="block">
               <span className="mb-2 block text-sm font-semibold">Email or mobile number</span>
               <input
@@ -111,7 +92,7 @@ function LoginPage() {
                 className="w-full rounded-xl border border-ink/15 bg-white px-4 py-3.5 text-base outline-none transition focus:border-brand focus:ring-4 focus:ring-brand/10"
                 value={form.identifier}
                 onChange={set('identifier')}
-                placeholder="you@example.com or 98765 43210"
+                placeholder="Enter your email or mobile number"
               />
             </label>
 
@@ -136,8 +117,8 @@ function LoginPage() {
                 </button>
               </div>
             </label>
-            <div className="flex justify-end">
-              <Link className="inline-flex min-h-10 items-center px-1 text-sm font-semibold text-brass hover:underline" to="/forgot-password">
+            <div className="-mt-3 flex justify-end">
+              <Link className="inline-flex min-h-10 items-center px-1 text-sm font-semibold text-midnight hover:underline" to="/forgot-password">
                 Forgot password?
               </Link>
             </div>
@@ -166,7 +147,7 @@ function LoginPage() {
 
           <p className="mt-6 text-center text-sm text-muted">
             New to StitchBook?{' '}
-            <Link className="font-semibold text-brass hover:underline" to="/register">
+            <Link className="font-semibold text-midnight hover:underline" to="/register">
               Create an account
             </Link>
           </p>

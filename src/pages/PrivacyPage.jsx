@@ -16,8 +16,7 @@ function PrivacyPage() {
     <PageShell>
       <section className="legal-page">
         <article className="legal-card">
-          <p className="section-eyebrow">Privacy</p>
-          <h1 className="mt-3 font-semibold">Privacy policy</h1>
+          <h1 className="font-semibold">Privacy policy</h1>
           <p className="mt-3 text-sm text-muted">Effective {EFFECTIVE_DATE}</p>
           <p className="mt-5 leading-7">
             This policy explains how StitchBook (the StitchBook Android app and the StitchBook website) collects, uses,

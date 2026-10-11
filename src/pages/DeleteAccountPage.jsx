@@ -6,8 +6,7 @@ function DeleteAccountPage() {
     <PageShell>
       <section className="legal-page">
         <article className="legal-card">
-          <p className="section-eyebrow">Account controls</p>
-          <h1 className="mt-3 font-semibold">Delete your StitchBook account</h1>
+          <h1 className="font-semibold">Delete your StitchBook account</h1>
           <p className="mt-5 leading-7">StitchBook is made by StitchBook, Hyderabad, India. You can delete your account in the app, on this page, or by email.</p>
 
           <h2 className="mt-9 text-xl font-semibold">Delete in the app</h2>

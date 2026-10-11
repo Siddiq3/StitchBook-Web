@@ -7,16 +7,6 @@ import { createUpgradeSession, getSubscriptionStatus } from '../api/subscription
 
 import { plans } from '../data/plans.js';
 
-const coreFeatures = [
-  'Unlimited customers and orders on every paid plan',
-  'Customer measurements',
-  'Order and delivery tracking',
-  'Payment tracking',
-  'Invoices and WhatsApp sharing',
-  'Business dashboard',
-  'Multi-language support',
-];
-
 function formatDate(value) {
   if (!value) return '-';
   return new Date(value).toLocaleDateString('en-IN', {
@@ -98,16 +88,15 @@ function BillingPage() {
           </div>
           <Button disabled={loading} onClick={loadStatus} variant="secondary">
             {loading ? <Loader2 className="animate-spin" size={17} /> : <RefreshCw size={17} />}
-            Refresh Status
+            Refresh
           </Button>
         </header>
 
         {needsLogin ? (
           <section className="surface-card mt-10 rounded-2xl border border-ink/10 bg-white p-6 sm:p-8">
-            <p className="text-xs font-semibold uppercase tracking-wide text-brass">Billing login required</p>
-            <h1 className="mt-3 font-sans text-4xl font-semibold leading-tight">Sign in to continue subscription</h1>
-            <p className="mt-4 max-w-2xl text-sm leading-6 text-muted">
-              Please sign in again to view your plan and continue payment.
+            <h1 className="font-sans text-4xl font-semibold leading-tight">Sign in to continue</h1>
+            <p className="mt-3 max-w-2xl text-sm leading-6 text-muted">
+              Sign in again to view your plan and pay.
             </p>
             <Button className="mt-6" to="/login?redirect=/billing" variant="primary">
               Sign in and continue
@@ -123,15 +112,14 @@ function BillingPage() {
                 <CreditCard size={22} />
               </span>
               <div>
-                <p className="text-xs font-semibold uppercase tracking-wide text-brass">Subscription</p>
-                <h1 className="mt-2 font-sans text-2xl font-semibold leading-tight">Choose your StitchBook plan</h1>
-                <p className="mt-4 max-w-2xl text-sm leading-6 text-muted">
-                  Choose the plan that matches your shop size. After payment, continue daily work in the StitchBook mobile app.
+                <h1 className="font-sans text-2xl font-semibold leading-tight">Choose your StitchBook plan</h1>
+                <p className="mt-2 max-w-2xl text-sm leading-6 text-muted">
+                  After payment, keep working in the StitchBook mobile app.
                 </p>
               </div>
             </div>
 
-            <div className="mt-8 grid gap-4 lg:grid-cols-3">
+            <div className="mt-6 grid gap-4 lg:grid-cols-3">
               {Object.entries(plans).map(([key, plan]) => (
                 <div className="rounded-2xl border border-ink/10 bg-bone p-5" key={key}>
                   <div className="flex items-start justify-between gap-3">
@@ -143,7 +131,6 @@ function BillingPage() {
                       <span className="rounded-full bg-mist px-3 py-1 text-xs font-semibold text-sage">{plan.badge}</span>
                     ) : null}
                   </div>
-                  <p className="mt-4 text-xs font-semibold uppercase tracking-wide text-muted">{plan.bestFor}</p>
                   <p className="mt-4 font-sans text-2xl font-semibold">{plan.display}</p>
                   <p className="mt-2 text-sm font-semibold text-ink/75">{plan.access}</p>
                   <div className="mt-5 grid gap-2.5">
@@ -176,16 +163,16 @@ function BillingPage() {
                     variant={key === 'team' ? 'brass' : 'primary'}
                   >
                     {checkoutPlan === key ? <Loader2 className="animate-spin" size={17} /> : <ShieldCheck size={17} />}
-                    {checkoutPlan === key ? 'Creating checkout' : 'Buy Now'}
+                    {checkoutPlan === key ? 'Creating checkout' : `Choose ${plan.label}`}
                   </Button>
                 </div>
               ))}
             </div>
           </div>
 
-          <aside className="grid gap-5 md:grid-cols-2">
+          <aside>
             <div className="surface-card rounded-2xl border border-ink/10 bg-white p-5">
-              <p className="text-xs font-semibold uppercase tracking-wide text-brass">Current Status</p>
+              <h2 className="text-base font-semibold">Current status</h2>
               {loading ? (
                 <div className="mt-5 flex items-center gap-3 text-sm font-semibold text-muted">
                   <Loader2 className="animate-spin text-brass" size={18} />
@@ -194,7 +181,7 @@ function BillingPage() {
               ) : (
                 <div className="mt-5">
                   <div className="flex items-center gap-2">
-                    <CheckCircle2 className={isActive || isTrial ? 'text-sage' : 'text-clay'} size={20} />
+                    {isActive || isTrial ? <CheckCircle2 className="text-sage" size={20} aria-hidden="true" /> : <XCircle className="text-clay" size={20} aria-hidden="true" />}
                     <p className="text-xl font-semibold">{statusLabel}</p>
                   </div>
                   <div className="mt-5 grid gap-3 text-sm">
@@ -219,18 +206,6 @@ function BillingPage() {
                   </div>
                 </div>
               )}
-            </div>
-
-            <div className="surface-card rounded-2xl border border-ink/10 bg-white p-5">
-              <p className="text-xs font-semibold uppercase tracking-wide text-brass">App access includes</p>
-              <div className="mt-5 grid gap-3">
-                {coreFeatures.map((feature) => (
-                  <div className="flex items-center gap-3 text-sm font-semibold text-muted" key={feature}>
-                    <CheckCircle2 className="text-sage" size={17} />
-                    {feature}
-                  </div>
-                ))}
-              </div>
             </div>
           </aside>
         </section>

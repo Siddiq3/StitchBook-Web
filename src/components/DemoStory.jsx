@@ -2,8 +2,6 @@ import { useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion, useInView, useReducedMotion } from 'framer-motion';
 import { ChevronLeft, ChevronRight, Pause, Play } from 'lucide-react';
 
-const labels = { orders: 'Orders made simple', neworder: 'Take orders quickly', measure: 'The right fit, saved', staff: 'Keep your team together' };
-
 // One recording drives the slide progress. Off-screen playback remains paused.
 export default function DemoStory({ steps }) {
   const reduce = useReducedMotion();
@@ -54,7 +52,6 @@ export default function DemoStory({ steps }) {
             </figure>
           </div>
           <div className="ds-copy" id="demo-slide-content" aria-live={playing ? 'off' : 'polite'} aria-atomic="true">
-            <span className="ds-badge">{labels[step.key] || 'Made for your shop'}</span>
             <h3>{step.title}</h3>
             <p>{step.body}</p>
             {failed && <p role="status">The video could not load. You can still explore the other steps.</p>}
