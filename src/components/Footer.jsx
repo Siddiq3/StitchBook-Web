@@ -30,7 +30,7 @@ function Footer() {
           </div>
         </div>
       </div>
-      <div className="border-t border-border px-4 py-5 text-center text-xs text-muted">© {new Date().getFullYear()} StitchBook</div>
+      <div className="border-t border-border px-4 py-5 text-center text-xs text-muted">Made with ❤️ in India. By ssiddiq</div>
     </footer>
   );
 }
